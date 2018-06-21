@@ -1,4 +1,3 @@
-// noinspection ES6CheckImport
 import { callIfFunction, chooseByCR, chooseByTier } from "../../../src/util";
 
 describe("Misc utility functions", function() {
