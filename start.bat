@@ -1,1 +1,1 @@
-cmd \k yarn start
+cmd /k yarn start
