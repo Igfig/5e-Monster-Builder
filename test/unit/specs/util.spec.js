@@ -1,11 +1,9 @@
-import UTIL from "../../../src/util";
+import {callIfFunction, chooseByCR, chooseByTier} from "../../../src/util";
 
-const { callIfFunction, chooseByLevel, chooseByTier, crTargets } = UTIL;
-
-describe ('Misc utility functions from util/misc.js', function() {
-  describe (callIfFunction.name, function() {
+describe ('Misc utility functions', function() {
+  describe(callIfFunction.name, function() {
     it("is function", function() {
-      callIfFunction(x => x*2, 3).should.equal(6);
+      callIfFunction(x => x * 2, 3).should.equal(6);
     });
     
     it("is not function", function() {
@@ -16,8 +14,10 @@ describe ('Misc utility functions from util/misc.js', function() {
       callIfFunction(4, 3, 9).should.equal(9);
     });
   });
-  
-  describe (chooseByLevel.name, function() {
+});
+
+describe ('Level utility functions', function() {
+  describe (chooseByCR.name, function() {
     const thresholds = [
       [-3, "baby"],
       [1, 10],
@@ -25,15 +25,15 @@ describe ('Misc utility functions from util/misc.js', function() {
     ];
     
     it("is baby level", function() {
-      chooseByLevel(-2, thresholds).should.equal("baby")
+      chooseByCR(-2, thresholds).should.equal("baby")
     });
     
     it("is function return", function() {
-      chooseByLevel(15, thresholds).should.equal(30)
+      chooseByCR(15, thresholds).should.equal(30)
     });
     
     it("has fallback", function() {
-      chooseByLevel(-5, thresholds, "nada").should.equal("nada")
+      chooseByCR(-5, thresholds, "nada").should.equal("nada")
     });
   });
   
@@ -57,5 +57,3 @@ describe ('Misc utility functions from util/misc.js', function() {
     });
   })
 });
-
-// TODO test crTargets

@@ -1,5 +1,6 @@
 export const MAX_ABILITY_SCORE = 30;
-export const TIER_LEVELS = [Number.MIN_SAFE_INTEGER, 5, 11, 17]; // XXX or maybe use the actual lowest level shown? -3, I guess... or maybe something lower just in case?
+export const MIN_CR = -3;
+export const TIER_THRESHOLDS = [Number.MIN_SAFE_INTEGER, 5, 11, 17]; // XXX or maybe use MIN_CR? Or maybe something lower just in case?
 
 // map numbers to their name
 export const NUMBER_STRINGS = [
@@ -16,7 +17,7 @@ export const NUMBER_STRINGS = [
   "ten",
   "eleven",
   "twelve"
-]; // numbers larger than 12 can be expressed as digits
+]; // numbers larger than 12 can just be expressed as digits, so dw about them
 
 // export const ALERT_COLOURS = {
 //   normal: "black",

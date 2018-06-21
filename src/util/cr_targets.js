@@ -1,19 +1,17 @@
-import { MAX_ABILITY_SCORE } from "../constants/misc";
-import {chooseByLevel} from "./misc";
-
-const MIN_LEVEL = -3;
+import { MAX_ABILITY_SCORE, MIN_CR } from "../constants";
+import { chooseByCR } from "./choosers";
 
 // TODO unit test all this
 
-// Some number targets for each level, that can't just be calculated.
+// Some number targets for each cr, that can't just be calculated.
 // Note that the CRs 0 through 1/2 occupy positions -3 through 0, to make certain CR-modifying calculations easier to handle. Every CR of 1 or higher is offset 3 positions from its actual value.
 // Therefore, try not to interact with this table directly. Only use the exported function further down.
 const baseTargets = [
   // Target AC, target attack bonus, XP
-  [12, 2, 0],   // 0
-  [12, 2, 10],  // 1/8
-  [13, 3, 25],  // 1/4
-  [13, 3, 50],  // 1/2
+  [12, 2, 0], // 0
+  [12, 2, 10], // 1/8
+  [13, 3, 25], // 1/4
+  [13, 3, 50], // 1/2
   [13, 3, 100], // 1
   [13, 3, 200], // 2
   [13, 3, 450], // etc
@@ -47,126 +45,70 @@ const baseTargets = [
   [19, 14, 155000]
 ];
 
-const crCache = {};
+const crValuesCache = {};
 
-
-/** get target values for each level
- * Calculates lazily.
+/**
+ * TODO docs
+ *
+ * Note: lazy evaluation with caching.
  */
-export default function crTargets(level) {
+export function targetValuesForCR(cr) {
   // retrieve cached values, if present
-  if (crCache.hasOwnProperty(level)) {
-    return crCache[level];
+  if (crValuesCache.hasOwnProperty(cr)) {
+    return crValuesCache[cr];
   }
-  
-  const [ac, attack, xp] = baseTargets[level + MIN_LEVEL]; // MIN_LEVEL because baseTargets indexes starting from 0
-  const levelName = 0 < level
-    ? `${level}`
-    : MIN_LEVEL < level
-      ? `1/${Math.pow(2, level - 1)}`
-      : "0";
-    
+
+  const [ac, attack, xp] = baseTargets[cr + MIN_CR]; // MIN_CR because baseTargets indexes starting from 0
+  const crLabel =
+    1 <= cr
+      ? `${cr}` // if CR is 1 or higher, display it straight
+      : MIN_CR < cr
+        ? `1/${Math.pow(2, cr - 1)}` // 1/8, 1/4, or 1/2 as appropriate
+        : "0"; // 0 or less is 0
+
   const targets = {
-    name: levelName,
+    label: crLabel, // XXX hm this isn't technically a target value... should we change the function name?
     ac: ac,
     attack: attack,
-    minDamage: getMinDamage(level),
-    minHp: getMinHp(level),
-    maxDamage: getMaxDamage(level),
-    maxHp: getMaxHp(level),
+    damage: { min: getMinDamage(cr), max: getMaxDamage(cr) },
+    hp: { min: getMinHp(cr), max: getMaxHp(cr) },
+    abilityScore: { avg: getAvgAbilityScore(cr), max: getMaxAbilityScore(cr) },
     xp: xp
   };
-  
+
   // cache that
-  crCache[level] = targets;
+  crValuesCache[cr] = targets;
   return targets;
 }
 
-function getMaxDamage(level) {
-  return chooseByLevel(level, [
-    [-3, 1],
-    [-2, 3],
-    [-1, 5],
-    [0, 8],
-    [1, level => level * 6 + 8],
-    [20, level => level * 18 - 220]
-  ], 0);
-  
-  // if (level < -3) {
-  //   return 0;
-  // } else if (level === -3) {
-  //   return 1;
-  // } else if (level === -2) {
-  //   return 3;
-  // } else if (level === -1) {
-  //   return 5;
-  // } else if (level === 0) {
-  //   return 8;
-  // } else if (level < 20) {
-  //   return level * 6 + 8;
-  // } else if (level >= 20) {
-  //   return level * 18 - 220;
-  // }
-  //
-  // return 0; //we should never reach this point
+function getMaxDamage(cr) {
+  return chooseByCR(
+    cr,
+    [[-3, 1], [-2, 3], [-1, 5], [0, 8], [1, cr => cr * 6 + 8], [20, cr => cr * 18 - 220]],
+    0
+  );
 }
-function getMaxHp(level) {
-  return chooseByLevel(level, [
-    [-3, 20],
-    [-2, 35],
-    [-1, 49],
-    [0, 70],
-    [1, level => level * 15 + 70],
-    [20, level => level * 45 - 500]
-  ], 11);
-  
-  // if (level < -3) {
-  //   return 11;
-  // } else if (level === -3) {
-  //   return 20; //RAW it's actually 6?
-  // } else if (level === -2) {
-  //   return 35;
-  // } else if (level === -1) {
-  //   return 49;
-  // } else if (level === 0) {
-  //   return 70;
-  // } else if (level < 20) {
-  //   return level * 15 + 70;
-  // } else if (level >= 20) {
-  //   return level * 45 - 500;
-  // }
-  //
-  // return 0; //we should never reach this point
+function getMaxHp(cr) {
+  return chooseByCR(
+    cr,
+    [[-3, 20], [-2, 35], [-1, 49], [0, 70], [1, cr => cr * 15 + 70], [20, cr => cr * 45 - 500]],
+    11
+  );
 }
-function getMinDamage(level) {
-  return getMaxDamage(level - 1) + 1;
+function getMinDamage(cr) {
+  return getMaxDamage(cr - 1) + 1;
 }
-function getMinHp(level) {
-  return getMaxHp(level - 1) + 1;
+function getMinHp(cr) {
+  return getMaxHp(cr - 1) + 1;
 }
 
-
-/*function getTargetDamage(level) {
-  // XXX maybe this should be minDamage instead of average?
-  if (level === -3) {
-    return 1;
+function getAvgAbilityScore(cr) {
+  if (cr === -3) {
+    cr = -4; //looks weird, but that's just how the math works out
   }
-
-  return Math.ceil((getMaxDamage(level) + getMaxDamage(level - 1)) / 2);
+  return Math.min(MAX_ABILITY_SCORE, Math.floor(cr * 0.5 + 10.5));
 }
 
-function getTargetHp(level) {
-  if (level === -3) {
-    return 16;
-  } //RAW would be 4?
-
-  return Math.ceil((getMaxHp(level) + getMaxHp(level - 1)) / 2);
-}*/
-
-function avgAbilityScore(level) {
-  // XXX it's still a little weird that this function is even here, I feel like...
-  if (level === -3) {
-    level = -4; //looks weird, but that's just how the math works out
-  }
-  return Math.min(MAX_ABILITY_SCORE, Math.floor(level * 0.5 + 10.5));
+function getMaxAbilityScore(cr) {
+  return Math.min(MAX_ABILITY_SCORE, getAvgAbilityScore(cr) + 5);
 }
