@@ -60,7 +60,7 @@ export function targetValuesForCR(cr) {
 
   const [ac, attack, xp] = baseTargets[cr + MIN_CR]; // MIN_CR because baseTargets indexes starting from 0
   const crLabel =
-    1 <= cr
+    cr >= 1
       ? `${cr}` // if CR is 1 or higher, display it straight
       : MIN_CR < cr
         ? `1/${Math.pow(2, cr - 1)}` // 1/8, 1/4, or 1/2 as appropriate
@@ -104,7 +104,7 @@ function getMinHp(cr) {
 
 function getAvgAbilityScore(cr) {
   if (cr === -3) {
-    cr = -4; //looks weird, but that's just how the math works out
+    cr = -4; // looks weird, but that's just how the math works out
   }
   return Math.min(MAX_ABILITY_SCORE, Math.floor(cr * 0.5 + 10.5));
 }
