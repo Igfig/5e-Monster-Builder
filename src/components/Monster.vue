@@ -1,0 +1,86 @@
+<template>
+	<article class="monster">
+		<h2 class="monster-name">{{monster.name}}</h2>
+		
+		<figure class="statblock"> <!--XXX not 100% sure that this is a figure... could be an article, or an article in a figure-->
+		  <h3 class="monster-name">{{monster.name}}<span v-if="!monster.name">New Monster</span></h3>
+      
+      <p>{{monster.size.label | capitalize}} {{monster.type}}<span v-if="!!monster.subtype">
+        ({{monster.subtype}})</span>, <!--FIXME should really support multiple subtypes-->
+        {{get(monster.alignment, "label") | lowercase}}
+      </p>
+      
+      <hr />
+      
+      <dl>
+        <div>
+          <dt>Armor Class</dt>
+          <dd>{{monster.ac}}</dd> <!--TODO include source-->
+        </div>
+        
+        <div>
+        <dt>Hit Points</dt>
+          <dd>{{monster.hp}} ({{monster.hd}}d{{monster.size.hd}}<span v-if="monster.abilities.con.bonus !== 0"> + {{monster.hd * monster.abilities.con.bonus}}</span>)</dd>
+        </div>
+      </dl>
+      
+      <hr />
+      
+      <dl class="abilities">
+        <template v-for="ability in monster.abilities">
+          <dt>{{ability.name | capitalize}}</dt>
+          <dd>{{ability.score}} ({{formatBonus(ability.bonus)}})</dd>
+        </template>
+      </dl>
+      
+      <hr />
+      
+      
+		</figure>
+		
+		<div class="description"></div> <!--XXX div doesn't seem quite right... maybe just have a bunch of sections, with no wrapper? Might even pass them in with slots, idk-->
+	</article>
+</template>
+
+<script>
+import { mapState } from "vuex";
+import { formatBonus, get } from "../util";
+
+export default {
+  name: "monster",
+  computed: mapState(["monster"]),
+  data() {
+    return { get, formatBonus };
+  }
+};
+</script>
+
+<style lang="scss">
+.monster {
+  text-align: left;
+
+  dt {
+    font-weight: bold;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  dl > div > * {
+    display: inline;
+  }
+
+  .abilities {
+    // TODO alternate styles for gridless browsers
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-column-gap: 10px; // XXX arbitrary
+    text-align: center;
+
+    > dd {
+      grid-row: 2;
+    }
+  }
+}
+</style>

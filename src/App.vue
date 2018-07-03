@@ -1,12 +1,13 @@
 <template>
   <div id="app">
     <header>
-      <span>Vue.js PWA</span>
+      <h1>5e Monster Builder</h1>
+      
+      <nav><!--fill in--></nav>
     </header>
-    <main>
-      <img src="./assets/logo.svg" alt="Vue.js PWA">
-      <router-view></router-view>
-    </main>
+    
+     <!--suppress CheckEmptyScriptTag, HtmlUnknownTag -->
+    <router-view />
   </div>
 </template>
 
@@ -16,13 +17,32 @@ export default {
 };
 </script>
 
-<style>
-body {
+<style lang="scss">
+* {
   margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  padding: 30px;
+  height: 100%;
+}
+
+p,
+dl {
+  margin: 0.5em 0;
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  font-family: "Estrangelo Edessa", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -33,22 +53,18 @@ main {
   margin-top: 40px;
 }
 
-header {
-  margin: 0;
-  height: 56px;
-  padding: 0 16px 0 24px;
-  background-color: #35495E;
-  color: #ffffff;
-}
+input[type="radio"] {
+  display: none;
 
-header span {
-  display: block;
-  position: relative;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: .02em;
-  font-weight: 400;
-  box-sizing: border-box;
-  padding-top: 16px;
+  + label {
+    box-sizing: border-box;
+    margin: 1px;
+    padding: 5px;
+    background-color: lightgrey;
+    text-align: center;
+  }
+  &[selected] + label {
+    background-color: crimson;
+  }
 }
 </style>

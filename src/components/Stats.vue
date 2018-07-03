@@ -1,0 +1,61 @@
+<template>
+	<form class="stats">
+    <!--TODO unify the various input components by means of mixins-->
+    
+    <div>
+      <builder-input name="name" label="Name" type="text"/>
+      <builder-input name="properName" label="Proper name" type="checkbox" labelRight/>
+    </div>
+    
+    <br>
+    
+    <builder-select name="size" label="Size" :options="SIZES" :default="SIZES.MEDIUM"/>
+    <builder-select name="type" label="Type" :options="TYPES" :default="TYPES.HUMANOID"/>
+    <builder-datalist name="subtype" label="Subtype" :options="SUBTYPES"/>
+    
+    <br>
+    
+    <builder-radio className="alignment" name="alignment" :options="ALIGNMENTS" :default="ALIGNMENTS.UNALIGNED" :customLabel="option => option.id || option"/>
+  </form>
+</template>
+
+<script>
+import { mapState } from "vuex";
+import { ALIGNMENTS, SIZES, TYPES, SUBTYPES } from "../constants";
+import BuilderInput from "./form/BuilderInput";
+import BuilderSelect from "./form/BuilderSelect";
+import BuilderRadio from "./form/BuilderRadio";
+import BuilderDatalist from "./form/BuilderDatalist";
+
+export default {
+  name: "Stats",
+  components: { BuilderRadio, BuilderSelect, BuilderInput, BuilderDatalist },
+  data() {
+    return { SIZES, TYPES, SUBTYPES, ALIGNMENTS };
+  },
+  computed: mapState(["monster"])
+};
+</script>
+<style lang="scss">
+.stats .alignment {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 6em;
+
+  // first 9 alignment buttons are in a grid, later ones are full-width
+  label:nth-of-type(n + 10) {
+    grid-column: 1 / -1;
+  }
+
+  // XXX or just use grid layout, probably better
+  html.no-cssgrid & {
+    display: flex;
+    flex-flow: row wrap;
+
+    width: 7em;
+    > label {
+      flex: 1 1 30%;
+    }
+  }
+}
+</style>
