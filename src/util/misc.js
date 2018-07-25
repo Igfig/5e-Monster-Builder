@@ -1,12 +1,10 @@
+import { wordsToConstantName } from "./format";
+
 export function callIfFunction(func, value, fallback = func) {
   if (!!func && typeof func === "function") {
     return func(value);
   }
   return fallback;
-}
-
-function getId(value) {
-  return value.toUpperCase().replace(" ", "_");
 }
 
 /**
@@ -22,7 +20,7 @@ export function dictify(array) {
       return;
     }
     if (typeof value === "string") {
-      const id = getId(value);
+      const id = wordsToConstantName(value);
       array[id] = value;
       return;
     }
@@ -30,7 +28,7 @@ export function dictify(array) {
     if (typeof value === "object") {
       if (!value.hasOwnProperty("id")) {
         if (value.hasOwnProperty("label")) {
-          value.id = getId(value.label);
+          value.id = wordsToConstantName(value.label);
         }
       }
 
@@ -68,8 +66,4 @@ export function get(option, property = "id") {
     return option[property];
   }
   return option;
-}
-
-export function formatBonus(bonus) {
-  return bonus < 0 ? bonus.toString() : `+${bonus}`;
 }

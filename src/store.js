@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { SIZES, TYPES, ALIGNMENTS } from "./constants/tables";
+import { SIZES, TYPES, ALIGNMENTS } from "./constants";
 
 Vue.use(Vuex);
 
