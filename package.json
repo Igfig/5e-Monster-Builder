@@ -14,8 +14,10 @@
     "lint": "eslint --fix --ext .js,.vue src test test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "final-form": "^4.8.3",
     "lodash": "^4.17.10",
     "vue": "^2.5.2",
+    "vue-final-form": "^3.0.0",
     "vue-fragments": "^1.4.0",
     "vue-router": "^3.0.1",
     "vue-tabs-component": "^1.4.0",

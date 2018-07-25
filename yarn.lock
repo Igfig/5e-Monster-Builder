@@ -3114,6 +3114,10 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
+final-form@^4.8.3:
+  version "4.8.3"
+  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.8.3.tgz#86a03da6cd6459ed8fe3737dbd9dc87ed40c11d7"
+
 finalhandler@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.1.0.tgz#ce0b6855b45853e791b2fcc680046d88253dd7f5"
@@ -5251,6 +5255,10 @@ mute-stream@0.0.7:
 nan@^2.10.0, nan@^2.9.2:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.10.0.tgz#96d0cd610ebd58d4b4de9cc0c6828cda99c7548f"
+
+nano-assign@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/nano-assign/-/nano-assign-1.0.0.tgz#499f4f8a1ae801f2405863e6946ca8568d666e4e"
 
 nanomatch@^1.2.9:
   version "1.2.9"
@@ -8003,6 +8011,12 @@ vm-browserify@0.0.4:
 void-elements@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
+
+vue-final-form@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/vue-final-form/-/vue-final-form-3.0.0.tgz#fc1b1674062eb0c2c869dd39ee4070f193556514"
+  dependencies:
+    nano-assign "^1.0.0"
 
 vue-fragments@^1.4.0:
   version "1.4.0"
