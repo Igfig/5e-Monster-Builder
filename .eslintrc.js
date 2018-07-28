@@ -19,12 +19,14 @@ module.exports = {
     "arrow-parens": 0,
     // allow async-await
     "generator-star-spacing": 0,
+    "linebreak-style": [1, "unix"],
     // allow debugger during development
     "no-debugger": process.env.NODE_ENV === "production" ? 2 : 0,
     quotes: [1, "double"],
-    "spaced-comment": [0],
+
     "no-unused-vars": [1],
     semi: [1, "always", { omitLastInOneLineBlock: true }],
+    "spaced-comment": [0],
     "space-before-function-paren": [
       1,
       {
