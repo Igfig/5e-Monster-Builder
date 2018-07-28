@@ -1,14 +1,11 @@
 <template>
-  <FinalForm @change="updateState">
-    <form class="stats" slot-scope="props">
+  <final-form :submit="updateState">
+    <form class="stats" slot-scope="props" @input="props.handleSubmit">
       <!--TODO unify the various input components by means of mixins-->
 
       <div>
-        <FinalField name="name">
-          <builder-input :name="props.name" :value="props.value" label="Name" type="text" slot-scope="props"
-                         v-on="props.events"/>
-        </FinalField>
-        <builder-input name="properName" label="Proper name" type="checkbox" labelRight/>
+        <builder-input name="name" label="Name" type="text"/>
+        <builder-input name="isProperName" label="Proper name" type="checkbox" labelRight/> <!--FIXME this seems to only ever return a value of "on", regardless of state-->
       </div>
 
       <br>
@@ -25,29 +22,38 @@
                      :default="ALIGNMENTS.UNALIGNED"
                      :customLabel="option => option.id || option"/>
     </form>
-  </FinalForm>
+  </final-form>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import { FinalForm, FinalField } from "vue-final-form";
+import { FinalForm } from "vue-final-form";
 import { ALIGNMENTS, SIZES, TYPES, SUBTYPES } from "../constants";
 import BuilderInput from "./form/BuilderInput";
 import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
 import BuilderDatalist from "./form/BuilderDatalist";
+import BuilderLabel from "./form/BuilderLabel";
 
 export default {
   name: "Stats",
-  components: { BuilderRadio, BuilderSelect, BuilderInput, BuilderDatalist, FinalForm, FinalField },
+  components: {
+    BuilderRadio,
+    BuilderSelect,
+    BuilderInput,
+    BuilderDatalist,
+    BuilderLabel,
+    FinalForm
+  },
   data() {
-    return { formState: null, SIZES, TYPES, SUBTYPES, ALIGNMENTS };
+    return { formState: {}, SIZES, TYPES, SUBTYPES, ALIGNMENTS };
   },
   computed: mapState(["monster"]),
   methods: {
     updateState(state) {
-      console.log(state);
+      console.log("state", state, state.name);
       this.formState = state;
+      // TODO update the store with these values. Don't really need the separate formState, actually...
     },
     ...mapMutations([]) // TODO
   }

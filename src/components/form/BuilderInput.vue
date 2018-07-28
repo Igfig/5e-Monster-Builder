@@ -1,11 +1,15 @@
 <template>
-  <builder-label :forInput="name" :label="label" :right="labelRight">
-    <!--<input :type="type" :value="value" :name="name" :id="name" />-->
-    <input :type="type" :name="name" :id="name" v-model="value" />
-  </builder-label>
+  <final-field :name="name">
+    <builder-label :forInput="props.name" :label="label" :right="labelRight" slot-scope="props">
+      <!--suppress HtmlFormInputWithoutLabel -->
+      <input :type="type" :name="props.name" :id="props.name" v-on="props.events" />
+      <!--FIXME id should really get namespaced somehow. Or at least add a hash?-->
+    </builder-label>
+  </final-field>
 </template>
 
 <script>
+import { FinalField } from "vue-final-form";
 import BuilderLabel from "./BuilderLabel";
 
 export default {
@@ -18,7 +22,7 @@ export default {
     labelRight: { type: Boolean }
   },
   name: "BuilderInput",
-  components: { BuilderLabel },
+  components: { BuilderLabel, FinalField },
   data() {
     return {
       //value: this.default || ""
