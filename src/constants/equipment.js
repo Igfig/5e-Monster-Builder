@@ -1,12 +1,12 @@
 import { dictify } from "../util/misc";
 
 // TODO add optgroups. Maybe via a groupBy prop?
-export const ARMOUR = dictify([
+export const ARMOR = dictify([
   { id: "NONE", label: "", ac: 10, maxDex: 10 },
-  { id: "PADDED", label: "Padded armour", ac: 11, maxDex: 10 },
-  { id: "LEATHER", label: "Leather armour", ac: 11, maxDex: 10 },
+  { id: "PADDED", label: "Padded armor", ac: 11, maxDex: 10 },
+  { id: "LEATHER", label: "Leather armor", ac: 11, maxDex: 10 },
   { id: "STUDDED", label: "Studded leather", ac: 12, maxDex: 10 },
-  { id: "MAGE", label: "Mage armour", ac: 13, maxDex: 10 },
+  { id: "MAGE", label: "Mage armor", ac: 13, maxDex: 10 },
 
   { id: "HIDE", label: "Hide armor", ac: 12, maxDex: 2 },
   { id: "CHAIN_SHIRT", label: "Chain shirt", ac: 13, maxDex: 2 },
@@ -19,7 +19,7 @@ export const ARMOUR = dictify([
   { id: "BANDED", label: "Banded mail", ac: 17, maxDex: 0 },
   { id: "PLATE", label: "Plate", ac: 18, maxDex: 0 }
 
-  // TODO can we add functions for unarmored defense?
+  // TODO can we add functions for unarmored defense? Maybe by means of a vuex getter or something
   // state => ({id:"UNARMORED", label:"Unarmored", ac: abilBonus(state.dex), maxDex: 10})
 ]);
 export const SHIELDS = dictify([
