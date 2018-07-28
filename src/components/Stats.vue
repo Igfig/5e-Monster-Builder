@@ -1,26 +1,36 @@
 <template>
-	<form class="stats">
-    <!--TODO unify the various input components by means of mixins-->
-    
-    <div>
-      <builder-input name="name" label="Name" type="text"/>
-      <builder-input name="properName" label="Proper name" type="checkbox" labelRight/>
-    </div>
-    
-    <br>
-    
-    <builder-select name="size" label="Size" :options="SIZES" :default="SIZES.MEDIUM"/>
-    <builder-select name="type" label="Type" :options="TYPES" :default="TYPES.HUMANOID"/>
-    <builder-datalist name="subtype" label="Subtype" :options="SUBTYPES"/>
-    
-    <br>
-    
-    <builder-radio className="alignment" name="alignment" :options="ALIGNMENTS" :default="ALIGNMENTS.UNALIGNED" :customLabel="option => option.id || option"/>
-  </form>
+  <FinalForm @change="updateState">
+    <form class="stats" slot-scope="props">
+      <!--TODO unify the various input components by means of mixins-->
+
+      <div>
+        <FinalField name="name">
+          <builder-input :name="props.name" :value="props.value" label="Name" type="text" slot-scope="props"
+                         v-on="props.events"/>
+        </FinalField>
+        <builder-input name="properName" label="Proper name" type="checkbox" labelRight/>
+      </div>
+
+      <br>
+
+      <builder-select name="size" label="Size" :options="SIZES" :default="SIZES.MEDIUM"/>
+      <builder-select name="type" label="Type" :options="TYPES" :default="TYPES.HUMANOID"/>
+      <builder-datalist name="subtype" label="Subtype" :options="SUBTYPES"/>
+
+      <br>
+
+      <builder-radio className="alignment"
+                     name="alignment"
+                     :options="ALIGNMENTS"
+                     :default="ALIGNMENTS.UNALIGNED"
+                     :customLabel="option => option.id || option"/>
+    </form>
+  </FinalForm>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
+import { FinalForm, FinalField } from "vue-final-form";
 import { ALIGNMENTS, SIZES, TYPES, SUBTYPES } from "../constants";
 import BuilderInput from "./form/BuilderInput";
 import BuilderSelect from "./form/BuilderSelect";
@@ -29,11 +39,18 @@ import BuilderDatalist from "./form/BuilderDatalist";
 
 export default {
   name: "Stats",
-  components: { BuilderRadio, BuilderSelect, BuilderInput, BuilderDatalist },
+  components: { BuilderRadio, BuilderSelect, BuilderInput, BuilderDatalist, FinalForm, FinalField },
   data() {
-    return { SIZES, TYPES, SUBTYPES, ALIGNMENTS };
+    return { formState: null, SIZES, TYPES, SUBTYPES, ALIGNMENTS };
   },
-  computed: mapState(["monster"])
+  computed: mapState(["monster"]),
+  methods: {
+    updateState(state) {
+      console.log(state);
+      this.formState = state;
+    },
+    ...mapMutations([]) // TODO
+  }
 };
 </script>
 <style lang="scss">
