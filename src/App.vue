@@ -49,7 +49,7 @@ dl {
 }
 
 main {
-  text-align: center;
+  text-align: left;
   margin-top: 40px;
 }
 

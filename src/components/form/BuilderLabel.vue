@@ -20,7 +20,7 @@ export default {
 
 <style scoped>
 label {
-  display: flex;
+  display: inline-flex;
   flex-flow: row nowrap;
 }
 </style>
