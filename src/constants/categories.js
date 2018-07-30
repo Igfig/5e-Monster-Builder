@@ -93,17 +93,17 @@ export const SUBTYPES = ordered({
 
 export const ALIGNMENTS = ordered(
   {
-    LG: { id: "LG", label: "lawful good", order: 1 },
-    NG: { id: "NG", label: "neutral good", order: 2 },
-    CG: { id: "CG", label: "chaotic good", order: 3 },
-    LN: { id: "LN", label: "lawful neutral", order: 4 },
-    N: { id: "N", label: "true neutral", order: 5 },
-    CN: { id: "CN", label: "chaotic neutral", order: 6 },
-    LE: { id: "LE", label: "lawful evil", order: 7 },
-    NE: { id: "NE", label: "neutral evil", order: 8 },
-    CE: { id: "CE", label: "chaotic evil", order: 9 },
-    UNALIGNED: { id: "Unaligned", label: "unaligned", order: 10 },
-    ANY: { id: "Any", label: "any alignment", order: 11 }
+    LG: { label: "LG", text: "lawful good", order: 1 },
+    NG: { label: "NG", text: "neutral good", order: 2 },
+    CG: { label: "CG", text: "chaotic good", order: 3 },
+    LN: { label: "LN", text: "lawful neutral", order: 4 },
+    N: { label: "N", text: "true neutral", order: 5 },
+    CN: { label: "CN", text: "chaotic neutral", order: 6 },
+    LE: { label: "LE", text: "lawful evil", order: 7 },
+    NE: { label: "NE", text: "neutral evil", order: 8 },
+    CE: { label: "CE", text: "chaotic evil", order: 9 },
+    UNALIGNED: { label: "Unaligned", text: "unaligned", order: 10 },
+    ANY: { label: "Any", text: "any alignment", order: 11 }
   },
   compare("order")
 );

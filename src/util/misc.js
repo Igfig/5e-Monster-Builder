@@ -38,7 +38,7 @@ for (const y in x) {
   console.log(y, x[y]);
 }*/
 
-export function get(option, property = "id") {
+export function get(option, property = "label") {
   if (typeof option === "object") {
     return option[property];
   }

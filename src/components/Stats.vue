@@ -20,7 +20,7 @@
                      name="alignment"
                      :options="ALIGNMENTS"
                      :default="ALIGNMENTS.UNALIGNED"
-                     :customLabel="option => option.id || option"/>
+                     :customLabel="option => option.label || option"/>
     </form>
   </final-form>
 </template>
@@ -66,7 +66,7 @@ export default {
   width: 6em;
 
   // first 9 alignment buttons are in a grid, later ones are full-width
-  label:nth-of-type(n + 10) {
+  > :nth-of-type(n + 10) {
     grid-column: 1 / -1;
   }
 
