@@ -1,4 +1,4 @@
-import { wordsToConstantName } from "./format";
+import _ from "lodash";
 
 export function callIfFunction(func, value, fallback = func) {
   if (!!func && typeof func === "function") {
@@ -7,38 +7,28 @@ export function callIfFunction(func, value, fallback = func) {
   return fallback;
 }
 
-export function ordered(obj, func = ([k, v]) => v) {
-  const ordered = Object.entries(obj).sort(func);
-  obj[Symbol.iterator] = ordered.iterator;
+export function ordered(obj = {}, func = ([k, v]) => v) {
+  const sortedArray = Object.entries(obj).sort(func);
+  obj[Symbol.iterator] = sortedArray.iterator;
   return obj;
 }
+
+const sortDescendingIndicators = ["desc", "d", "descending", -1];
 
 // FIXME not very efficient
 // TODO accept strings instead of sublists
 export function compare(...keyDirections) {
-  return ([aKey, a], [bKey, b]) => {
+  return ([aKey, aVal], [bKey, bVal]) => {
     for (const kd in keyDirections) {
-      const [key, direction] = keyDirections[kd];
-
-      const mult = direction === "desc" ? -1 : 1;
-      if (a[key] === b[key]) {
+      const [key, direction] = Array.isArray(kd) ? keyDirections[kd] : [kd, 1];
+      const mult = _.includes(sortDescendingIndicators, direction) ? -1 : 1;
+      if (aVal[key] === bVal[key]) {
         continue;
       }
-      return a[key] < b[key] ? -mult : mult;
+      return aVal[key] < bVal[key] ? -mult : mult;
     }
   };
 }
-
-/*export class OrderedDict {
-  constructor(obj, func = k => k) {
-    this.order = obj;
-    console.log(this);
-  }
-
-  [Symbol.iterator]() {}
-}
-
-new OrderedDict({ a: 1, b: 2 });*/
 
 //TODO move to tests
 /*const x = ordered({ a: 1, b: 2 });

@@ -51,7 +51,7 @@ export const SIZES = ordered(
       speed: 60
     }
   },
-  compare(["hd", "asc"])
+  compare("hd")
 );
 
 export const TYPES = ordered({
@@ -105,5 +105,5 @@ export const ALIGNMENTS = ordered(
     UNALIGNED: { id: "Unaligned", label: "unaligned", order: 10 },
     ANY: { id: "Any", label: "any alignment", order: 11 }
   },
-  compare(["order", "asc"])
+  compare("order")
 );
