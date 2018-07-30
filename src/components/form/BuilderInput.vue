@@ -2,8 +2,10 @@
   <final-field :name="name">
     <builder-label :forInput="props.name" :label="label" :right="labelRight" slot-scope="props">
       <!--suppress HtmlFormInputWithoutLabel -->
-      <input :type="type" :name="props.name" :id="props.name" v-on="props.events" />
+      <input :type="type" :name="props.name" :id="props.name" v-on="props.events" :list="datalist"/>
       <!--FIXME id should really get namespaced somehow. Or at least add a hash?-->
+      
+      <slot></slot>
     </builder-label>
   </final-field>
 </template>
@@ -19,7 +21,8 @@ export default {
     type: { type: String, required: true },
     default: { type: [Object, String] },
     value: { type: [Object, String] },
-    labelRight: { type: Boolean }
+    labelRight: { type: Boolean },
+    datalist: { type: String }
   },
   name: "BuilderInput",
   components: { BuilderLabel, FinalField },

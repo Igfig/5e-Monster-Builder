@@ -70,7 +70,6 @@ export default {
     grid-column: 1 / -1;
   }
 
-  // XXX or just use grid layout, probably better
   html.no-cssgrid & {
     display: flex;
     flex-flow: row wrap;
