@@ -5,7 +5,7 @@
         <fragment v-if="isSelect">
           <!--suppress HtmlFormInputWithoutLabel -->
           <select :name="name" :id="inputId" v-model="value" v-on="props.events"> <!--XXX should we really be using v-model here? Or alternatively, can we use that and skip v-on?-->
-            <option v-for="option in options" :value="option">{{getLabel(option)}}</option>
+            <option v-for="option in options" :value="option">[{{option.id}}] {{getLabel(option)}}</option>
           </select>
         </fragment>
 

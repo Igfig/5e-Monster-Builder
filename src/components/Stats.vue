@@ -49,7 +49,7 @@ export default {
   computed: mapState(["monster"]),
   methods: {
     updateState(state) {
-      console.log("state", state, state.name);
+      console.log("state", state, state.name, state.size);
       this.formState = state;
       // TODO update the store with these values. Don't really need the separate formState, actually...
     },

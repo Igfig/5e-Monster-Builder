@@ -9,6 +9,11 @@ export function callIfFunction(func, value, fallback = func) {
 
 export function ordered(obj = {}, func = ([k, v]) => v) {
   const sortedArray = Object.entries(obj).sort(func);
+  sortedArray.forEach(([k, v]) => {
+    if (typeof v === "object" && !v.hasOwnProperty("ID")) {
+      v.ID = k;
+    }
+  });
   obj[Symbol.iterator] = sortedArray.iterator;
   return obj;
 }
