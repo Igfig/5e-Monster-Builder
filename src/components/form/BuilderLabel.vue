@@ -1,10 +1,16 @@
 <template>
-  <label><span :style="style">{{ label }}</span> <slot /></label>
+  <fragment>
+    <slot/>
+    <label :style="style" :for="forInput">{{ label }}</label>
+  </fragment>
 </template>
 
 <script>
+import { component as Fragment } from "vue-fragments";
+
 export default {
   name: "BuilderLabel",
+  components: { Fragment },
   props: {
     forInput: { type: String },
     label: { type: String },
@@ -17,10 +23,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-label {
-  display: inline-flex;
-  flex-flow: row nowrap;
-}
-</style>

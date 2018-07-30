@@ -4,20 +4,23 @@
       <!--TODO unify the various input components by means of mixins-->
 
       <div>
-        <builder-input name="name" label="Name" type="text"/>
+        <builder-input name="name" label="Name"/>
         <builder-input name="isProperName" label="Proper name" type="checkbox" labelRight/> <!--FIXME this seems to only ever return a value of "on", regardless of state-->
       </div>
 
       <br>
 
-      <builder-select name="size" label="Size" :options="SIZES" :default="SIZES.MEDIUM"/>
-      <builder-select name="type" label="Type" :options="TYPES" :default="TYPES.HUMANOID"/>
-      <builder-datalist name="subtype" label="Subtype" :options="SUBTYPES"/>
+      <div>
+        <builder-select name="size" label="Size" :options="SIZES" :default="SIZES.MEDIUM"/>
+        <builder-select name="type" label="Type" :options="TYPES" :default="TYPES.HUMANOID"/>
+        <builder-input name="subtype" label="Subtype" :options="SUBTYPES"/>
+      </div>
 
       <br>
 
       <builder-radio className="alignment"
                      name="alignment"
+                     label="Alignment"
                      :options="ALIGNMENTS"
                      :default="ALIGNMENTS.UNALIGNED"
                      :customLabel="option => option.label || option"/>
@@ -32,7 +35,6 @@ import { ALIGNMENTS, SIZES, TYPES, SUBTYPES } from "../constants";
 import BuilderInput from "./form/BuilderInput";
 import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
-import BuilderDatalist from "./form/BuilderDatalist";
 import BuilderLabel from "./form/BuilderLabel";
 
 export default {
@@ -41,7 +43,6 @@ export default {
     BuilderRadio,
     BuilderSelect,
     BuilderInput,
-    BuilderDatalist,
     BuilderLabel,
     FinalForm
   },
@@ -61,22 +62,35 @@ export default {
 </script>
 <style lang="scss">
 .stats .alignment {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: 6em;
+  display: contents; // XXX this'll need a fallback
 
-  // first 9 alignment buttons are in a grid, later ones are full-width
-  > :nth-of-type(n + 10) {
-    grid-column: 1 / -1;
+  ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2px;
+    width: 6em;
+
+    // first 9 alignment buttons are in a grid, later ones are full-width
   }
+  li {
+    display: block;
 
-  html.no-cssgrid & {
-    display: flex;
-    flex-flow: row wrap;
-
-    width: 7em;
+    &:nth-of-type(n + 10) {
+      grid-column: 1 / -1;
+    }
     > label {
-      flex: 1 1 30%;
+      display: block;
+      margin: 0;
+    }
+
+    html.no-cssgrid & {
+      display: flex;
+      flex-flow: row wrap;
+
+      width: 7em;
+      > label {
+        flex: 1 1 30%;
+      }
     }
   }
 }
