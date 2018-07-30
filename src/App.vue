@@ -72,4 +72,9 @@ input[type="radio"] {
     color: white;
   }
 }
+
+.form-control {
+  display: inline-flex;
+  flex-flow: row nowrap;
+}
 </style>

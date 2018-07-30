@@ -11,8 +11,8 @@
       <br>
 
       <div>
-        <builder-select name="size" label="Size" :options="SIZES" :default="SIZES.MEDIUM"/>
-        <builder-select name="type" label="Type" :options="TYPES" :default="TYPES.HUMANOID"/>
+        <builder-input name="size" label="Size" type="select" :options="SIZES" :default="SIZES.MEDIUM"/>
+        <builder-input name="type" label="Type" type="select" :options="TYPES" :default="TYPES.HUMANOID"/>
         <builder-input name="subtype" label="Subtype" :options="SUBTYPES"/>
       </div>
 
@@ -22,8 +22,7 @@
                      name="alignment"
                      label="Alignment"
                      :options="ALIGNMENTS"
-                     :default="ALIGNMENTS.UNALIGNED"
-                     :customLabel="option => option.label || option"/>
+                     :default="ALIGNMENTS.UNALIGNED" />
     </form>
   </final-form>
 </template>
@@ -33,7 +32,6 @@ import { mapState, mapMutations } from "vuex";
 import { FinalForm } from "vue-final-form";
 import { ALIGNMENTS, SIZES, TYPES, SUBTYPES } from "../constants";
 import BuilderInput from "./form/BuilderInput";
-import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
 import BuilderLabel from "./form/BuilderLabel";
 
@@ -41,7 +39,6 @@ export default {
   name: "Stats",
   components: {
     BuilderRadio,
-    BuilderSelect,
     BuilderInput,
     BuilderLabel,
     FinalForm
