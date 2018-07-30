@@ -1,23 +1,25 @@
 <template>
-  <div :class="className">
-    <label v-if="!!label">{{label}}</label> <!--FIXME Not sure label is the right element here, since it doesn't really connect to an input-->
-    <builder-label
-        v-for="option in options"
-        hideInput
-        :key="get(option)"
-        :forInput="getId(option)"
-        :label="getLabel(option)">
-      <!--suppress HtmlFormInputWithoutLabel -->
-      <input
-          type="radio"
-          :name="name"
-          :id="getId(option)"
-          :value="option"
-          :selected="get(option) === get(value)"
-          v-model="value"
-      /> <!--TODO find a way to work with the built-in :checked selector-->
-    </builder-label>
-  </div>
+  <fieldset :class="className">
+    <legend v-if="!!label">{{label}}</legend>
+    <ul>
+      <li v-for="option in options"
+          :key="get(option)">
+        <builder-label
+            :forInput="getId(option)"
+            :label="getLabel(option)">
+          <!--suppress HtmlFormInputWithoutLabel -->
+          <input
+              type="radio"
+              :name="name"
+              :id="getId(option)"
+              :value="option"
+              :selected="get(option) === get(value)"
+              v-model="value"
+          /> <!--TODO find a way to work with the built-in :checked selector-->
+        </builder-label>
+      </li>
+    </ul>
+  </fieldset>
 </template>
 
 <script>
@@ -49,5 +51,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+input {
+  display: none;
+}
 </style>

@@ -53,6 +53,10 @@ main {
   margin-top: 40px;
 }
 
+li {
+  list-style-type: none;
+}
+
 input[type="radio"] {
   display: none;
 
@@ -65,6 +69,7 @@ input[type="radio"] {
   }
   &[selected] + label {
     background-color: crimson;
+    color: white;
   }
 }
 </style>
