@@ -1,11 +1,13 @@
 <template>
   <div :class="className">
     <label v-if="!!label">{{label}}</label> <!--FIXME Not sure label is the right element here, since it doesn't really connect to an input-->
-    <builder-label-hidden
+    <builder-label
         v-for="option in options"
+        hideInput
         :key="get(option)"
         :forInput="getId(option)"
         :label="getLabel(option)">
+      <!--suppress HtmlFormInputWithoutLabel -->
       <input
           type="radio"
           :name="name"
@@ -14,12 +16,12 @@
           :selected="get(option) === get(value)"
           v-model="value"
       /> <!--TODO find a way to work with the built-in :checked selector-->
-    </builder-label-hidden>
+    </builder-label>
   </div>
 </template>
 
 <script>
-import BuilderLabelHidden from "./BuilderLabelHidden";
+import BuilderLabel from "./BuilderLabel";
 import { get } from "../../util";
 
 export default {
@@ -33,7 +35,7 @@ export default {
     labelRight: { type: Boolean },
     customLabel: { type: Function }
   },
-  components: { BuilderLabelHidden },
+  components: { BuilderLabel },
   data() {
     return {
       value: this.default || "",
