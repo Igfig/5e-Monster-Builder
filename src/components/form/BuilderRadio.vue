@@ -28,7 +28,7 @@ export default {
     className: { type: String },
     name: { type: String, required: true },
     label: { type: String },
-    options: { type: Array, required: true },
+    options: { type: [Array, Object], required: true },
     default: { type: [String, Object] },
     labelRight: { type: Boolean },
     customLabel: { type: Function }

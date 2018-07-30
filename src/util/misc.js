@@ -7,59 +7,46 @@ export function callIfFunction(func, value, fallback = func) {
   return fallback;
 }
 
-/**
- * add each entry of an array to that array object as a property.
- * This allows for both lookup and iteration in order, but it does mean that the array can't be
- * modified later.
- *
- * @param array an array of objects, each of which must have an "id" property
- */
-export function dictify(array) {
-  array.forEach(value => {
-    if (typeof value === "number") {
-      return;
-    }
-    if (typeof value === "string") {
-      const id = wordsToConstantName(value);
-      array[id] = value;
-      return;
-    }
-
-    if (typeof value === "object") {
-      if (!value.hasOwnProperty("id")) {
-        if (value.hasOwnProperty("label")) {
-          value.id = wordsToConstantName(value.label);
-        }
-      }
-
-      Object.freeze(value); // so it can't get changed by mistake later
-      array[value.id] = value;
-      return;
-    }
-
-    throw new Error(`value ${value} is not a dictifiable type`);
-  });
-
-  return Object.freeze(array);
+export function ordered(obj, func = ([k, v]) => v) {
+  const ordered = Object.entries(obj).sort(func);
+  obj[Symbol.iterator] = ordered.iterator;
+  return obj;
 }
-/* export function dictify(array) {
-  array.forEach((value, key) => {
-    let newValue = value;
 
-    if (typeof value === "string") {
-      // make an object for that string
-      newValue = { id: value.toUpperCase().replace(" ", "_"), label: value };
+// FIXME not very efficient
+// TODO accept strings instead of sublists
+export function compare(...keyDirections) {
+  return ([aKey, a], [bKey, b]) => {
+    for (const kd in keyDirections) {
+      const [key, direction] = keyDirections[kd];
+
+      const mult = direction === "desc" ? -1 : 1;
+      if (a[key] === b[key]) {
+        continue;
+      }
+      return a[key] < b[key] ? -mult : mult;
     }
+  };
+}
 
-    // freeze the value so it can't get changed by mistake later
-    const finalValue = Object.freeze(newValue);
-    array[key] = finalValue;
+/*export class OrderedDict {
+  constructor(obj, func = k => k) {
+    this.order = obj;
+    console.log(this);
+  }
 
-    array[finalValue.id] = finalValue;
-  });
+  [Symbol.iterator]() {}
+}
 
-  return Object.freeze(array);
-} */
+new OrderedDict({ a: 1, b: 2 });*/
+
+//TODO move to tests
+/*const x = ordered({ a: 1, b: 2 });
+console.log(x.a);
+
+for (const y in x) {
+  console.log(y, x[y]);
+}*/
 
 export function get(option, property = "id") {
   if (typeof option === "object") {

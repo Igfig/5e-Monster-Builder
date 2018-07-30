@@ -15,7 +15,7 @@ export default {
   props: {
     name: { type: String, required: true },
     label: { type: String, required: true },
-    options: { type: Array, required: true },
+    options: { type: [Array, Object], required: true },
     default: { type: [Object, String] },
     labelRight: { type: Boolean },
     customLabel: { type: Function }
