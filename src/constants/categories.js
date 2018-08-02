@@ -6,6 +6,7 @@ import { ordered, compare, min, max } from "../util/misc";
 const dictify = d.dictify;
 // const { dictify } = d; // Even this doesn't work!*/
 
+// XXX might move to stats.js? Doesn't matter all that much, just yknow
 export const SIZES = ordered(
   {
     TINY: {
