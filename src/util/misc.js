@@ -52,6 +52,9 @@ for (const y in x) {
 export function get(option, property = "id", defaultValue = option) {
   return _.get(option, property, defaultValue);
 }
+export function getLabel(option, defaultValue = option) {
+  return _.get(option, "label", defaultValue);
+}
 
 export function min(val, of = null) {
   if (Array.isArray(of) && of.includes(val)) {

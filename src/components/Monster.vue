@@ -5,10 +5,10 @@
     <!--XXX text here-->
     
 		<figure class="statblock"> <!--XXX not 100% sure that this is a figure... could be an article, or an article in a figure-->
-		  <h3 class="monster-name">{{monster.name}}<span v-if="!monster.name">New Monster</span></h3>
+		  <h3 class="monster-name">{{monster.name | capitalize}}<span v-if="!monster.name">New Monster</span></h3>
       
-      <p>{{monster.size.label | capitalize}} {{monster.type}}<span v-if="!!monster.subtype">
-        ({{monster.subtype}})</span>, <!--FIXME should really support multiple subtypes-->
+      <p>{{monster.size.label | capitalize}} {{getLabel(monster.type)}}<span v-if="!!monster.subtype">
+        ({{getLabel(monster.subtype)}})</span>, <!--FIXME should really support multiple subtypes-->
         {{monster.alignment.text | lowercase}}
       </p>
       
@@ -46,13 +46,14 @@
 
 <script>
 import { mapState } from "vuex";
-import { formatBonus, get } from "../util";
+import { formatBonus, getLabel } from "../util";
 
 export default {
   name: "monster",
   computed: mapState(["monster"]),
-  data() {
-    return { get, formatBonus };
+  methods: {
+    formatBonus,
+    getLabel
   }
 };
 </script>
