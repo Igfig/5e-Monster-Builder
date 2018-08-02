@@ -2,37 +2,65 @@
     <form class="stats" @input="setMonster(monster)">
       <!--TODO unify the various input components by means of mixins-->
       <!--FIXME name and v-model are basically duplicates. Have only one or the other. Maybe by means of slot-scope?-->
-      <div class="form-group">
+      <fieldset class="form-group">
         <builder-input name="name" v-model="monster.name" label="Name"/>
         <builder-checkbox name="isProperName" v-model="monster.isProperName" label="Proper name" labelRight/>
-      </div>
+      </fieldset>
 
-      <div class="form-group">
+      <fieldset class="form-group">
         <builder-select name="size" v-model="monster.size" label="Size" :options="SIZES"/>
         <builder-select name="type" v-model="monster.type" label="Type" :options="TYPES"/>
         <builder-input name="subtype" v-model="monster.subtype" label="Subtype" :options="SUBTYPES"/>
-      </div>
+      </fieldset>
 
       <builder-radio name="alignment"
                      label="Alignment"
                      v-model="monster.alignment"
                      :options="ALIGNMENTS" />
+
+      <fieldset class="form-group"> <!--TODO make a grid-->
+        <builder-numeric v-for="(ability, index) in ABILITIES" :key="index"
+                         :name="ability.label" :label="ability.label | capitalize"
+                         v-model="monster.abilities[index].score"
+                         :min="1" :max="30" :step="1"/>
+      </fieldset>
+
+
+      <fieldset class="form-group">
+        <builder-numeric name="speed" v-model="monster.speed.land" label="Speed" :min="0" :step="5"/>
+        <button class="form-control" @click="resetSpeed">Reset to default</button>
+
+        <br>
+
+        <builder-numeric name="speed-fly" v-model="monster.speed.fly" label="Fly" :min="0" :step="5"/>
+        <builder-checkbox name="canHover" v-model="monster.speed.canHover" label="Hover" labelRight/>
+
+        <br>
+
+        <builder-numeric name="speed-swim" v-model="monster.speed.swim" label="Swim" :min="0" :step="5"/>
+
+        <br>
+
+        <builder-numeric name="speed-burrow" v-model="monster.speed.burrow" label="Burrow" :min="0" :step="5"/>
+      </fieldset>
     </form>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import { ALIGNMENTS, SIZES, TYPES, SUBTYPES } from "../constants";
+import { ALIGNMENTS, SIZES, TYPES, SUBTYPES, ABILITIES } from "../constants";
 import BuilderInput from "./form/BuilderInput";
 import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
 import BuilderLabel from "./form/BuilderLabel";
 import BuilderCheckbox from "./form/BuilderCheckbox";
 import { SET_MONSTER } from "../mutations";
+import BuilderNumeric from "./form/BuilderNumeric";
 
 export default {
   name: "Stats",
   components: {
+    BuilderNumeric,
     BuilderCheckbox,
     BuilderRadio,
     BuilderInput,
@@ -44,11 +72,15 @@ export default {
       SIZES,
       TYPES,
       SUBTYPES,
-      ALIGNMENTS
+      ALIGNMENTS,
+      ABILITIES
     };
   },
   computed: mapState(["monster"]),
   methods: {
+    resetSpeed: () => {
+      console.log("reset speed"); // TODO
+    },
     ...mapMutations({ setMonster: SET_MONSTER })
   }
 };
@@ -56,8 +88,6 @@ export default {
 
 <style lang="scss">
 .stats .alignment {
-  display: contents; // XXX this'll need a fallback
-
   ul {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

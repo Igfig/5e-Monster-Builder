@@ -22,7 +22,16 @@
         
         <div>
         <dt>Hit Points</dt>
-          <dd>{{monster.hp}} ({{monster.hd}}d{{monster.size.hd}}<span v-if="monster.abilities.con.bonus !== 0"> + {{monster.hd * monster.abilities.con.bonus}}</span>)</dd>
+          <dd>{{monster.hp}} ({{monster.hd}}d{{monster.size.hd}}<span v-if="monster.abilities.CON.bonus !== 0"> + {{monster.hd * monster.abilities.CON.bonus}}</span>)</dd>
+        </div>
+
+        <div>
+        <dt>Speed</dt>
+          <dd>{{monster.speed.land}} ft.
+            <span v-if="monster.speed.fly">, fly {{monster.speed.fly}} ft. <span v-if="monster.speed.fly">(hover)</span></span>
+            <span v-if="monster.speed.swim">, swim {{monster.speed.swim}} ft.</span>
+            <span v-if="monster.speed.burrow">, burrow {{monster.speed.burrow}} ft.</span>
+          </dd>
         </div>
       </dl>
       
@@ -30,7 +39,7 @@
       
       <dl class="abilities">
         <template v-for="ability in monster.abilities">
-          <dt>{{ability.name | capitalize}}</dt>
+          <dt>{{ability.name | uppercase}}</dt>
           <dd>{{ability.score}} ({{formatBonus(ability.bonus)}})</dd>
         </template>
       </dl>
@@ -61,6 +70,7 @@ export default {
 <style lang="scss">
 .monster {
   text-align: left;
+  // TODO this should have a fixed minimum dimension (maybe a max too), such that the ability scores won't cause a line-break or resize when a bonus hits +10 (i.e. one extra character wide)
 
   dt {
     font-weight: bold;

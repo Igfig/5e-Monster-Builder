@@ -62,12 +62,18 @@ li {
   list-style-type: none;
 }
 
-input {
+input,
+button {
   padding: 2px 4px;
 }
 select {
   // select seems to have about 2px of side padding built in already
   padding: 2px;
+}
+
+fieldset {
+  margin: 0 0 1em;
+  border: none;
 }
 
 input[type="radio"] {
@@ -92,9 +98,5 @@ input[type="radio"] {
   align-items: center;
   vertical-align: text-bottom;
   margin: 5px 10px 5px 0;
-}
-
-.form-group {
-  margin: 0 0 1em;
 }
 </style>

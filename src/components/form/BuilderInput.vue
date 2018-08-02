@@ -27,7 +27,7 @@ export default {
     type: { type: String, default: "text" },
     labelRight: { type: Boolean },
     options: { type: [Array, Object] },
-    value: { type: [Object, String, Boolean] }
+    value: { type: [Object, String] }
   },
   computed: {
     inputId() {
