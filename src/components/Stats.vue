@@ -1,25 +1,25 @@
 <template>
-    <form class="stats">
+    <form class="stats" @input="setMonster(monster)">
       <!--TODO unify the various input components by means of mixins-->
       <!--FIXME name and v-model are basically duplicates. Have only one or the other. Maybe by means of slot-scope?-->
       <div>
-        <builder-input name="name" v-model="formState.name" label="Name"/>
-        <builder-checkbox name="isProperName" v-model="formState.isProperName" label="Proper name" labelRight/> <!--FIXME this seems to only ever return a value of "on", regardless of state-->
+        <builder-input name="name" v-model="monster.name" label="Name"/>
+        <builder-checkbox name="isProperName" v-model="monster.isProperName" label="Proper name" labelRight/>
       </div>
 
       <br>
 
       <div>
-        <builder-select name="size" v-model="formState.size" label="Size" :options="SIZES"/>
-        <builder-select name="type" v-model="formState.type" label="Type" :options="TYPES"/>
-        <builder-input name="subtype" v-model="formState.subtype" label="Subtype" :options="SUBTYPES"/>
+        <builder-select name="size" v-model="monster.size" label="Size" :options="SIZES"/>
+        <builder-select name="type" v-model="monster.type" label="Type" :options="TYPES"/>
+        <builder-input name="subtype" v-model="monster.subtype" label="Subtype" :options="SUBTYPES"/>
       </div>
 
       <br>
 
       <builder-radio name="alignment"
                      label="Alignment"
-                     v-model="formState.alignment"
+                     v-model="monster.alignment"
                      :options="ALIGNMENTS" />
     </form>
 </template>
@@ -32,12 +32,7 @@ import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
 import BuilderLabel from "./form/BuilderLabel";
 import BuilderCheckbox from "./form/BuilderCheckbox";
-
-const DEFAULT_FORM_STATE = {
-  alignment: ALIGNMENTS.UNALIGNED,
-  size: SIZES.MEDIUM,
-  type: TYPES.HUMANOID
-};
+import { SET_MONSTER } from "../mutations";
 
 export default {
   name: "Stats",
@@ -50,7 +45,6 @@ export default {
   },
   data() {
     return {
-      formState: DEFAULT_FORM_STATE,
       SIZES,
       TYPES,
       SUBTYPES,
@@ -59,19 +53,11 @@ export default {
   },
   computed: mapState(["monster"]),
   methods: {
-    updateState(state) {
-      console.log("state", state, state.name, state.size);
-
-      // const st = { ...state };
-      // console.log(st);
-      // this.formState = st;
-      console.log("fs", this.formState);
-      // TODO update the store with these values. Don't really need the separate formState, actually...
-    },
-    ...mapMutations([]) // TODO
+    ...mapMutations({ setMonster: SET_MONSTER })
   }
 };
 </script>
+
 <style lang="scss">
 .stats .alignment {
   display: contents; // XXX this'll need a fallback

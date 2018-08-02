@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { SIZES, TYPES, ALIGNMENTS } from "./constants";
+import { SET_MONSTER } from "./mutations";
 
 Vue.use(Vuex);
 
@@ -43,6 +44,10 @@ export default new Vuex.Store({
     }
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    [SET_MONSTER](state, value) {
+      state.monster = value;
+    }
+  },
   actions: {}
 });
