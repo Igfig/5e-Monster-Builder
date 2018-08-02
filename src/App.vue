@@ -18,6 +18,9 @@ export default {
 </script>
 
 <style lang="scss">
+$base-font-size: 16px;
+$line-height: 1.2;
+
 * {
   margin: 0;
   padding: 0;
@@ -25,6 +28,8 @@ export default {
 
 html {
   height: 100%;
+  font-size: $base-font-size;
+  line-height: $line-height;
 }
 
 body {
@@ -57,6 +62,14 @@ li {
   list-style-type: none;
 }
 
+input {
+  padding: 2px 4px;
+}
+select {
+  // select seems to have about 2px of side padding built in already
+  padding: 2px;
+}
+
 input[type="radio"] {
   display: none;
 
@@ -76,5 +89,12 @@ input[type="radio"] {
 .form-control {
   display: inline-flex;
   flex-flow: row nowrap;
+  align-items: center;
+  vertical-align: text-bottom;
+  margin: 5px 10px 5px 0;
+}
+
+.form-group {
+  margin: 0 0 1em;
 }
 </style>

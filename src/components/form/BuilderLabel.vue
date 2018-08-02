@@ -1,7 +1,7 @@
 <template>
   <fragment>
     <slot/>
-    <label :style="style" :for="forInput">{{ label }}</label>
+    <label :class="className" :for="forInput">{{ label }}</label>
   </fragment>
 </template>
 
@@ -18,8 +18,21 @@ export default {
   },
   data() {
     return {
-      style: { order: this.right ? 1 : -1 }
+      className: this.right ? "label-right" : "label-left"
     };
   }
 };
 </script>
+
+<style lang="scss">
+$margin: 5px;
+
+.label-left {
+  order: -1;
+  margin-right: $margin;
+}
+.label-right {
+  order: 1;
+  margin-left: $margin;
+}
+</style>

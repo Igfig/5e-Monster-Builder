@@ -2,20 +2,16 @@
     <form class="stats" @input="setMonster(monster)">
       <!--TODO unify the various input components by means of mixins-->
       <!--FIXME name and v-model are basically duplicates. Have only one or the other. Maybe by means of slot-scope?-->
-      <div>
+      <div class="form-group">
         <builder-input name="name" v-model="monster.name" label="Name"/>
         <builder-checkbox name="isProperName" v-model="monster.isProperName" label="Proper name" labelRight/>
       </div>
 
-      <br>
-
-      <div>
+      <div class="form-group">
         <builder-select name="size" v-model="monster.size" label="Size" :options="SIZES"/>
         <builder-select name="type" v-model="monster.type" label="Type" :options="TYPES"/>
         <builder-input name="subtype" v-model="monster.subtype" label="Subtype" :options="SUBTYPES"/>
       </div>
-
-      <br>
 
       <builder-radio name="alignment"
                      label="Alignment"

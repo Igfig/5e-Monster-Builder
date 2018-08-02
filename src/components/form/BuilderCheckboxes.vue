@@ -5,8 +5,8 @@
     <legend v-if="!!label">{{label}}</legend>
     <ul>
       <li v-for="option in options">
-        <builder-checkbox :label="option.label" :value="option" :label-right="labelRight" :name="name" @input="onInput"
-               />
+        <builder-checkbox :label="option.label" :value="option"
+          :labelRight="labelRight" :name="name" @input="onInput"/>
       </li>
     </ul>
   </fieldset>
