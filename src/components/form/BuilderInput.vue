@@ -1,57 +1,52 @@
 <template>
   <div class="form-control">
-    <final-field :name="name">
-      <builder-label :forInput="inputId" :label="label" :right="labelRight" slot-scope="props">
-        <fragment v-if="isSelect">
-          <!--suppress HtmlFormInputWithoutLabel -->
-          <select :name="name" :id="inputId" v-model="value" v-on="props.events"> <!--XXX should we really be using v-model here? Or alternatively, can we use that and skip v-on?-->
-            <option v-for="option in options" :value="option">[{{option.id}}] {{getLabel(option)}}</option>
-          </select>
-        </fragment>
+    <builder-label :forInput="inputId" :label="label" :right="labelRight">
+      <!--suppress HtmlFormInputWithoutLabel -->
+      <input :name="name" :id="inputId"
+             :type="type" :value="value"
+             :list="datalistId" @input="onInput"/>
 
-        <fragment v-else>
-          <!--suppress HtmlFormInputWithoutLabel -->
-          <input :type="type" :name="props.name" :id="inputId" v-on="props.events" :list="datalistId"/>
-          <datalist v-if="showDatalist" :id="datalistId">
-            <option v-for="option in options">{{getLabel(option)}}</option> <!--XXX have to use the option key rather than its value proper (an object), because the value shows up in the dropdown.-->
-            <!--TODO make sure the output is the actual value object, not the key-->
-          </datalist>
-        </fragment>
-      </builder-label>
-    </final-field>
+      <datalist v-if="!!datalistId" :id="datalistId">
+        <option v-for="option in options" :data-value="option">{{get(option, "label")}}</option> <!--can't specify values because they show up in the dropdown. Wouldn't really want to anyway, because the input is an arbitrary string. That said TODO have a way to find any additional info for if the subtype does match a list.-->
+        <!--Also TODO allow multiselect. There's a neat component out there called v-multiselect that might be appropriate-->
+      </datalist>
+    </builder-label>
   </div>
 </template>
 
 <script>
 import { component as Fragment } from "vue-fragments";
-import { FinalField } from "vue-final-form";
-import BuilderLabel from "./BuilderLabel";
 import { get } from "../../util";
+import BuilderLabel from "./BuilderLabel";
 
 export default {
+  name: "BuilderInput",
   props: {
     name: { type: String, required: true },
     label: { type: String, required: true },
     type: { type: String, default: "text" },
-    default: { type: [Object, String], default: "" },
     labelRight: { type: Boolean },
     options: { type: [Array, Object] },
-    customLabel: { type: Function } // TODO probably remove
+    value: { type: [Object, String, Boolean] }
   },
-  name: "BuilderInput",
-  components: { BuilderLabel, FinalField, Fragment },
+  computed: {
+    inputId() {
+      // TODO should really get namespaced somehow. Or at least add a hash?
+      return this.name;
+    }
+  },
+  components: { BuilderLabel, Fragment },
+  methods: {
+    get,
+    onInput(event) {
+      this.$emit("input", event.target.value);
+    }
+  },
   data() {
     return {
-      value: this.default || "", // TODO are you sure this works right
-      inputId: this.name, // TODO should really get namespaced somehow. Or at least add a hash?
-      datalistId: `${this.name}-list`,
-      showDatalist: this.type !== "select" && !!this.options,
-      isSelect: this.type === "select",
-      getLabel: option => (this.customLabel ? this.customLabel(option) : get(option, "label"))
+      //value: this.default,
+      datalistId: this.options ? `${this.name}-list` : undefined
     };
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

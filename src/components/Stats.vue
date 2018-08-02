@@ -1,56 +1,71 @@
 <template>
-  <final-form :submit="updateState">
-    <form class="stats" slot-scope="props" @input="props.handleSubmit">
+    <form class="stats">
       <!--TODO unify the various input components by means of mixins-->
-
+      <!--FIXME name and v-model are basically duplicates. Have only one or the other. Maybe by means of slot-scope?-->
       <div>
-        <builder-input name="name" label="Name"/>
-        <builder-input name="isProperName" label="Proper name" type="checkbox" labelRight/> <!--FIXME this seems to only ever return a value of "on", regardless of state-->
+        <builder-input name="name" v-model="formState.name" label="Name"/>
+        <builder-checkbox name="isProperName" v-model="formState.isProperName" label="Proper name" labelRight/> <!--FIXME this seems to only ever return a value of "on", regardless of state-->
       </div>
 
       <br>
 
       <div>
-        <builder-input name="size" label="Size" type="select" :options="SIZES" :default="SIZES.MEDIUM"/>
-        <builder-input name="type" label="Type" type="select" :options="TYPES" :default="TYPES.HUMANOID"/>
-        <builder-input name="subtype" label="Subtype" :options="SUBTYPES"/>
+        <builder-select name="size" v-model="formState.size" label="Size" :options="SIZES"/>
+        <builder-select name="type" v-model="formState.type" label="Type" :options="TYPES"/>
+        <builder-input name="subtype" v-model="formState.subtype" label="Subtype" :options="SUBTYPES"/>
       </div>
 
       <br>
 
-      <builder-radio className="alignment"
-                     name="alignment"
+      <builder-radio name="alignment"
                      label="Alignment"
-                     :options="ALIGNMENTS"
-                     :default="ALIGNMENTS.UNALIGNED" />
+                     v-model="formState.alignment"
+                     :options="ALIGNMENTS" />
     </form>
-  </final-form>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import { FinalForm } from "vue-final-form";
 import { ALIGNMENTS, SIZES, TYPES, SUBTYPES } from "../constants";
 import BuilderInput from "./form/BuilderInput";
+import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
 import BuilderLabel from "./form/BuilderLabel";
+import BuilderCheckbox from "./form/BuilderCheckbox";
+
+const DEFAULT_FORM_STATE = {
+  alignment: ALIGNMENTS.UNALIGNED,
+  size: SIZES.MEDIUM,
+  type: TYPES.HUMANOID
+};
 
 export default {
   name: "Stats",
   components: {
+    BuilderCheckbox,
     BuilderRadio,
     BuilderInput,
-    BuilderLabel,
-    FinalForm
+    BuilderSelect,
+    BuilderLabel
   },
   data() {
-    return { formState: {}, SIZES, TYPES, SUBTYPES, ALIGNMENTS };
+    return {
+      formState: DEFAULT_FORM_STATE,
+      SIZES,
+      TYPES,
+      SUBTYPES,
+      ALIGNMENTS
+    };
   },
   computed: mapState(["monster"]),
   methods: {
     updateState(state) {
       console.log("state", state, state.name, state.size);
-      this.formState = state;
+
+      // const st = { ...state };
+      // console.log(st);
+      // this.formState = st;
+      console.log("fs", this.formState);
       // TODO update the store with these values. Don't really need the separate formState, actually...
     },
     ...mapMutations([]) // TODO

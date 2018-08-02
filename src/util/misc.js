@@ -8,12 +8,18 @@ export function callIfFunction(func, value, fallback = func) {
 }
 
 export function ordered(obj = {}, func = ([k, v]) => v) {
-  const sortedArray = Object.entries(obj).sort(func);
-  sortedArray.forEach(([k, v]) => {
-    if (typeof v === "object" && !v.hasOwnProperty("ID")) {
-      v.ID = k;
+  // convert any entries specified as strings or whatever into objects
+  //obj = _.mapValues(obj, (v, k) => ({ id: k, ...(typeof v === "object" ? v : { label: v }) }));
+
+  // make sure any sub-objects in obj have an id
+  Object.entries(obj).forEach(([k, v]) => {
+    if (typeof v === "object" && !v.hasOwnProperty("id")) {
+      v.id = k;
     }
   });
+
+  // generate a sort order
+  const sortedArray = Object.entries(obj).sort(func);
   obj[Symbol.iterator] = sortedArray.iterator;
   return obj;
 }
@@ -43,9 +49,6 @@ for (const y in x) {
   console.log(y, x[y]);
 }*/
 
-export function get(option, property = "label") {
-  if (typeof option === "object") {
-    return option[property];
-  }
-  return option;
+export function get(option, property = "id", defaultValue = option) {
+  return _.get(option, property, defaultValue);
 }
