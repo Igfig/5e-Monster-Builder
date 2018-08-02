@@ -52,3 +52,22 @@ for (const y in x) {
 export function get(option, property = "id", defaultValue = option) {
   return _.get(option, property, defaultValue);
 }
+
+export function min(val, of = null) {
+  if (Array.isArray(of) && of.includes(val)) {
+    return other => of.includes(val) && of.indexOf(val) <= of.indexOf(other); //XXX maybe we don't need the includes() and fresh index check, but I worry about the list changing later
+  }
+
+  // TODO more comparisons
+
+  return other => val <= other;
+}
+export function max(val, of = null) {
+  if (Array.isArray(of) && of.includes(val)) {
+    return other => of.includes(other) && of.indexOf(val) >= of.indexOf(other); //XXX maybe we don't need the includes() and fresh index check, but I worry about the list changing later
+  }
+
+  // TODO more comparisons
+
+  return other => val >= other;
+}

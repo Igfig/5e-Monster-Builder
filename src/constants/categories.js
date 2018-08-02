@@ -1,5 +1,5 @@
 //import { ordered, compare } from "../util"; // TODO get this to work
-import { ordered, compare } from "../util/misc";
+import { ordered, compare, min, max } from "../util/misc";
 
 // FIXME currently if you want to import from util/index, you have to do it this way which is dumb.
 /*import d from "../util";
@@ -64,7 +64,7 @@ export const TYPES = ordered({
   FEY: "fey",
   FIEND: "fiend",
   GIANT: "giant",
-  HUMANOID: "humanoid",
+  HUMANOID: { label: "humanoid", require: { size: max(SIZES.LARGE, SIZES) } }, // XXX even then that's a bit big... the only large humanoids in the books are sahuagin barons. Maybe we can have one threshold for warnings?
   MONSTROSITY: "monstrosity",
   OOZE: "ooze",
   PLANT: "plant",
@@ -73,21 +73,48 @@ export const TYPES = ordered({
 
 // XXX this probably wants to be more complex actually, since some of these come with specific stat effects. e.g. all devils are immune to fire and poison
 export const SUBTYPES = ordered({
+  ANY_RACE: "any race",
+  AARAKOCRA: "aarakocra",
+  AIR: "air",
+  BULLYWUG: "bullywug",
   DEMON: "demon",
+  DERRO: "derro",
   DEVIL: "devil",
+  DINOSAUR: "dinosaur",
   DROW: "drow",
   DWARF: "dwarf",
+  EARTH: "earth",
   ELF: "elf",
+  FIRE: "fire",
+  GENASI: "genasi",
+  GENIE: "genie",
+  GITH: "gith",
   GNOLL: "gnoll",
   GNOME: "gnome",
   GOBLINOID: "goblinoid",
+  GRIMLOCK: "grimlock",
+  GRUNG: "grung",
+  HALF_DRAGON: "half-dragon",
   HALF_ORC: "half-orc",
   HALF_ELF: "half-elf",
   HALFLING: "halfling",
   HUMAN: "human",
+  INEVITABLE: { label: "inevitable", require: { type: TYPES.CONSTRUCT } }, //TODO make require actually do something. (It should do a warning or something if you break the requirements)
+  KENKU: "kenku",
   KOBOLD: "kobold",
+  KUO_TOA: "kuo-toa",
   ORC: "orc",
+  QUAGGOTH: "quaggoth",
+  SAHUAGIN: "sahuagin",
   SHAPECHANGER: "shapechanger",
+  SWARM: "swarm",
+  TABAXI: "tabaxi",
+  THRI_KREEN: "thri-kreen",
+  TIEFLING: "tiefling",
+  TITAN: { label: "titan", require: { size: min(SIZES.HUGE, SIZES) } },
+  TORTLE: "tortle",
+  YUAN_TI: "yuan-ti",
+  WATER: "water",
   YUGOLOTH: "yugoloth"
 });
 
