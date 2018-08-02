@@ -1,13 +1,15 @@
 <template>
 	<article class="monster">
-		<h2 class="monster-name">{{monster.name}}</h2>
+		<!--<h2 class="monster-name">{{monster.name}}</h2>--> <!--TODO show this but only if there's text. Otherwise we get the same name twice in a row-->
 		
+    <!--XXX text here-->
+    
 		<figure class="statblock"> <!--XXX not 100% sure that this is a figure... could be an article, or an article in a figure-->
 		  <h3 class="monster-name">{{monster.name}}<span v-if="!monster.name">New Monster</span></h3>
       
       <p>{{monster.size.label | capitalize}} {{monster.type}}<span v-if="!!monster.subtype">
         ({{monster.subtype}})</span>, <!--FIXME should really support multiple subtypes-->
-        {{get(monster.alignment, "label") | lowercase}}
+        {{monster.alignment.text | lowercase}}
       </p>
       
       <hr />

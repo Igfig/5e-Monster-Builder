@@ -44,7 +44,6 @@ export default {
   },
   data() {
     return {
-      //value: this.default,
       datalistId: this.options ? `${this.name}-list` : undefined
     };
   }
