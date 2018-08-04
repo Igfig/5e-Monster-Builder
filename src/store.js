@@ -34,7 +34,10 @@ export default new Vuex.Store({
       hp: 1, // TODO maybe make this a getter/setter that actually updates the hd instead
       hd: 1,
 
+      proficiency: 2, // TODO make dependent on CR
+
       abilities: _.mapValues(ABILITIES, ability => new AbilityScore(ability.label)),
+      saves: [],
 
       speed: {
         land: SIZES.MEDIUM.speed // TODO this should actually be empty by default, and return the default speed for the current size unless it's set

@@ -19,10 +19,13 @@
                      :options="ALIGNMENTS" />
 
       <fieldset class="form-group"> <!--TODO make a grid-->
-        <builder-numeric v-for="(ability, index) in ABILITIES" :key="index"
-                         :name="ability.label" :label="ability.label | capitalize"
-                         v-model="monster.abilities[index].score"
-                         :min="1" :max="30" :step="1"/>
+        <ul>
+          <li v-for="(ability, index) in ABILITIES" :key="index">
+            <builder-numeric :name="ability.label" :label="ability.label | capitalize"
+                             v-model="monster.abilities[index].score"
+                             :min="1" :max="30" :step="1"/>
+          </li>
+        </ul>
       </fieldset>
 
 
@@ -43,6 +46,9 @@
 
         <builder-numeric name="speed-burrow" v-model="monster.speed.burrow" label="Burrow" :min="0" :step="5"/>
       </fieldset>
+      
+      
+      <builder-checkboxes name="saves" v-model="monster.saves" label="Saving Throw Proficiencies" :options="ABILITIES"/>
     </form>
 </template>
 
@@ -56,10 +62,12 @@ import BuilderLabel from "./form/BuilderLabel";
 import BuilderCheckbox from "./form/BuilderCheckbox";
 import { SET_MONSTER } from "../mutations";
 import BuilderNumeric from "./form/BuilderNumeric";
+import BuilderCheckboxes from "./form/BuilderCheckboxes";
 
 export default {
   name: "Stats",
   components: {
+    BuilderCheckboxes,
     BuilderNumeric,
     BuilderCheckbox,
     BuilderRadio,
