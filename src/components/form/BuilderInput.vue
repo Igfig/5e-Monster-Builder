@@ -1,6 +1,6 @@
 <template>
   <div class="form-control">
-    <builder-label :forInput="inputId" :label="label" :right="labelRight">
+    <builder-label :forInput="inputId" :label="label">
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :id="inputId"
              :type="type" :value="value"
@@ -25,7 +25,6 @@ export default {
     name: { type: String, required: true },
     label: { type: String, required: true },
     type: { type: String, default: "text" },
-    labelRight: { type: Boolean },
     options: { type: [Array, Object] },
     value: { type: [Object, String] }
   },

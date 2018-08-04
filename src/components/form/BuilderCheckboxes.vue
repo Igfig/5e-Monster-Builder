@@ -6,8 +6,7 @@
     <ul>
       <li v-for="option in options">
         <!--FIXME can't get this thing to work. Maybe that's ok though? And we don't need builder-label actually? Hmm-->
-        <!--<builder-checkbox :name="name"
-          :label="option.label" :labelRight="labelRight"
+        <!--<builder-checkbox :name="name" :label="option.label"
           :value="option.id" :checked="shouldBeChecked(option.id)"/>-->
         
         <label>

@@ -1,6 +1,6 @@
 <template>
   <div class="form-control">
-    <builder-label :forInput="inputId" :label="label" :right="labelRight">
+    <builder-label :forInput="inputId" :label="label">
       <!--suppress HtmlFormInputWithoutLabel -->
       <select
               :name="name" :id="inputId"
@@ -24,7 +24,6 @@ export default {
   props: {
     name: { type: String, required: true },
     label: { type: String, required: true },
-    labelRight: { type: Boolean },
     options: { type: [Array, Object] },
     value: { type: [Object, String, Boolean], default: null }
   },

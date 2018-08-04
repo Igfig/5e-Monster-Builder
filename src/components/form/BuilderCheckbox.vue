@@ -1,6 +1,6 @@
 <template>
   <div class="form-control">
-    <builder-label :forInput="inputId" :label="label" :right="labelRight">
+    <builder-label :forInput="inputId" :label="label" :right="true">
 
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :id="inputId" type="checkbox"
@@ -19,9 +19,8 @@ export default {
     name: { type: String, required: true },
     option: { type: String },
     label: { type: String, required: true },
-    labelRight: { type: Boolean },
     checked: Boolean,
-    value: String
+    value: [String, Object]
   },
   model: {
     prop: "checked",

@@ -33,7 +33,6 @@ export default {
     name: { type: String, required: true },
     label: { type: String },
     options: { type: [Array, Object], required: true },
-    labelRight: { type: Boolean },
     customLabel: { type: Function },
     value: { type: [Object, String, Boolean] }
   },
