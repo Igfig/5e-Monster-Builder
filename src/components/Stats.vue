@@ -8,7 +8,7 @@
       </fieldset>
 
       <fieldset class="form-group">
-        <builder-select name="size" v-model="monster.size" label="Size" :options="SIZES"/>
+        <builder-select name="size" v-model="monster.size" label="Size" :options="SIZES"/> <!--FIXME this springs back to Tiny whenever you change it!!-->
         <builder-select name="type" v-model="monster.type" label="Type" :options="TYPES"/>
         <builder-input name="subtype" v-model="monster.subtype" label="Subtype" :options="SUBTYPES"/>
       </fieldset>
