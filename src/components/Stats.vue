@@ -2,12 +2,12 @@
     <form class="stats" @input="setMonster(monster)">
       <!--TODO unify the various input components by means of mixins-->
       <!--FIXME name and v-model are basically duplicates. Have only one or the other. Maybe by means of slot-scope?-->
-      <fieldset class="form-group">
+      <fieldset>
         <builder-input name="name" v-model="monster.name" label="Name"/>
         <builder-checkbox name="isProperName" v-model="monster.isProperName" label="Proper name" labelRight/>
       </fieldset>
 
-      <fieldset class="form-group">
+      <fieldset>
         <builder-select name="size" v-model="monster.size" label="Size" :options="SIZES"/> <!--FIXME this springs back to Tiny whenever you change it!!-->
         <builder-select name="type" v-model="monster.type" label="Type" :options="TYPES"/>
         <builder-input name="subtype" v-model="monster.subtype" label="Subtype" :options="SUBTYPES"/>
@@ -18,18 +18,30 @@
                      v-model="monster.alignment"
                      :options="ALIGNMENTS" />
 
-      <fieldset class="form-group"> <!--TODO make a grid-->
+      <fieldset> <!--TODO make a grid-->
+        <legend>Ability scores</legend>
+        
         <ul>
           <li v-for="(ability, index) in ABILITIES" :key="index">
             <builder-numeric :name="ability.label" :label="ability.label | capitalize"
                              v-model="monster.abilities[index].score"
-                             :min="1" :max="30" :step="1"/>
+                             :min="1" :max="30"/>
           </li>
         </ul>
       </fieldset>
 
-
-      <fieldset class="form-group">
+      <fieldset>
+        <!--TODO better label than "Target hit points"-->
+        <builder-numeric name="hp" label="Target hit points"
+                         v-model="monster.hp"
+                         :min="0"/>
+        <builder-numeric name="hd" label="Hit Dice" label-right
+                         v-model="monster.hd"
+                         :min="0" />
+      </fieldset>
+      
+      
+      <fieldset>
         <builder-numeric name="speed" v-model="monster.speed.land" label="Speed" :min="0" :step="5"/>
         <button class="form-control" @click="resetSpeed">Reset to default</button>
 

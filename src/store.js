@@ -30,8 +30,9 @@ class Monster {
   alignment = ALIGNMENTS.UNALIGNED;
 
   ac = 10;
-  hp = 1;
   hd = 1;
+  hasMaxHp = false;
+  isInjured = false;
 
   proficiency = 2; // TODO make dependent on CR
 
@@ -44,6 +45,25 @@ class Monster {
     swim: undefined,
     burrow: undefined
   };
+
+  hpPerHd = () => {
+    const hpMultiplier = this.isInjured ? 0.5 : 1;
+
+    if (this.hasMaxHp) {
+      return (this.size.hd + this.abilities.CON.bonus) * hpMultiplier;
+    }
+
+    return ((this.size.hd + 1) / 2 + this.abilities.CON.bonus) * hpMultiplier;
+  };
+
+  set hp(value) {
+    this.hd = 100;
+    this.hd = Math.round(value / this.hpPerHd());
+  }
+
+  get hp() {
+    return Math.floor(this.hd * this.hpPerHd());
+  }
 }
 
 export default new Vuex.Store({
