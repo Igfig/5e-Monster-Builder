@@ -1,6 +1,6 @@
 <template>
   <div class="form-control">
-    <builder-label :forInput="inputId" :label="label">
+    <builder-label :forInput="inputId" :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :id="inputId"
              type="number" :value="value"
@@ -18,10 +18,11 @@ export default {
   props: {
     name: { type: String, required: true },
     label: { type: String, required: true },
-    value: { type: [Object, String, Boolean, Number] },
+    labelRight: Boolean,
+    value: { type: Number },
     min: Number,
     max: Number,
-    step: Number
+    step: { type: Number, default: 1 }
   },
   computed: {
     inputId() {
