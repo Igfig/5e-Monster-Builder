@@ -6,6 +6,7 @@ import { SET_MONSTER } from "./mutations";
 
 Vue.use(Vuex);
 
+// TODO move this class maybe
 class AbilityScore {
   constructor(name, score = 10) {
     this.name = name; // XXX not sure we really need this... it's nice for reading, but it could be a problem if we ever want to, say, swap two scores.
@@ -20,29 +21,34 @@ class AbilityScore {
   // valueOf = () => this.score; // XXX this might be nice but it's also a bit dangerous
 }
 
+class Monster {
+  name = "";
+  isProperName = false;
+
+  size = SIZES.MEDIUM;
+  type = TYPES.HUMANOID;
+  alignment = ALIGNMENTS.UNALIGNED;
+
+  ac = 10;
+  hp = 1;
+  hd = 1;
+
+  proficiency = 2; // TODO make dependent on CR
+
+  abilities = _.mapValues(ABILITIES, ability => new AbilityScore(ability.label));
+  saves = [];
+
+  speed = {
+    land: SIZES.MEDIUM.speed, // TODO this should actually be empty by default, and return the default speed for the current size unless it's set
+    fly: undefined,
+    swim: undefined,
+    burrow: undefined
+  };
+}
+
 export default new Vuex.Store({
   state: {
-    monster: {
-      name: "",
-      isProperName: false,
-
-      size: SIZES.MEDIUM,
-      type: TYPES.HUMANOID,
-      alignment: ALIGNMENTS.UNALIGNED,
-
-      ac: 10,
-      hp: 1, // TODO maybe make this a getter/setter that actually updates the hd instead
-      hd: 1,
-
-      proficiency: 2, // TODO make dependent on CR
-
-      abilities: _.mapValues(ABILITIES, ability => new AbilityScore(ability.label)),
-      saves: [],
-
-      speed: {
-        land: SIZES.MEDIUM.speed // TODO this should actually be empty by default, and return the default speed for the current size unless it's set
-      }
-    }
+    monster: new Monster()
   },
   getters: {},
   mutations: {
