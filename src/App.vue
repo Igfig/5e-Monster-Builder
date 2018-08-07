@@ -79,15 +79,21 @@ fieldset {
 input[type="radio"] {
   display: none;
 
+  $base-colour: black;
+  $selected-colour: crimson;
+
   + label {
     box-sizing: border-box;
     margin: 1px;
     padding: 5px;
-    background-color: lightgrey;
+    border: 1px solid $base-colour;
+    //background-color: $base-colour;
+    color: $base-colour;
     text-align: center;
   }
   &[selected] + label {
-    background-color: crimson;
+    border: 1px solid $selected-colour;
+    background-color: $selected-colour;
     color: white;
   }
 }
