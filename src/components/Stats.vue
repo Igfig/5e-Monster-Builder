@@ -47,7 +47,7 @@
         <br>
 
         <builder-numeric name="speed-fly" v-model="monster.speed.fly" label="Fly" :min="0" :step="5"/>
-        <builder-checkbox name="canHover" v-model="monster.speed.canHover" label="Hover"/>
+        <builder-checkbox name="canHover" v-model="monster.canHover" label="Hover"/>
 
         <br>
 

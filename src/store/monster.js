@@ -41,6 +41,7 @@ export class Monster {
     swim: undefined,
     burrow: undefined
   };
+  canHover = false;
 
   hpPerHd = () => {
     const hpMultiplier = this.isInjured ? 0.5 : 1;
