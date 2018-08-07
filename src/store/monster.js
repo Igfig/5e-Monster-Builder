@@ -1,12 +1,8 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { ABILITIES, ALIGNMENTS, SIZES, TYPES } from "../constants";
 import _ from "lodash";
-import { SIZES, TYPES, ALIGNMENTS, ABILITIES } from "./constants";
-import { SET_MONSTER } from "./mutations";
 
-Vue.use(Vuex);
+// XXX still not sure this is good organization
 
-// TODO move this class maybe
 class AbilityScore {
   constructor(name, score = 10) {
     this.name = name; // XXX not sure we really need this... it's nice for reading, but it could be a problem if we ever want to, say, swap two scores.
@@ -21,7 +17,7 @@ class AbilityScore {
   // valueOf = () => this.score; // XXX this might be nice but it's also a bit dangerous
 }
 
-class Monster {
+export class Monster {
   name = "";
   isProperName = false;
 
@@ -57,7 +53,6 @@ class Monster {
   };
 
   set hp(value) {
-    this.hd = 100;
     this.hd = Math.round(value / this.hpPerHd());
   }
 
@@ -65,16 +60,3 @@ class Monster {
     return Math.floor(this.hd * this.hpPerHd());
   }
 }
-
-export default new Vuex.Store({
-  state: {
-    monster: new Monster()
-  },
-  getters: {},
-  mutations: {
-    [SET_MONSTER](state, value) {
-      state.monster = value;
-    }
-  },
-  actions: {}
-});
