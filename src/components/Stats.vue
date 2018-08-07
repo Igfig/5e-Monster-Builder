@@ -33,9 +33,9 @@
       <fieldset>
         <!--TODO better label than "Target hit points"-->
         <builder-numeric name="hp" label="Target hit points"
-                         v-model="monster.hpTarget" :min="0" />
+                         v-model="monster.hpTarget" :min="1" />
         <builder-numeric name="hd" label="Hit Dice" label-right
-                         v-model="monster.hd" :min="0" />
+                         v-model="monster.hd" :min="1" />
         <div>Actual hit points: <output>{{monster.hp}}</output></div>
       </fieldset>
       

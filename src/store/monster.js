@@ -44,19 +44,15 @@ export class Monster {
 
   hpPerHd = () => {
     const hpMultiplier = this.isInjured ? 0.5 : 1;
-
-    if (this.hasMaxHp) {
-      return (this.size.hd + this.abilities.CON.bonus) * hpMultiplier;
-    }
-
-    return ((this.size.hd + 1) / 2 + this.abilities.CON.bonus) * hpMultiplier;
+    const baseHpPerHd = this.hasMaxHp ? this.size.hd : (this.size.hd + 1) / 2;
+    return Math.max(1, baseHpPerHd + this.abilities.CON.bonus) * hpMultiplier;
   };
 
   set hpTarget(value) {
-    this.hd = Math.round(value / this.hpPerHd());
+    this.hd = Math.max(1, Math.round(value / this.hpPerHd()));
   }
 
   get hp() {
-    return Math.floor(this.hd * this.hpPerHd());
+    return Math.max(1, Math.floor(this.hd * this.hpPerHd()));
   }
 }
