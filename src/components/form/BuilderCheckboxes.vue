@@ -21,16 +21,12 @@
 </template>
 <script>
 import BuilderCheckbox from "./BuilderCheckbox";
+import { control, options } from "./mixins";
 
 export default {
   name: "BuilderCheckboxes",
+  mixins: [control(Array), options(true)],
   components: { BuilderCheckbox },
-  props: {
-    name: { type: String, required: true },
-    label: String,
-    options: [Array, Object],
-    value: Array
-  },
   model: {
     prop: "checkedVals",
     event: "change"

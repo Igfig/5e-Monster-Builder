@@ -18,15 +18,11 @@
 import { component as Fragment } from "vue-fragments";
 import { get } from "../../util";
 import BuilderLabel from "./BuilderLabel";
+import { control, options } from "./mixins";
 
 export default {
   name: "BuilderSelect",
-  props: {
-    name: { type: String, required: true },
-    label: { type: String, required: true },
-    options: { type: [Array, Object] },
-    value: { type: [Object, String, Boolean], default: null }
-  },
+  mixins: [control([Object, String, Boolean]), options(true)],
   components: { BuilderLabel, Fragment },
   methods: {
     get

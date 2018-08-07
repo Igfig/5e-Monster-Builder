@@ -18,15 +18,14 @@
 import { component as Fragment } from "vue-fragments";
 import { get } from "../../util";
 import BuilderLabel from "./BuilderLabel";
+import { control, options } from "./mixins";
 
 export default {
   name: "BuilderInput",
+  mixins: [control([Object, String]), options()],
+  components: { BuilderLabel, Fragment },
   props: {
-    name: { type: String, required: true },
-    label: { type: String, required: true },
-    type: { type: String, default: "text" },
-    options: { type: [Array, Object] },
-    value: { type: [Object, String] }
+    type: { type: String, default: "text" }
   },
   computed: {
     inputId() {
@@ -34,7 +33,6 @@ export default {
       return this.name;
     }
   },
-  components: { BuilderLabel, Fragment },
   methods: {
     get,
     onInput(event) {

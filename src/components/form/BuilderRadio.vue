@@ -24,19 +24,17 @@
 </template>
 
 <script>
-import BuilderLabel from "./BuilderLabel";
 import { get } from "../../util";
+import BuilderLabel from "./BuilderLabel";
+import { control, options } from "./mixins";
 
 export default {
   name: "BuilderRadio",
-  props: {
-    name: { type: String, required: true },
-    label: { type: String },
-    options: { type: [Array, Object], required: true },
-    customLabel: { type: Function },
-    value: { type: [Object, String, Boolean] }
-  },
+  mixins: [control([Object, String, Boolean]), options(true)],
   components: { BuilderLabel },
+  props: {
+    customLabel: { type: Function }
+  },
   computed: {
     className() {
       return this.name; // TODO namespace?

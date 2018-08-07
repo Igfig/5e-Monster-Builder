@@ -1,6 +1,5 @@
 <template>
     <form class="stats" @input="setMonster(monster)">
-      <!--TODO unify the various input components by means of mixins-->
       <!--FIXME name and v-model are basically duplicates. Have only one or the other. Maybe by means of slot-scope?-->
       <fieldset>
         <builder-input name="name" v-model="monster.name" label="Name"/>

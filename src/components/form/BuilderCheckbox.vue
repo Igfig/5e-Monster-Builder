@@ -12,15 +12,14 @@
 
 <script>
 import BuilderLabel from "./BuilderLabel";
+import { control } from "./mixins";
 
 export default {
   name: "BuilderCheckbox",
+  mixins: [control([String, Object])],
+  components: { BuilderLabel },
   props: {
-    name: { type: String, required: true },
-    option: { type: String },
-    label: { type: String, required: true },
-    checked: Boolean,
-    value: [String, Object]
+    checked: Boolean
   },
   model: {
     prop: "checked",
@@ -31,7 +30,6 @@ export default {
       return this.name + (this.value ? "-" + this.value : "");
     }
   },
-  components: { BuilderLabel },
   methods: {
     onChange(event) {
       this.$emit("change", event.target.checked);

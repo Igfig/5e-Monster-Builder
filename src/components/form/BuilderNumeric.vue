@@ -12,14 +12,13 @@
 
 <script>
 import BuilderLabel from "./BuilderLabel";
+import { control } from "./mixins";
 
 export default {
   name: "BuilderNumeric",
+  mixins: [control(Number)],
+  components: { BuilderLabel },
   props: {
-    name: { type: String, required: true },
-    label: { type: String, required: true },
-    labelRight: Boolean,
-    value: { type: Number },
     min: Number,
     max: Number,
     step: Number
@@ -30,7 +29,6 @@ export default {
       return this.name;
     }
   },
-  components: { BuilderLabel },
   methods: {
     onInput(event) {
       this.$emit("input", parseInt(event.target.value));
