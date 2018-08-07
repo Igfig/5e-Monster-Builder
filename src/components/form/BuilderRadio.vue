@@ -16,8 +16,6 @@
                 @input="onInput(option)"
             /> <!--TODO find a way to work with the built-in :checked selector-->
           </builder-label>
-          <!--:pick="value"
-                @input="onInput"-->
         </li>
       </ul>
     </fieldset>
@@ -41,7 +39,6 @@ export default {
     }
   },
   methods: {
-    //foo: v => console.log("f", this.val),
     onInput(value) {
       // this method has to be in function notation, not lambda. Lambdas break it.
       this.$emit("input", value);
