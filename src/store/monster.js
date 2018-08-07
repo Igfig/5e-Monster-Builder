@@ -52,7 +52,7 @@ export class Monster {
     return ((this.size.hd + 1) / 2 + this.abilities.CON.bonus) * hpMultiplier;
   };
 
-  set hp(value) {
+  set hpTarget(value) {
     this.hd = Math.round(value / this.hpPerHd());
   }
 

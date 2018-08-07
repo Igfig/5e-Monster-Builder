@@ -25,7 +25,7 @@
           <li v-for="(ability, index) in ABILITIES" :key="index">
             <builder-numeric :name="ability.label" :label="ability.label | capitalize"
                              v-model="monster.abilities[index].score"
-                             :min="1" :max="30"/>
+                             :min="1" :max="30" />
           </li>
         </ul>
       </fieldset>
@@ -33,11 +33,10 @@
       <fieldset>
         <!--TODO better label than "Target hit points"-->
         <builder-numeric name="hp" label="Target hit points"
-                         v-model="monster.hp"
-                         :min="0"/>
+                         v-model="monster.hpTarget" :min="0" />
         <builder-numeric name="hd" label="Hit Dice" label-right
-                         v-model="monster.hd"
-                         :min="0" />
+                         v-model="monster.hd" :min="0" />
+        <div>Actual hit points: <output>{{monster.hp}}</output></div>
       </fieldset>
       
       
@@ -71,10 +70,10 @@ import BuilderInput from "./form/BuilderInput";
 import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
 import BuilderLabel from "./form/BuilderLabel";
-import BuilderCheckbox from "./form/BuilderCheckbox";
-import { SET_MONSTER } from "../mutations";
 import BuilderNumeric from "./form/BuilderNumeric";
+import BuilderCheckbox from "./form/BuilderCheckbox";
 import BuilderCheckboxes from "./form/BuilderCheckboxes";
+import { SET_MONSTER } from "../store/mutations";
 
 export default {
   name: "Stats",
@@ -98,10 +97,10 @@ export default {
   },
   computed: mapState(["monster"]),
   methods: {
+    ...mapMutations({ setMonster: SET_MONSTER }),
     resetSpeed: () => {
       console.log("reset speed"); // TODO
-    },
-    ...mapMutations({ setMonster: SET_MONSTER })
+    }
   }
 };
 </script>
@@ -112,7 +111,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 2px;
-    width: 6em;
+    width: 7em; // XXX arbitrary
 
     // first 9 alignment buttons are in a grid, later ones are full-width
   }
