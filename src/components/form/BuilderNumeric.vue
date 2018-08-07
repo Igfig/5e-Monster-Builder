@@ -22,7 +22,7 @@ export default {
     value: { type: Number },
     min: Number,
     max: Number,
-    step: { type: Number, default: 1 }
+    step: Number
   },
   computed: {
     inputId() {
@@ -33,7 +33,7 @@ export default {
   components: { BuilderLabel },
   methods: {
     onInput(event) {
-      this.$emit("input", event.target.value);
+      this.$emit("input", parseInt(event.target.value));
     }
   }
 };
