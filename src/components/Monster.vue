@@ -58,6 +58,11 @@
             <!--TODO comma separate-->
           </dd>
         </div>
+        
+        <div>
+          <dt>Challenge</dt>
+          <dd>{{monster.cr}}</dd>
+        </div>
       </dl>
       
 		</figure>

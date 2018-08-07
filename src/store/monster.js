@@ -1,4 +1,4 @@
-import { ABILITIES, ALIGNMENTS, SIZES, TYPES } from "../constants";
+import { ABILITIES, ALIGNMENTS, SIZES, TIER_THRESHOLDS, TYPES } from "../constants";
 import _ from "lodash";
 
 // XXX still not sure this is good organization
@@ -25,12 +25,29 @@ export class Monster {
   type = TYPES.HUMANOID;
   alignment = ALIGNMENTS.UNALIGNED;
 
+  cr = 0; // TODO calculate
+  get tier() {
+    return _.sortedIndex(TIER_THRESHOLDS, this.cr);
+  }
+  get proficiency() {
+    return Math.max(2, Math.ceil(this.cr / 4) + 1);
+  }
+
   ac = 10;
   hd = 1;
   hasMaxHp = false;
   isInjured = false;
-
-  proficiency = 2; // TODO make dependent on CR
+  hpPerHd = () => {
+    const hpMultiplier = this.isInjured ? 0.5 : 1;
+    const baseHpPerHd = this.hasMaxHp ? this.size.hd : (this.size.hd + 1) / 2;
+    return Math.max(1, baseHpPerHd + this.abilities.CON.bonus) * hpMultiplier;
+  };
+  set hpTarget(value) {
+    this.hd = Math.max(1, Math.round(value / this.hpPerHd()));
+  }
+  get hp() {
+    return Math.max(1, Math.floor(this.hd * this.hpPerHd()));
+  }
 
   abilities = _.mapValues(ABILITIES, ability => new AbilityScore(ability.label));
   saves = [];
@@ -42,18 +59,4 @@ export class Monster {
     burrow: undefined
   };
   canHover = false;
-
-  hpPerHd = () => {
-    const hpMultiplier = this.isInjured ? 0.5 : 1;
-    const baseHpPerHd = this.hasMaxHp ? this.size.hd : (this.size.hd + 1) / 2;
-    return Math.max(1, baseHpPerHd + this.abilities.CON.bonus) * hpMultiplier;
-  };
-
-  set hpTarget(value) {
-    this.hd = Math.max(1, Math.round(value / this.hpPerHd()));
-  }
-
-  get hp() {
-    return Math.max(1, Math.floor(this.hd * this.hpPerHd()));
-  }
 }

@@ -3,6 +3,8 @@ import _ from "lodash";
 import { TIER_THRESHOLDS } from "../constants";
 import { callIfFunction } from "./misc";
 
+//FIXME these no longer work as intended, and are probably redundant. Just use the monster's CR/tier, and _.sortedIndex()
+
 /**
  * TODO docs
  *
