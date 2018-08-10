@@ -27,7 +27,8 @@
 
         <div>
           <dt>Speed</dt>
-          <dd>{{monster.speed.land}} ft.<span v-if="monster.speed.fly">, fly {{monster.speed.fly}} ft. <span v-if="monster.canHover">(hover)</span>
+          <dd>{{monster.speed.land}} ft.<span v-if="monster.speed.fly">,
+            fly {{monster.speed.fly}} ft. <span v-if="monster.canHover">(hover)</span>
           </span><span v-if="monster.speed.swim">, swim {{monster.speed.swim}} ft.
           </span><span v-if="monster.speed.burrow">, burrow {{monster.speed.burrow}} ft.</span>
           </dd>
@@ -51,9 +52,9 @@
         <div v-if="monster.saves.length > 0">
           <dt>Saving Throws</dt>
           <dd>
-            <span v-for="ability in ABILITIES" v-if="monster.saves.includes(ability.id)">
+            <span v-for="(ability, index) in ABILITIES" v-if="monster.saves.includes(ability.id)">
               {{ability.text | capitalize}}
-              {{formatBonus(monster.abilities[ability.id].bonus + monster.proficiency)}}
+              {{formatBonus(monster.abilities[ability.id].bonus + monster.proficiency)}}<span class="list-separator">,</span>
             </span>
             <!--TODO comma separate-->
           </dd>
@@ -119,5 +120,9 @@ export default {
       grid-row: 2;
     }
   }
+}
+
+:last-child > .list-separator {
+  display: none;
 }
 </style>
