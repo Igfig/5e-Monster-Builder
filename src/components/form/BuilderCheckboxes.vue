@@ -3,30 +3,35 @@
 <template>
   <fieldset @change="onChange">
     <legend v-if="!!label">{{label}}</legend>
-    <ul>
-      <li v-for="option in options">
+    <ul class="checkboxes">
+      <li class="form-control" v-for="option in options">
         <!--FIXME can't get this thing to work. Maybe that's ok though? And we don't need builder-label actually? Hmm-->
         <!--<builder-checkbox :name="name" :label="option.label"
           :value="option.id" :checked="shouldBeChecked(option.id)"/>-->
-        
-        <label>
-          <input :name="name" type="checkbox"
-            :value="option.id" :checked="shouldBeChecked(option.id)"/>
+  
+        <builder-label
+          :forInput="getId(option)"
+          :label="option.label | capitalize">
           
-          {{option.label | capitalize}}
-        </label>
+          <input :name="name" type="checkbox"
+            :id="getId(option)"
+            :value="option.id"
+            :checked="shouldBeChecked(option.id)"
+            :selected="shouldBeChecked(option.id)"/>
+        </builder-label>
       </li>
     </ul>
   </fieldset>
 </template>
 <script>
 import BuilderCheckbox from "./BuilderCheckbox";
+import BuilderLabel from "./BuilderLabel";
 import { control, options } from "./mixins";
 
 export default {
   name: "BuilderCheckboxes",
   mixins: [control(Array), options(true)],
-  components: { BuilderCheckbox },
+  components: { BuilderCheckbox, BuilderLabel },
   model: {
     prop: "checkedVals",
     event: "change"
@@ -53,6 +58,9 @@ export default {
     },
     shouldBeChecked(key) {
       return this.checkedVals.includes(key);
+    },
+    getId(option) {
+      return this.name + "-" + option.id;
     }
   },
   data() {
@@ -60,3 +68,18 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.checkboxes {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  > .form-control {
+    margin: 0;
+  }
+
+  label {
+    width: 100%;
+  }
+}
+</style>
