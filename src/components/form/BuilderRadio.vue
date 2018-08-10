@@ -43,8 +43,9 @@ export default {
       // this method has to be in function notation, not lambda. Lambdas break it.
       this.$emit("input", value);
     },
-    get, // can I put this in methods instead?
+    get,
     getId(option) {
+      // XXX should this naybe be computed instead? So it'll recalculate less often
       return this.name + "-" + this.get(option).toLowerCase();
     },
     getLabel(option) {

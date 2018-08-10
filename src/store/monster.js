@@ -49,6 +49,7 @@ export class Monster {
     return Math.max(1, Math.floor(this.hd * this.hpPerHd()));
   }
 
+  // FIXME updating Con when we have an hp target doesn't change our number of HD
   abilities = _.mapValues(ABILITIES, ability => new AbilityScore(ability.label));
   saves = [];
 
