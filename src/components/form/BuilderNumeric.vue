@@ -39,6 +39,7 @@ export default {
 
 <style lang="scss">
 input[type="number"] {
-  width: 3em; // XXX extremely arbitrary
+  width: 2.3em; // XXX pretty arbitrary
+  padding-right: 0;
 }
 </style>

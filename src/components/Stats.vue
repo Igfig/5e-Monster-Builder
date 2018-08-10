@@ -17,7 +17,7 @@
                      v-model="monster.alignment"
                      :options="ALIGNMENTS" />
 
-      <fieldset> <!--TODO make a grid-->
+      <fieldset class="abilities"> <!--TODO make a grid-->
         <legend>Ability scores</legend>
         
         <ul>
@@ -25,7 +25,8 @@
             <builder-numeric :name="ability.label" :label="ability.label | capitalize"
                              v-model="monster.abilities[index].score"
                              :min="1" :max="30" />
-          </li>
+            <output>{{formatBonus(monster.abilities[index].bonus)}}</output>
+          </li> <!--FIXME updating Con when we have an hp target doesn't change our number of HD -->
         </ul>
       </fieldset>
 
@@ -36,25 +37,24 @@
         <builder-numeric name="hd" label="Hit Dice" label-right
                          v-model="monster.hd" :min="1" />
         <div>Actual hit points: <output>{{monster.hp}}</output></div>
+        <!--TODO grey out (or empty?) whichever input isn't taking the lead right now-->
+        <!--TODO if both inputs are empty, actual hp is calculated as NaN-->
       </fieldset>
       
       
       <fieldset>
-        <builder-numeric name="speed" v-model="monster.speed.land" label="Speed" :min="0" :step="5"/>
-        <button class="form-control" @click="resetSpeed">Reset to default</button>
-
-        <br>
-
-        <builder-numeric name="speed-fly" v-model="monster.speed.fly" label="Fly" :min="0" :step="5"/>
-        <builder-checkbox name="canHover" v-model="monster.canHover" label="Hover"/>
-
-        <br>
-
-        <builder-numeric name="speed-swim" v-model="monster.speed.swim" label="Swim" :min="0" :step="5"/>
-
-        <br>
-
-        <builder-numeric name="speed-burrow" v-model="monster.speed.burrow" label="Burrow" :min="0" :step="5"/>
+        <legend>Speed</legend>
+        <div class="speed">
+          <builder-numeric name="speed" v-model="monster.speed.land" label="Land speed" :min="0" :step="5"/>
+          <button class="form-control" @click="resetSpeed">Reset to default</button>
+          
+          <builder-numeric name="speed-fly" v-model="monster.speed.fly" label="Fly" :min="0" :step="5"/>
+          <builder-checkbox name="canHover" v-model="monster.canHover" label="Hover" class="left"/>
+  
+          <builder-numeric name="speed-swim" v-model="monster.speed.swim" label="Swim" :min="0" :step="5"/>
+  
+          <builder-numeric name="speed-burrow" v-model="monster.speed.burrow" label="Burrow" :min="0" :step="5" :style="{gridColumn: 1}"/>
+        </div>
       </fieldset>
       
       
@@ -73,6 +73,7 @@ import BuilderNumeric from "./form/BuilderNumeric";
 import BuilderCheckbox from "./form/BuilderCheckbox";
 import BuilderCheckboxes from "./form/BuilderCheckboxes";
 import { SET_MONSTER } from "../store/mutations";
+import { formatBonus } from "../util";
 
 export default {
   name: "Stats",
@@ -96,6 +97,7 @@ export default {
   },
   computed: mapState(["monster"]),
   methods: {
+    formatBonus,
     ...mapMutations({ setMonster: SET_MONSTER }),
     resetSpeed: () => {
       console.log("reset speed"); // TODO
@@ -107,10 +109,10 @@ export default {
 <style lang="scss">
 .stats .alignment {
   ul {
-    display: grid;
+    display: inline-grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 2px;
-    width: 7em; // XXX arbitrary
+    //width: 7em; // XXX arbitrary
 
     // first 9 alignment buttons are in a grid, later ones are full-width
   }
@@ -134,6 +136,44 @@ export default {
         flex: 1 1 30%;
       }
     }
+  }
+}
+.stats .abilities {
+  ul {
+    display: inline-grid;
+    grid-template-columns: repeat(3, auto);
+    text-align: right;
+    grid-gap: 5px 10px;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 1fr 1.7em;
+    align-items: baseline;
+    justify-content: end;
+  }
+  .form-control {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    margin-right: 5px;
+  }
+  input {
+    width: 2.3em;
+    flex: 0 0 0;
+  }
+  output {
+    width: 1.7em;
+    text-align: left;
+  }
+}
+.stats .speed {
+  display: inline-grid;
+  grid-template-columns: repeat(2, auto);
+  grid-gap: 5px;
+  justify-items: right;
+
+  .left {
+    justify-self: left;
   }
 }
 </style>

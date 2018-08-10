@@ -19,6 +19,7 @@ export default {
 
 <style lang="scss">
 $base-font-size: 16px;
+$input-font-size: 0.9rem; //14px;
 $line-height: 1.2;
 
 * {
@@ -63,6 +64,13 @@ li {
 }
 
 input,
+output,
+button,
+select {
+  font-size: $input-font-size;
+}
+
+input,
 button {
   padding: 2px 4px;
 }
@@ -75,8 +83,13 @@ fieldset {
   margin: 0 0 1em;
   border: none;
 }
+legend {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 
-input[type="radio"] {
+input[type="radio"],
+input[type="checkbox"] {
   display: none;
 
   $base-colour: black;
@@ -85,13 +98,19 @@ input[type="radio"] {
   + label {
     box-sizing: border-box;
     margin: 1px;
-    padding: 5px;
+    padding: 2px 4px;
     border: 1px solid $base-colour;
     //background-color: $base-colour;
     color: $base-colour;
     text-align: center;
+    font-size: $input-font-size;
+
+    ul & {
+      padding: 5px;
+    }
   }
-  &[selected] + label {
+  &[selected] + label,
+  &[checked] + label {
     border: 1px solid $selected-colour;
     background-color: $selected-colour;
     color: white;
@@ -103,6 +122,8 @@ input[type="radio"] {
   flex-flow: row nowrap;
   align-items: center;
   vertical-align: text-bottom;
+}
+fieldset > .form-control {
   margin: 5px 10px 5px 0;
 }
 </style>
