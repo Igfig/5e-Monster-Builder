@@ -13,11 +13,12 @@
 <script>
 import { mapState } from "vuex";
 import Statblock from "./Statblock";
+import { MONSTER } from "../store/keys";
 
 export default {
   name: "Monster",
   components: { Statblock },
-  computed: mapState(["monster"])
+  computed: mapState([MONSTER])
 };
 </script>
 

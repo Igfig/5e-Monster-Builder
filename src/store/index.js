@@ -2,12 +2,13 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { SET_MONSTER } from "./mutations";
 import { Monster } from "./monster";
+import { MONSTER } from "./keys";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    monster: new Monster()
+    [MONSTER]: new Monster()
   },
   getters: {},
   mutations: {
