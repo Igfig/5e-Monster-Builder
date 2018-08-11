@@ -1,5 +1,5 @@
 <template>
-  <div class="form-control">
+  <control-info :info="info">
     <builder-label :forInput="inputId" :label="label">
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :id="inputId"
@@ -11,7 +11,7 @@
         <!--Also TODO allow multiselect. There's a neat component out there called v-multiselect that might be appropriate-->
       </datalist>
     </builder-label>
-  </div>
+  </control-info>
 </template>
 
 <script>
@@ -19,11 +19,12 @@ import { component as Fragment } from "vue-fragments";
 import { get } from "../../util";
 import BuilderLabel from "./BuilderLabel";
 import { control, options } from "./mixins";
+import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderInput",
   mixins: [control([Object, String]), options()],
-  components: { BuilderLabel, Fragment },
+  components: { ControlInfo, BuilderLabel, Fragment },
   props: {
     type: { type: String, default: "text" }
   },

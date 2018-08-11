@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { SET_MONSTER } from "./mutations";
+import { SET_CURRENT_INFO, SET_MONSTER } from "./mutations";
 import { Monster } from "./monster";
 import { CURRENT_INFO, MONSTER } from "./keys";
 
@@ -15,6 +15,9 @@ export default new Vuex.Store({
   mutations: {
     [SET_MONSTER](state, value) {
       state.monster = value;
+    },
+    [SET_CURRENT_INFO](state, value) {
+      state.currentInfo = value;
     }
   },
   actions: {}

@@ -18,13 +18,16 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { Tab, Tabs } from "vue-tabs-component";
+import { CURRENT_INFO } from "../store/keys";
 import Monster from "./Monster";
 import Stats from "./Stats";
 
 export default {
   name: "builder",
   components: { Stats, Monster, Tabs, Tab },
+  computed: mapState([CURRENT_INFO]),
   data() {
     return {
       msg: "Welcome to Your Vue.js PWA"
@@ -50,6 +53,7 @@ $spacing: 30px;
   > .tabs-component-tabs {
     display: flex;
     position: relative;
+    overflow-y: hidden;
     z-index: 10;
     line-height: 1;
 
@@ -70,6 +74,7 @@ $spacing: 30px;
   }
 
   > .tabs-component-panels {
+    overflow-y: auto;
     margin-top: -1px;
     padding: 20px;
     border: 1px solid black;

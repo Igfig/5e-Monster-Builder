@@ -1,5 +1,5 @@
 <template>
-  <div class="form-control">
+  <control-info :info="info">
     <builder-label :forInput="inputId" :label="label" :right="true">
 
       <!--suppress HtmlFormInputWithoutLabel -->
@@ -7,17 +7,18 @@
              :checked="checked" :selected="checked"
              @change="onChange"/> <!--XXX :selected is there since vue doesn't really work with the built-in checked property-->
     </builder-label>
-  </div>
+  </control-info>
 </template>
 
 <script>
-import BuilderLabel from "./BuilderLabel";
 import { control } from "./mixins";
+import BuilderLabel from "./BuilderLabel";
+import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderCheckbox",
   mixins: [control([String, Object])],
-  components: { BuilderLabel },
+  components: { ControlInfo, BuilderLabel },
   props: {
     checked: Boolean
   },

@@ -3,6 +3,7 @@ export const control = value => ({
     name: { type: String, required: true },
     label: { type: String, required: true },
     labelRight: Boolean,
+    info: { type: String, default: "" },
     value
   }
 });

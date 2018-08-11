@@ -12,12 +12,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { CURRENT_INFO } from "./store/keys";
-
 export default {
-  name: "app",
-  computed: mapState([CURRENT_INFO])
+  name: "app"
 };
 </script>
 
@@ -51,6 +47,7 @@ dl {
 #app {
   display: grid;
   grid-template-rows: auto 1fr;
+  grid-gap: 40px;
   height: 100%;
   font-family: "Estrangelo Edessa", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -59,8 +56,8 @@ dl {
 }
 
 main {
+  height: 100%;
   text-align: left;
-  margin-top: 40px;
 }
 
 li {
