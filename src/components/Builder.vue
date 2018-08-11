@@ -13,7 +13,7 @@
       <monster/>
     </figure>
   
-    <aside class="info"><h3>Info</h3></aside>
+    <aside class="info"><h3>Info</h3> {{currentInfo}}</aside>
   </main>
 </template>
 

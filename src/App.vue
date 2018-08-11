@@ -12,8 +12,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { CURRENT_INFO } from "./store/keys";
+
 export default {
-  name: "app"
+  name: "app",
+  computed: mapState([CURRENT_INFO])
 };
 </script>
 
