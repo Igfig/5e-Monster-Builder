@@ -2,8 +2,7 @@
   <div class="form-control">
     <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
-      <input :name="name" :id="inputId"
-             type="number" :value="value"
+      <input :name="name" type="number" :value="value"
              :min="min" :max="max" :step="step"
              @input="onInput"/>
     </builder-label>

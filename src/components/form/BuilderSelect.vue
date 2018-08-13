@@ -2,9 +2,7 @@
   <div class="form-control">
     <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
-      <select
-              :name="name" :id="inputId"
-              :value="get(value)" @input="selected">
+      <select :name="name" :value="get(value)" @input="selected">
         <option v-for="option in options"
                 :value="get(option)"
                 :selected="value === get(option)">{{get(option, "label")}}</option>

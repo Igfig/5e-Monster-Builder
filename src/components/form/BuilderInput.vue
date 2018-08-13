@@ -2,8 +2,7 @@
   <control-info :info="info">
     <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
-      <input :name="name" :id="inputId"
-             :type="type" :value="value"
+      <input :name="name" :type="type" :value="value"
              :list="datalistId" @input="onInput"/>
 
       <datalist v-if="!!datalistId" :id="datalistId">
