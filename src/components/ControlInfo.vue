@@ -1,5 +1,7 @@
 <template>
-  <div class="form-control" @click="setCurrentInfo(info)">
+  <div class="form-control" tabindex="0" @focus="setCurrentInfo(info)">
+    <!--XXX not sure about the tab index being 0... it would be nice if we could generate a good order somehow-->
+    <!--FIXME the info doesn't appear correctly if you click on a focusable element in the -->
     <slot/>
   </div>
 </template>
