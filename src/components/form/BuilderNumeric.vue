@@ -1,6 +1,6 @@
 <template>
   <div class="form-control">
-    <builder-label :forInput="inputId" :label="label" :right="labelRight">
+    <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :id="inputId"
              type="number" :value="value"
@@ -22,12 +22,6 @@ export default {
     min: Number,
     max: Number,
     step: Number
-  },
-  computed: {
-    inputId() {
-      // TODO should really get namespaced somehow. Or at least add a hash?
-      return this.name;
-    }
   },
   methods: {
     onInput(event) {

@@ -1,8 +1,12 @@
 <template>
-  <fragment>
+  <fragment v-if="forInput">
     <slot/>
     <label :class="className" :for="forInput">{{ label }}</label>
   </fragment>
+  <label v-else>
+    <span :class="className">{{ label }}</span>
+    <slot />
+  </label>
 </template>
 
 <script>
@@ -12,8 +16,8 @@ export default {
   name: "BuilderLabel",
   components: { Fragment },
   props: {
-    forInput: { type: String },
-    label: { type: String },
+    forInput: { type: String }, // TODO perhaps we should just take a boolean or a name, and generate the id ourselves
+    label: { type: String, required: true },
     right: { type: Boolean }
   },
   data() {

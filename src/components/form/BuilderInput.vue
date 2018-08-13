@@ -1,6 +1,6 @@
 <template>
   <control-info :info="info">
-    <builder-label :forInput="inputId" :label="label">
+    <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :id="inputId"
              :type="type" :value="value"
@@ -27,12 +27,6 @@ export default {
   components: { ControlInfo, BuilderLabel, Fragment },
   props: {
     type: { type: String, default: "text" }
-  },
-  computed: {
-    inputId() {
-      // TODO should really get namespaced somehow. Or at least add a hash?
-      return this.name;
-    }
   },
   methods: {
     get,

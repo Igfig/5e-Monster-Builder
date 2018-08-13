@@ -1,6 +1,6 @@
 <template>
   <div class="form-control">
-    <builder-label :forInput="inputId" :label="label">
+    <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
       <select
               :name="name" :id="inputId"
@@ -29,7 +29,6 @@ export default {
   },
   data() {
     return {
-      inputId: this.name, // TODO should really get namespaced somehow. Or at least add a hash?
       selected: event => {
         const val = event.target.value;
         this.$emit("input", get(this.options, val, val));
