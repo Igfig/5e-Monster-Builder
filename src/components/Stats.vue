@@ -2,9 +2,16 @@
     <form class="stats" @input="setMonster(monster)">
       <!--FIXME name and v-model are basically duplicates. Have only one or the other. Maybe by means of slot-scope?-->
       <fieldset>
-        <builder-input name="name" v-model="monster.name" label="Name" info="Check 'Proper Name' if this is a specific, named creature; otherwise leave it alone."/>
-        <builder-checkbox name="isProperName" v-model="monster.isProperName" label="Proper name" info="All this does is add a 'the' in front of the monster's name in certain situations, if this is unchecked. e.g. <q>'...when a creature misses <em>the</em> goblin with an attack...'</q> vs <q>'...when a creature misses Gorsnak Hogtooth with an attack...'</q>" labelRight/>
-        <!--FIXME this outputs as a raw string, not as html. Need the latter.-->
+        <builder-input name="name" v-model="monster.name" label="Name">
+          <template slot-scope="info">
+          Check "Proper Name" if this is a specific, named creature; otherwise leave it alone.
+          </template>
+        </builder-input>
+        <builder-checkbox name="isProperName" v-model="monster.isProperName" label="Proper name" labelRight>
+          <template slot-scope="info">
+          All this does is add a "the" in front of the monster's name in certain situations, if this is unchecked. e.g. <q>"...when a creature misses <em>the</em> goblin with an attack..."</q> vs <q>"...when a creature misses Gorsnak Hogtooth with an attack..."</q>
+          </template>
+        </builder-checkbox>
       </fieldset>
       
       <fieldset>

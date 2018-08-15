@@ -1,5 +1,5 @@
 <template>
-  <control-info :info="info">
+  <control-info :info="$slots">
     <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :type="type" :value="value"
@@ -30,6 +30,8 @@ export default {
   methods: {
     get,
     onInput(event) {
+      console.log(this.$children);
+      console.log(this.$slots);
       this.$emit("input", event.target.value);
     }
   },
