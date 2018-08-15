@@ -22,6 +22,8 @@ $base-font-size: 16px;
 $input-font-size: 0.9rem; //14px;
 $line-height: 1.2;
 
+$crimson: #a11111;
+
 * {
   margin: 0;
   padding: 0;
@@ -52,7 +54,6 @@ dl {
   font-family: "Estrangelo Edessa", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
 }
 
 main {
@@ -68,7 +69,14 @@ input,
 output,
 button,
 select {
+  font-family: inherit;
   font-size: $input-font-size;
+}
+
+input,
+button,
+select {
+  border: 1px solid black;
 }
 
 input,
@@ -94,7 +102,7 @@ input[type="checkbox"] {
   display: none;
 
   $base-colour: black;
-  $selected-colour: crimson;
+  $selected-colour: $crimson;
 
   + label {
     box-sizing: border-box;
@@ -112,7 +120,7 @@ input[type="checkbox"] {
   }
   &[selected] + label,
   &[checked] + label {
-    border: 1px solid $selected-colour;
+    //border: 1px solid $selected-colour;
     background-color: $selected-colour;
     color: white;
   }
