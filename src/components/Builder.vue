@@ -47,7 +47,7 @@ $spacing: 30px;
 
 .builder {
   display: grid;
-  grid-template-columns: 1fr auto; // XXX maybe fixed instead of auto
+  grid-template-columns: 1fr minmax(30vw, 400px); // XXX probably should just change layout at some width
   grid-template-rows: 1fr auto;
   grid-gap: $spacing;
 }

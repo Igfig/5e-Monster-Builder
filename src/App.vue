@@ -69,9 +69,12 @@ input,
 output,
 button,
 select {
+  background-color: transparent;
   font-family: inherit;
   font-size: $input-font-size;
 }
+
+// TODO visually distinguish between buttons, checkboxes, etc. At the moment they look identical.
 
 input,
 button,
@@ -83,6 +86,14 @@ input,
 button {
   padding: 2px 4px;
 }
+
+button {
+  &:active {
+    background-color: $crimson;
+    color: white;
+  }
+}
+
 select {
   // select seems to have about 2px of side padding built in already
   padding: 2px;
@@ -118,11 +129,16 @@ input[type="checkbox"] {
       padding: 5px;
     }
   }
-  &[selected] + label,
-  &[checked] + label {
-    //border: 1px solid $selected-colour;
-    background-color: $selected-colour;
-    color: white;
+
+  // &:active, &:focus, //FIXME flickers a bit when you release a click
+  &[selected],
+  &[checked] {
+    + label {
+      //border: 1px solid $selected-colour;
+      background-color: $selected-colour;
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4); //XXX not certain about this
+      color: white;
+    }
   }
 }
 
