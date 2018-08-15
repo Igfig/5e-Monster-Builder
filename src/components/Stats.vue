@@ -52,7 +52,7 @@
         <legend>Speed</legend>
         <div class="speed">
           <builder-numeric name="speed" v-model="monster.speed.land" label="Land speed" :min="0" :step="5"/>
-          <button class="form-control" @click="resetSpeed">Reset to default</button>
+          <button class="form-control" type="button" @click="resetSpeed">Reset to default</button>
           
           <builder-numeric name="speed-fly" v-model="monster.speed.fly" label="Fly" :min="0" :step="5"/>
           <builder-checkbox name="canHover" v-model="monster.canHover" label="Hover" class="left"/>
@@ -71,6 +71,8 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import { ALIGNMENTS, SIZES, TYPES, SUBTYPES, ABILITIES } from "../constants";
+import { formatBonus } from "../util";
+import { SET_MONSTER } from "../store/mutations";
 import BuilderInput from "./form/BuilderInput";
 import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
@@ -78,8 +80,6 @@ import BuilderLabel from "./form/BuilderLabel";
 import BuilderNumeric from "./form/BuilderNumeric";
 import BuilderCheckbox from "./form/BuilderCheckbox";
 import BuilderCheckboxes from "./form/BuilderCheckboxes";
-import { SET_MONSTER } from "../store/mutations";
-import { formatBonus } from "../util";
 import ControlInfo from "./ControlInfo";
 
 export default {

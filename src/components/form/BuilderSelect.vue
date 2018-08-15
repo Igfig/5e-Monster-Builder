@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { component as Fragment } from "vue-fragments";
 import { get } from "../../util";
 import BuilderLabel from "./BuilderLabel";
 import { control, options } from "./mixins";
@@ -21,7 +20,7 @@ import { control, options } from "./mixins";
 export default {
   name: "BuilderSelect",
   mixins: [control([Object, String, Boolean]), options(true)],
-  components: { BuilderLabel, Fragment },
+  components: { BuilderLabel },
   methods: {
     get
   },

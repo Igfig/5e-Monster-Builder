@@ -14,24 +14,21 @@
 </template>
 
 <script>
-import { component as Fragment } from "vue-fragments";
 import { get } from "../../util";
-import BuilderLabel from "./BuilderLabel";
 import { control, options } from "./mixins";
+import BuilderLabel from "./BuilderLabel";
 import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderInput",
   mixins: [control([Object, String]), options()],
-  components: { ControlInfo, BuilderLabel, Fragment },
+  components: { ControlInfo, BuilderLabel },
   props: {
     type: { type: String, default: "text" }
   },
   methods: {
     get,
     onInput(event) {
-      console.log(this.$children);
-      console.log(this.$slots);
       this.$emit("input", event.target.value);
     }
   },
