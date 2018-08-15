@@ -1,9 +1,11 @@
 <template>
     <fieldset :class="className">
       <legend v-if="!!label">{{label}}</legend>
+      <control-info :info="info">
       <ul>
         <li v-for="option in options"
-            :key="get(option)">
+            :key="get(option)"
+            class="radio-label">
           <builder-label
               :forInput="getId(option)"
               :label="getLabel(option)">
@@ -18,18 +20,20 @@
           </builder-label>
         </li>
       </ul>
+      </control-info>
     </fieldset>
 </template>
 
 <script>
 import { get } from "../../util";
-import BuilderLabel from "./BuilderLabel";
 import { control, options } from "./mixins";
+import BuilderLabel from "./BuilderLabel";
+import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderRadio",
   mixins: [control([Object, String, Boolean]), options(true)],
-  components: { BuilderLabel },
+  components: { ControlInfo, BuilderLabel },
   props: {
     customLabel: { type: Function }
   },

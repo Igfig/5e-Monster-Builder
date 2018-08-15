@@ -1,5 +1,5 @@
 <template>
-  <div class="form-control">
+  <control-info :info="info">
     <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
       <select :name="name" :value="get(value)" @input="selected">
@@ -9,18 +9,19 @@
         <!--XXX For some reason you straight-up can't pass objects as values to an option-->
       </select>
     </builder-label>
-  </div>
+  </control-info>
 </template>
 
 <script>
 import { get } from "../../util";
-import BuilderLabel from "./BuilderLabel";
 import { control, options } from "./mixins";
+import BuilderLabel from "./BuilderLabel";
+import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderSelect",
   mixins: [control([Object, String, Boolean]), options(true)],
-  components: { BuilderLabel },
+  components: { ControlInfo, BuilderLabel },
   methods: {
     get
   },

@@ -3,6 +3,7 @@
 <template>
   <fieldset @change="onChange">
     <legend v-if="!!label">{{label}}</legend>
+    <control-info :info="info">
     <ul class="checkboxes">
       <li class="form-control" v-for="option in options">
         <!--FIXME can't get this thing to work. Maybe that's ok though? And we don't need builder-label actually? Hmm-->
@@ -13,6 +14,7 @@
           :forInput="getId(option)"
           :label="option.label | capitalize">
           
+          <!--suppress HtmlFormInputWithoutLabel -->
           <input :name="name" type="checkbox"
             :id="getId(option)"
             :value="option.id"
@@ -21,17 +23,20 @@
         </builder-label>
       </li>
     </ul>
+    </control-info>
   </fieldset>
 </template>
+
 <script>
+import { control, options } from "./mixins";
 import BuilderCheckbox from "./BuilderCheckbox";
 import BuilderLabel from "./BuilderLabel";
-import { control, options } from "./mixins";
+import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderCheckboxes",
   mixins: [control(Array), options(true)],
-  components: { BuilderCheckbox, BuilderLabel },
+  components: { ControlInfo, BuilderCheckbox, BuilderLabel },
   model: {
     prop: "checkedVals",
     event: "change"

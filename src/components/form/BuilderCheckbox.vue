@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     onChange(event) {
-      console.log(this.$slots);
       this.$emit("change", event.target.checked);
     }
   }

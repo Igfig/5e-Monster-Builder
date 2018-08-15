@@ -1,22 +1,23 @@
 <template>
-  <div class="form-control">
+  <control-info :info="info">
     <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" type="number" :value="value"
              :min="min" :max="max" :step="step"
              @input="onInput"/>
     </builder-label>
-  </div>
+  </control-info>
 </template>
 
 <script>
-import BuilderLabel from "./BuilderLabel";
 import { control } from "./mixins";
+import BuilderLabel from "./BuilderLabel";
+import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderNumeric",
   mixins: [control(Number)],
-  components: { BuilderLabel },
+  components: { ControlInfo, BuilderLabel },
   props: {
     min: Number,
     max: Number,
