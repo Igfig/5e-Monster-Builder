@@ -13,7 +13,10 @@
       <monster/>
     </figure>
   
-    <aside class="info"><h3>Info</h3> {{currentInfo}}</aside>
+    <aside class="info"> <!--FIXME the relationship between this box and the focused control isn't entirely clear. Rearrange the page? Add a canvas in the background that draws a line from the info box to the control? (Or fake it with a colored div or something?) Move all the info to a popup?-->
+      <h3>Info</h3> <!--TODO maybe pull this from the control's label-->
+      <info-display :info="currentInfo"/>
+    </aside>
   </main>
 </template>
 
@@ -23,11 +26,14 @@ import { Tab, Tabs } from "vue-tabs-component";
 import { CURRENT_INFO } from "../store/keys";
 import Monster from "./Monster";
 import Stats from "./Stats";
+import InfoDisplay from "./InfoDisplay";
 
 export default {
   name: "builder",
-  components: { Stats, Monster, Tabs, Tab },
-  computed: mapState([CURRENT_INFO]),
+  components: { InfoDisplay, Stats, Monster, Tabs, Tab },
+  computed: {
+    ...mapState([CURRENT_INFO])
+  },
   data() {
     return {
       msg: "Welcome to Your Vue.js PWA"
