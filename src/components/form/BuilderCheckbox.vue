@@ -1,5 +1,5 @@
 <template>
-  <control-info :info="$slots">
+  <control-info :info="info">
     <builder-label :forInput="inputId" :label="label" :right="true">
 
       <!--suppress HtmlFormInputWithoutLabel -->
@@ -34,6 +34,7 @@ export default {
   },
   methods: {
     onChange(event) {
+      console.log(this.$slots);
       this.$emit("change", event.target.checked);
     }
   }

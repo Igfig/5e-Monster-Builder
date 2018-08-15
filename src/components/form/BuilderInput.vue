@@ -1,5 +1,5 @@
 <template>
-  <control-info :info="$slots">
+  <control-info :info="info">
     <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :type="type" :value="value"
