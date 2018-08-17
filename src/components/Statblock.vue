@@ -86,9 +86,11 @@ export default {
 };
 </script>
 <style lang="scss">
+$statblock-width: 350px;
+
 .statblock {
+  width: $statblock-width; // XXX could be a little more flexible
   text-align: left;
-  // TODO this should have a fixed minimum dimension (maybe a max too), such that the ability scores won't cause a line-break or resize when a bonus hits +10 (i.e. one extra character wide)
 
   dt {
     font-weight: bold;
@@ -98,15 +100,21 @@ export default {
     margin: 0;
   }
 
-  dl > div > * {
-    display: inline;
-  }
+  dl > div {
+    $body-indent: 0.666em;
+    padding-left: $body-indent;
+    text-indent: -$body-indent;
+
+    > * {
+      display: inline;
+    }
+  } // TODO need to deal with abilities containing multiple paragraphs
 
   .abilities {
     // TODO alternate styles for gridless browsers
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-column-gap: 10px; // XXX arbitrary
+    grid-column-gap: 5px; // XXX arbitrary but works well with the 350px width
     text-align: center;
 
     > dd {

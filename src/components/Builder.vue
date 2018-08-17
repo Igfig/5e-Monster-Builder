@@ -46,7 +46,7 @@ export default {
 //TODO make properly responsive
 
 main.builder {
-  grid-template-columns: 1fr minmax(30vw, 400px); // XXX probably should just change layout at some width
+  grid-template-columns: 1fr auto; // XXX probably should just change layout at some width
   grid-template-rows: 1fr auto;
 }
 
