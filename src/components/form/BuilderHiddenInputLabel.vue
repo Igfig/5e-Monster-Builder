@@ -3,7 +3,7 @@
 <template>
   <fragment>
     <slot/>
-    <label :class="classObject" :for="forInput">{{ label }}</label>
+    <label :class="className || ''" :for="forInput">{{ label }}</label>
   </fragment>
 </template>
 
@@ -11,19 +11,12 @@
 import { component as Fragment } from "vue-fragments";
 
 export default {
-  name: "BuilderLabelSeparate",
+  name: "BuilderHiddenInputLabel",
   components: { Fragment },
   props: {
     forInput: { type: String }, // TODO perhaps we should just take a boolean or a name, and generate the id ourselves
     className: String,
     label: { type: String, required: true }
-  },
-  data() {
-    return {
-      classObject: {
-        [this.className]: !!this.className
-      }
-    };
   }
 };
 </script>
