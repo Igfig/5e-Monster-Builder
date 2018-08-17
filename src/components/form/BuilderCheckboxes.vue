@@ -1,5 +1,3 @@
-<!--TODO still very incomplete-->
-
 <template>
   <fieldset @change="onChange">
     <legend v-if="!!label">{{label}}</legend>
@@ -11,13 +9,11 @@
           :value="option.id" :checked="shouldBeChecked(option.id)"/>-->
   
         <builder-hidden-input-label
-          :forInput="getId(option)"
           :label="option.label | capitalize"
           :checked="shouldBeChecked(option.id)">
           
           <!--suppress HtmlFormInputWithoutLabel -->
           <input :name="name" type="checkbox"
-            :id="getId(option)"
             :value="option.id"
             :checked="shouldBeChecked(option.id)"
             :selected="shouldBeChecked(option.id)"/>

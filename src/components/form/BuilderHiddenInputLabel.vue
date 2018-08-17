@@ -1,8 +1,9 @@
 <template>
-  <fragment>
-    <label :class="classObject" :for="forInput" :checked="checked">{{ label }}</label>
-    <slot/>
-  </fragment>
+    <label :class="classObject" :checked="checked">
+      {{ label }}
+      <slot/>
+    </label>
+
 </template>
 
 <script>
@@ -12,7 +13,6 @@ export default {
   name: "BuilderHiddenInputLabel",
   components: { Fragment },
   props: {
-    forInput: { type: String }, // TODO perhaps we should just take a boolean or a name, and generate the id ourselves
     className: String,
     label: { type: String, required: true },
     checked: { type: Boolean }
@@ -60,8 +60,7 @@ $selected-colour: $crimson;
     padding: 5px;
   }
 
-  ~ input {
-    // XXX using ~ instead of + might be a little unsafe, but it's probably ok
+  input {
     display: none;
   }
 }

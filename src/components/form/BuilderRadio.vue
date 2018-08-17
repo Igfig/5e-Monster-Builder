@@ -4,11 +4,9 @@
       <control-info :info="info">
       <ul>
         <li v-for="option in options"
-            :key="getId(option)"
             class="radio-label">
 
           <builder-hidden-input-label
-              :forInput="getId(option)"
               :label="getLabel(option)"
               :checked="checked(option)">
 
@@ -16,7 +14,6 @@
             <input
                 type="radio"
                 :name="name"
-                :id="getId(option)"
                 :selected="checked(option)"
                 @input="onInput(option)"
             /> <!--TODO find a way to work with the built-in :checked selector-->
@@ -50,10 +47,7 @@ export default {
       // this method has to be in function notation, not lambda. Lambdas break it.
       this.$emit("input", value);
     },
-    // XXX can we rework these so they won't recalculate every time we rerender? Maybe some kind of object dict instead of a function. ...wait it's already just an object, this is just an accessor
-    getId(option) {
-      return this.name + "-" + get(option, "id").toLowerCase();
-    },
+    // XXX can we rework these so they won't recalculate every time we rerender? Maybe some kind of object dict instead of a function. ...wait it's already just an object, these are just getters basically
     getLabel(option) {
       return this.customLabel ? this.customLabel(option) : get(option, "label");
     },

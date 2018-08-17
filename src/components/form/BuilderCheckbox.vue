@@ -1,10 +1,9 @@
 <template>
   <control-info :info="info">
-    <builder-hidden-input-label :forInput="inputId" :label="label" :checked="checked">
+    <builder-hidden-input-label :label="label" :checked="checked">
 
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" type="checkbox"
-             :id="inputId"
              :checked="checked"
              :selected="checked"
              @change="onChange"/> <!--XXX :selected is there since vue doesn't really work with the built-in checked property-->
@@ -27,11 +26,6 @@ export default {
   model: {
     prop: "checked",
     event: "change"
-  },
-  computed: {
-    inputId() {
-      return this.name + (this.value ? "-" + this.value : "");
-    }
   },
   methods: {
     onChange(event) {
