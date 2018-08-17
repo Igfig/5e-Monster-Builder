@@ -129,7 +129,7 @@ input[type="checkbox"] {
 
   + label {
     box-sizing: border-box;
-    margin: 1px;
+    margin: 0px;
     padding: 2px 4px;
     border: 1px solid $base-colour;
     //background-color: $base-colour;

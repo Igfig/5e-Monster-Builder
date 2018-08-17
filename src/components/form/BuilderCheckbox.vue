@@ -1,6 +1,6 @@
 <template>
   <control-info :info="info">
-    <builder-label :forInput="inputId" :label="label" :right="true">
+    <builder-label :forInput="inputId" :label="label">
 
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :id="inputId" type="checkbox"

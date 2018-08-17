@@ -77,7 +77,8 @@ export default {
 <style lang="scss">
 .checkboxes {
   display: inline-grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr); // FIXME this is only really valid in some cases
+  grid-gap: 2px;
 
   > .form-control {
     margin: 0;

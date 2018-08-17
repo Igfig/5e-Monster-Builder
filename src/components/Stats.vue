@@ -11,20 +11,26 @@
           <p>e.g. <q>...when a creature misses <em>the</em> goblin with an attack...</q> vs <q>...when a creature misses Gorsnak Hogtooth with an attack...</q></p>
         </builder-checkbox>
       </fieldset>
-      
-      <fieldset>
-        <builder-select name="size" v-model="monster.size" label="Size" :options="SIZES"/> <!--FIXME this springs back to Tiny whenever you change it!!-->
-        <builder-select name="type" v-model="monster.type" label="Type" :options="TYPES"/>
-        <builder-input name="subtype" v-model="monster.subtype" label="Subtype" :options="SUBTYPES"/>
-      </fieldset>
 
-      <builder-radio name="alignment"
-                     label="Alignment"
-                     v-model="monster.alignment"
-                     :options="ALIGNMENTS" />
+      <div class="form-group">
+        <fieldset class="tags">
+          <legend>Tags</legend>
 
-      <fieldset class="abilities"> <!--TODO make a grid-->
-        <legend>Ability scores</legend>
+          <builder-select name="size" v-model="monster.size" label="Size" :options="SIZES"/> <!--FIXME this springs back to Tiny whenever you change it!! Not updating properly-->
+          <builder-select name="type" v-model="monster.type" label="Type" :options="TYPES"/>
+          <builder-input name="subtypes" v-model="monster.subtype" label="Subtypes" :options="SUBTYPES"/> <!--TODO replace with a multiselect sort of thing-->
+        </fieldset>
+
+        <!--TODO the layout between these isn't great still-->
+
+        <builder-radio name="alignment"
+                       label="Alignment"
+                       v-model="monster.alignment"
+                       :options="ALIGNMENTS" />
+      </div>
+
+      <fieldset class="abilities">
+        <legend>Ability Scores</legend>
         
         <ul>
           <li v-for="(ability, index) in ABILITIES" :key="index">
@@ -36,7 +42,9 @@
         </ul>
       </fieldset>
 
-      <fieldset>
+      <fieldset class="hp">
+        <legend>Hit Points</legend>
+
         <!--TODO better label than "Target hit points"-->
         <builder-numeric name="hp" label="Target hit points"
                          v-model="monster.hpTarget" :min="1" />
@@ -120,10 +128,35 @@ $column-width: 330px;
 //TODO make properly responsive
 
 .stats {
-  column-width: $column-width;
+  column-width: $column-width; // XXX kinda tempted to turn this into a grid layout with grid-auto-flow: dense just to fit it all efficiently
 
   > * {
     break-inside: avoid;
+  }
+
+  .form-group {
+    display: flex;
+    flex-flow: row nowrap;
+  }
+
+  .tags {
+    display: flex;
+    flex-flow: column nowrap;
+    margin-right: 10px;
+
+    label {
+      display: inline-flex;
+      justify-content: space-between;
+      align-items: baseline;
+      width: 100%;
+    }
+    :last-of-type label {
+      // FIXME we should really be referring to the .subtypes control by class instead of int his roundabout way... but currently we aren't putting classes on that correctly.
+      &,
+      input {
+        display: block;
+      }
+    }
   }
 
   .alignment {
@@ -157,6 +190,7 @@ $column-width: 330px;
       }
     }
   }
+
   .abilities {
     ul {
       display: inline-grid;
@@ -191,6 +225,7 @@ $column-width: 330px;
       text-align: left;
     }
   }
+
   .speed {
     display: inline-grid;
     grid-template-columns: repeat(2, auto);
