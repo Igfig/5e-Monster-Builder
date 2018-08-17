@@ -108,80 +108,98 @@ export default {
     formatBonus,
     ...mapMutations({ setMonster: SET_MONSTER }),
     resetSpeed: () => {
-      console.log("reset speed"); // TODO
+      console.log("reset speed"); // TODO implement
     }
   }
 };
 </script>
 
 <style lang="scss">
-.stats .alignment {
-  ul {
-    display: inline-grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2px;
-    //width: 7em; // XXX arbitrary
+$column-width: 330px;
 
-    // first 9 alignment buttons are in a grid, later ones are full-width
+//TODO make properly responsive
+
+.stats {
+  column-width: $column-width;
+
+  > * {
+    break-inside: avoid;
   }
-  li {
-    display: block;
 
-    &:nth-of-type(n + 10) {
-      grid-column: 1 / -1;
+  .alignment {
+    ul {
+      display: inline-grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 2px;
+      //width: 7em; // XXX arbitrary
+
+      // first 9 alignment buttons are in a grid, later ones are full-width
     }
-    > label {
+    li {
       display: block;
-      margin: 0;
-    }
 
-    html.no-cssgrid & {
-      display: flex;
-      flex-flow: row wrap;
-
-      width: 7em;
+      &:nth-of-type(n + 10) {
+        grid-column: 1 / -1;
+      }
       > label {
-        flex: 1 1 30%;
+        display: block;
+        margin: 0;
+      }
+
+      html.no-cssgrid & {
+        display: flex;
+        flex-flow: row wrap;
+
+        width: 7em;
+        > label {
+          flex: 1 1 30%;
+        }
       }
     }
   }
-}
-.stats .abilities {
-  ul {
+  .abilities {
+    ul {
+      display: inline-grid;
+      //display: flex;
+      //flex-flow: row nowrap;
+      grid-template-columns: repeat(3, auto);
+      text-align: right;
+      grid-gap: 5px 10px;
+    }
+    li {
+      display: grid;
+      grid-template-columns: 1fr 1.7em;
+      align-items: baseline;
+      justify-content: end;
+    }
+    .form-control {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-end;
+      margin-right: 5px;
+    }
+    label {
+      display: flex;
+      align-items: baseline;
+    }
+    input {
+      width: 2.3em;
+      flex: 0 0 0;
+    }
+    output {
+      width: 1.7em;
+      text-align: left;
+    }
+  }
+  .speed {
     display: inline-grid;
-    grid-template-columns: repeat(3, auto);
-    text-align: right;
-    grid-gap: 5px 10px;
-  }
-  li {
-    display: grid;
-    grid-template-columns: 1fr 1.7em;
-    align-items: baseline;
-    justify-content: end;
-  }
-  .form-control {
-    display: flex;
-    align-items: baseline;
-    justify-content: flex-end;
-    margin-right: 5px;
-  }
-  input {
-    width: 2.3em;
-    flex: 0 0 0;
-  }
-  output {
-    width: 1.7em;
-    text-align: left;
-  }
-}
-.stats .speed {
-  display: inline-grid;
-  grid-template-columns: repeat(2, auto);
-  grid-gap: 5px;
-  justify-items: right;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 5px;
+    justify-items: right;
 
-  .left {
-    justify-self: left;
+    .left {
+      justify-self: left;
+    }
   }
 }
 </style>

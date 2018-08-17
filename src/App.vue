@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <h1>5e Monster Builder</h1>
+      <h1>5e Monster Builder</h1> <!--XXX this takes up a lot of space, -->
       
       <nav><!--fill in--></nav>
     </header>
@@ -22,7 +22,12 @@ $base-font-size: 16px;
 $input-font-size: 0.9rem; //14px;
 $line-height: 1.2;
 
+$spacing: 30px;
+$header-height: 2rem * $line-height; // need to have this set so <main> can have a well-defined height
+
 $crimson: #a11111;
+
+// TODO make more SASSy and SOCSSy
 
 * {
   margin: 0;
@@ -36,9 +41,8 @@ html {
 }
 
 body {
-  box-sizing: border-box;
-  padding: 30px;
   height: 100%;
+  padding: 0;
 }
 
 p,
@@ -49,16 +53,24 @@ dl {
 #app {
   display: grid;
   grid-template-rows: auto 1fr;
-  grid-gap: 40px;
-  height: 100%;
+  grid-gap: $spacing;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: $spacing;
   font-family: "Estrangelo Edessa", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 main {
-  height: 100%;
+  display: grid;
+  grid-gap: $spacing;
+  height: calc(
+    100vh - #{$header-height} - #{$spacing * 3}
+  ); // This is key for keeping the layout all on one page
   text-align: left;
+
+  // additional styles on this in Builder.vue
 }
 
 li {
@@ -150,5 +162,9 @@ input[type="checkbox"] {
 }
 fieldset > .form-control {
   margin: 5px 10px 5px 0;
+}
+
+h1 {
+  height: $header-height;
 }
 </style>

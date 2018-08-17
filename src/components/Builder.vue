@@ -43,18 +43,17 @@ export default {
 </script>
 
 <style lang="scss">
-$spacing: 30px;
+//TODO make properly responsive
 
-.builder {
-  display: grid;
+main.builder {
   grid-template-columns: 1fr minmax(30vw, 400px); // XXX probably should just change layout at some width
   grid-template-rows: 1fr auto;
-  grid-gap: $spacing;
 }
 
 .builder-tabs {
   display: grid;
   grid-template-rows: auto 1fr;
+  overflow: auto; // This is key for keeping the layout all on one page
 
   > .tabs-component-tabs {
     display: flex;
