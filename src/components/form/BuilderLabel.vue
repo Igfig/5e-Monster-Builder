@@ -1,12 +1,6 @@
-<!--TODO maybe split this into two components?-->
-
 <template>
-  <fragment v-if="forInput">
-    <slot/>
-    <label :class="classObject" :for="forInput">{{ label }}</label>
-  </fragment>
-  <label v-else>
-    <span :class="classObject">{{ label }}</span>
+  <label :class="classObject">
+    <span class="label-holder">{{ label }}</span>
     <slot />
   </label>
 </template>
@@ -18,7 +12,6 @@ export default {
   name: "BuilderLabel",
   components: { Fragment },
   props: {
-    forInput: { type: String }, // TODO perhaps we should just take a boolean or a name, and generate the id ourselves
     className: String,
     label: { type: String, required: true },
     right: { type: Boolean }
@@ -38,11 +31,11 @@ export default {
 <style lang="scss">
 $margin: 5px;
 
-.label-left {
+.label-left > .label-holder {
   order: -1;
   margin-right: $margin;
 }
-.label-right {
+.label-right > .label-holder {
   order: 1;
   margin-left: $margin;
 }

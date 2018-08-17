@@ -10,7 +10,7 @@
         <!--<builder-checkbox :name="name" :label="option.label"
           :value="option.id" :checked="shouldBeChecked(option.id)"/>-->
   
-        <builder-label
+        <builder-label-separate
           :forInput="getId(option)"
           :label="option.label | capitalize">
           
@@ -20,7 +20,7 @@
             :value="option.id"
             :checked="shouldBeChecked(option.id)"
             :selected="shouldBeChecked(option.id)"/>
-        </builder-label>
+        </builder-label-separate>
       </li>
     </ul>
     </control-info>
@@ -30,13 +30,13 @@
 <script>
 import { control, options } from "./mixins";
 import BuilderCheckbox from "./BuilderCheckbox";
-import BuilderLabel from "./BuilderLabel";
+import BuilderLabelSeparate from "./BuilderLabelSeparate";
 import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderCheckboxes",
   mixins: [control(Array), options(true)],
-  components: { ControlInfo, BuilderCheckbox, BuilderLabel },
+  components: { ControlInfo, BuilderCheckbox, BuilderLabelSeparate },
   model: {
     prop: "checkedVals",
     event: "change"

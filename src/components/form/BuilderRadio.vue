@@ -6,7 +6,7 @@
         <li v-for="option in options"
             :key="get(option)"
             class="radio-label">
-          <builder-label
+          <builder-label-separate
               :forInput="getId(option)"
               :label="getLabel(option)">
             <!--suppress HtmlFormInputWithoutLabel -->
@@ -17,7 +17,7 @@
                 :selected="value === option"
                 @input="onInput(option)"
             /> <!--TODO find a way to work with the built-in :checked selector-->
-          </builder-label>
+          </builder-label-separate>
         </li>
       </ul>
       </control-info>
@@ -27,13 +27,13 @@
 <script>
 import { get } from "../../util";
 import { control, options } from "./mixins";
-import BuilderLabel from "./BuilderLabel";
+import BuilderLabelSeparate from "./BuilderLabelSeparate";
 import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderRadio",
   mixins: [control([Object, String, Boolean]), options(true)],
-  components: { ControlInfo, BuilderLabel },
+  components: { ControlInfo, BuilderLabelSeparate },
   props: {
     customLabel: { type: Function }
   },

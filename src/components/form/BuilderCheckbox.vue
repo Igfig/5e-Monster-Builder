@@ -1,25 +1,25 @@
 <template>
   <control-info :info="info">
-    <builder-label :forInput="inputId" :label="label">
+    <builder-label-separate :forInput="inputId" :label="label">
 
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :id="inputId" type="checkbox"
              :checked="checked" :selected="checked"
              @change="onChange"/> <!--XXX :selected is there since vue doesn't really work with the built-in checked property-->
       <!--XXX wait a second, why don't we wrap it in an input and put a style or prop on the label programmatically instead of making it go through the html's order -->
-    </builder-label>
+    </builder-label-separate>
   </control-info>
 </template>
 
 <script>
 import { control } from "./mixins";
-import BuilderLabel from "./BuilderLabel";
+import BuilderLabelSeparate from "./BuilderLabelSeparate";
 import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderCheckbox",
   mixins: [control([String, Object])],
-  components: { ControlInfo, BuilderLabel },
+  components: { ControlInfo, BuilderLabelSeparate },
   props: {
     checked: Boolean
   },
