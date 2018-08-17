@@ -32,7 +32,6 @@ export default {
   methods: {
     onChange(event) {
       const { checked, value: key } = event.target;
-      console.log(event, event.target, checked, key);
 
       if (checked) {
         this.checkedVals.push(key);
