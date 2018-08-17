@@ -111,6 +111,9 @@ button {
   }
 }
 
+:invalid {
+  border-color: red; // FIXME make it better
+}
 fieldset {
   margin: 0 0 1em;
   border: none;
