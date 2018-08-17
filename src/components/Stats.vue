@@ -2,11 +2,13 @@
     <form class="stats" @input="setMonster(monster)">
       <!--FIXME name and v-model are basically duplicates. Have only one or the other. Maybe by means of slot-scope?-->
       <fieldset>
-        <builder-input name="name" v-model="monster.name" label="Name">
+        <builder-input name="name" label="Name"
+                       v-model="monster.name">
           Check "Proper Name" if this is a specific, named creature; otherwise leave it alone.
         </builder-input>
 
-        <builder-checkbox name="isProperName" v-model="monster.isProperName" label="Proper name" label-right> <!--XXX I guess we don't actually need label-right if our checkboxes are all of the checkless variety... I'm not sure that's actually what I want, though-->
+        <builder-checkbox name="isProperName" label="Proper name"
+                          v-model="monster.isProperName"><!--XXX add label-right if we decide to not use the toggle-button format-->
           <p>All this does is add a "the" in front of the monster's name in certain situations, if this is unchecked.</p>
           <p>e.g. <q>...when a creature misses <em>the</em> goblin with an attack...</q> vs <q>...when a creature misses Gorsnak Hogtooth with an attack...</q></p>
         </builder-checkbox>
@@ -16,15 +18,19 @@
         <fieldset class="tags">
           <legend>Tags</legend>
 
-          <builder-select name="size" v-model="monster.size" label="Size" :options="SIZES"/> <!--FIXME this springs back to Tiny whenever you change it!! Not updating properly-->
-          <builder-select name="type" v-model="monster.type" label="Type" :options="TYPES"/>
-          <builder-input name="subtypes" v-model="monster.subtype" label="Subtypes" :options="SUBTYPES"/> <!--TODO replace with a multiselect sort of thing-->
+          <builder-select name="size" label="Size"
+                          v-model="monster.size" :options="SIZES"/> <!--FIXME this springs back to Tiny whenever you change it!! Not updating properly-->
+          <builder-select name="type" label="Type"
+                          v-model="monster.type"
+                          :options="TYPES"/>
+          <builder-input name="subtypes" label="Subtypes"
+                         v-model="monster.subtype"
+                         :options="SUBTYPES"/> <!--TODO replace with a multiselect sort of thing-->
         </fieldset>
 
         <!--TODO the layout between these isn't great still-->
 
-        <builder-radio name="alignment"
-                       label="Alignment"
+        <builder-radio name="alignment" label="Alignment"
                        v-model="monster.alignment"
                        :options="ALIGNMENTS" />
       </div>
@@ -46,7 +52,9 @@
           <!--or perhaps something more like, your ability scores are typical for a creature of CR X. And then you just compare that to your actual CR.-->
         </fieldset>
 
-        <builder-checkboxes name="saves" v-model="monster.saves" label="Saving Throw Proficiencies" :options="ABILITIES"/>
+        <builder-checkboxes name="saves" label="Saving Throw Proficiencies"
+                            v-model="monster.saves"
+                            :options="ABILITIES"/>
       </div>
 
       <fieldset class="hp">
@@ -66,15 +74,25 @@
       <fieldset>
         <legend>Speed</legend>
         <div class="speed">
-          <builder-numeric name="speed" v-model="monster.speed.land" label="Land speed" :min="0" :step="5"/>
+          <builder-numeric name="speed" label="Land speed"
+                           v-model="monster.speed.land"
+                           :min="0" :step="5"/>
           <button class="form-control" type="button" @click="resetSpeed">Reset to default</button>
           
-          <builder-numeric name="speed-fly" v-model="monster.speed.fly" label="Fly" :min="0" :step="5"/>
-          <builder-checkbox name="canHover" v-model="monster.canHover" label="Hover" class="left"/>
+          <builder-numeric name="speed-fly" label="Fly"
+                           v-model="monster.speed.fly"
+                           :min="0" :step="5"/>
+          <builder-checkbox name="canHover"  label="Hover"
+                            v-model="monster.canHover"
+                            class="left"/> <!--that's a dumb class make it better-->
   
-          <builder-numeric name="speed-swim" v-model="monster.speed.swim" label="Swim" :min="0" :step="5"/>
+          <builder-numeric name="speed-swim" label="Swim"
+                           v-model="monster.speed.swim" :min="0" :step="5"/>
   
-          <builder-numeric name="speed-burrow" v-model="monster.speed.burrow" label="Burrow" :min="0" :step="5" :style="{gridColumn: 1}"/>
+          <builder-numeric name="speed-burrow" label="Burrow"
+                           v-model="monster.speed.burrow"
+                           :min="0" :step="5"
+                           :style="{gridColumn: 1}"/>
         </div>
       </fieldset>
     </form>
