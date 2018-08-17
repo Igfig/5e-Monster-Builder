@@ -41,6 +41,9 @@
               <output>{{formatBonus(monster.abilities[index].bonus)}}</output>
             </li> <!--FIXME updating Con when we have an hp target doesn't change our number of HD -->
           </ul>
+
+          <!--TODO add expected/actual average ability scores for your cr-->
+          <!--or perhaps something more like, your ability scores are typical for a creature of CR X. And then you just compare that to your actual CR.-->
         </fieldset>
 
         <builder-checkboxes name="saves" v-model="monster.saves" label="Saving Throw Proficiencies" :options="ABILITIES"/>
