@@ -29,18 +29,22 @@
                        :options="ALIGNMENTS" />
       </div>
 
-      <fieldset class="abilities">
-        <legend>Ability Scores</legend>
-        
-        <ul>
-          <li v-for="(ability, index) in ABILITIES" :key="index">
-            <builder-numeric :name="ability.label" :label="ability.label | capitalize"
-                             v-model="monster.abilities[index].score"
-                             :min="1" :max="30" />
-            <output>{{formatBonus(monster.abilities[index].bonus)}}</output>
-          </li> <!--FIXME updating Con when we have an hp target doesn't change our number of HD -->
-        </ul>
-      </fieldset>
+      <div>
+        <fieldset class="abilities">
+          <legend>Ability Scores</legend>
+
+          <ul>
+            <li v-for="(ability, index) in ABILITIES" :key="index">
+              <builder-numeric :name="ability.label" :label="ability.label | capitalize"
+                               v-model="monster.abilities[index].score"
+                               :min="1" :max="30" />
+              <output>{{formatBonus(monster.abilities[index].bonus)}}</output>
+            </li> <!--FIXME updating Con when we have an hp target doesn't change our number of HD -->
+          </ul>
+        </fieldset>
+
+        <builder-checkboxes name="saves" v-model="monster.saves" label="Saving Throw Proficiencies" :options="ABILITIES"/>
+      </div>
 
       <fieldset class="hp">
         <legend>Hit Points</legend>
@@ -70,9 +74,6 @@
           <builder-numeric name="speed-burrow" v-model="monster.speed.burrow" label="Burrow" :min="0" :step="5" :style="{gridColumn: 1}"/>
         </div>
       </fieldset>
-      
-      
-      <builder-checkboxes name="saves" v-model="monster.saves" label="Saving Throw Proficiencies" :options="ABILITIES"/>
     </form>
 </template>
 
