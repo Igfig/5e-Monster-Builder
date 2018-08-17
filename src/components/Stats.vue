@@ -19,7 +19,8 @@
           <legend>Tags</legend>
 
           <builder-select name="size" label="Size"
-                          v-model="monster.size" :options="SIZES"/> <!--FIXME this springs back to Tiny whenever you change it!! Not updating properly-->
+                          v-model="monster.size"
+                          :options="SIZES"/>
           <builder-select name="type" label="Type"
                           v-model="monster.type"
                           :options="TYPES"/>
@@ -67,7 +68,8 @@
                          v-model="monster.hd" :min="1" />
         <div>Actual hit points: <output>{{monster.hp}}</output></div>
         <!--TODO grey out (or empty?) whichever input isn't taking the lead right now-->
-        <!--TODO if both inputs are empty, actual hp is calculated as NaN-->
+        <!--FIXME if HD input is empty, actual hp is calculated as NaN-->
+        <!--TODO HD input should be another in-between number, like target hp. -->
       </fieldset>
       
       

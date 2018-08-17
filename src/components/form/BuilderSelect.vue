@@ -2,11 +2,10 @@
   <control-info :info="info">
     <builder-label :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
-      <select :name="name" :value="get(value)" @input="selected">
+      <select :name="name" :value="getId(value)" @input="selected">
         <option v-for="option in options"
-                :value="get(option)"
-                :selected="value === get(option)">{{get(option, "label")}}</option>
-        <!--XXX For some reason you straight-up can't pass objects as values to an option-->
+                :value="getId(option)"
+                :selected="isSelected(option)">{{getLabel(option)}}</option>
       </select>
     </builder-label>
   </control-info>
@@ -23,7 +22,15 @@ export default {
   mixins: [control([Object, String, Boolean]), options(true)],
   components: { ControlInfo, BuilderLabel },
   methods: {
-    get
+    getId(option) {
+      return get(option, "id");
+    },
+    getLabel(option) {
+      return get(option, "label");
+    },
+    isSelected(option) {
+      return this.value === option || this.value === this.getId(option);
+    }
   },
   data() {
     return {
