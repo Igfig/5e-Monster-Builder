@@ -2,24 +2,12 @@
   <fieldset @change="onChange">
     <legend v-if="!!label">{{label}}</legend>
     <control-info :info="info">
-    <ul class="checkboxes">
-      <li class="form-control" v-for="option in options">
-        <!--FIXME can't get this thing to work. Maybe that's ok though? And we don't need builder-label actually? Hmm-->
-        <!--<builder-checkbox :name="name" :label="option.label"
-          :value="option.id" :checked="shouldBeChecked(option.id)"/>-->
-  
-        <builder-hidden-input-label
-          :label="option.label | capitalize"
-          :checked="shouldBeChecked(option.id)">
-          
-          <!--suppress HtmlFormInputWithoutLabel -->
-          <input :name="name" type="checkbox"
-            :value="option.id"
-            :checked="shouldBeChecked(option.id)"
-            :selected="shouldBeChecked(option.id)"/>
-        </builder-hidden-input-label>
-      </li>
-    </ul>
+      <ul class="checkboxes">
+        <li class="form-control" v-for="option in options">
+          <builder-checkbox :name="name" :label="option.label | capitalize"
+            :value="getId(option)" :checked="shouldBeChecked(option)"/>
+        </li>
+      </ul>
     </control-info>
   </fieldset>
 </template>
@@ -38,9 +26,13 @@ export default {
     prop: "checkedVals",
     event: "change"
   },
+  props: {
+    width: { type: Number, default: 3 }
+  },
   methods: {
     onChange(event) {
       const { checked, value: key } = event.target;
+      console.log(event, event.target, checked, key);
 
       if (checked) {
         this.checkedVals.push(key);
@@ -58,11 +50,12 @@ export default {
 
       this.$emit("change", this.checkedVals);
     },
-    shouldBeChecked(key) {
-      return this.checkedVals.includes(key);
-    },
     getId(option) {
       return this.name + "-" + option.id;
+    },
+    shouldBeChecked(option) {
+      const key = this.getId(option);
+      return this.checkedVals.includes(key);
     }
   },
   data() {
@@ -79,6 +72,11 @@ export default {
 
   > .form-control {
     margin: 0;
+
+    > .form-control {
+      // XXX temporary measure until we can clean up ControlInfo better
+      width: 100%;
+    }
   }
 
   label {

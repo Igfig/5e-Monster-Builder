@@ -11,12 +11,10 @@
               :checked="checked(option)">
 
             <!--suppress HtmlFormInputWithoutLabel -->
-            <input
-                type="radio"
-                :name="name"
-                :selected="checked(option)"
+            <input type="radio" :name="name"
+                :checked="checked(option)"
                 @input="onInput(option)"
-            /> <!--TODO find a way to work with the built-in :checked selector-->
+            />
           </builder-hidden-input-label>
         </li>
       </ul>

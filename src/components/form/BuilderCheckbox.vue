@@ -4,9 +4,9 @@
 
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" type="checkbox"
+             :value="value"
              :checked="checked"
-             :selected="checked"
-             @change="onChange"/> <!--XXX :selected is there since vue doesn't really work with the built-in checked property-->
+             @change="onChange"/>
     </builder-hidden-input-label>
   </control-info>
 </template>
