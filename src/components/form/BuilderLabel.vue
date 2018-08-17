@@ -1,10 +1,12 @@
+<!--TODO maybe split this into two components?-->
+
 <template>
   <fragment v-if="forInput">
     <slot/>
-    <label :class="className" :for="forInput">{{ label }}</label>
+    <label :class="classObject" :for="forInput">{{ label }}</label>
   </fragment>
   <label v-else>
-    <span :class="className">{{ label }}</span>
+    <span :class="classObject">{{ label }}</span>
     <slot />
   </label>
 </template>
@@ -17,12 +19,17 @@ export default {
   components: { Fragment },
   props: {
     forInput: { type: String }, // TODO perhaps we should just take a boolean or a name, and generate the id ourselves
+    className: String,
     label: { type: String, required: true },
     right: { type: Boolean }
   },
   data() {
     return {
-      className: this.right ? "label-right" : "label-left"
+      classObject: {
+        [this.className]: !!this.className,
+        "label-right": this.right,
+        "label-left": !this.right
+      }
     };
   }
 };

@@ -1,6 +1,6 @@
 <template>
   <control-info :info="info">
-    <builder-label :label="label" :right="labelRight">
+    <builder-label :class-name="name" :label="label" :right="labelRight">
       <!--suppress HtmlFormInputWithoutLabel -->
       <input :name="name" :type="type" :value="value"
              :list="datalistId" @input="onInput"/>
