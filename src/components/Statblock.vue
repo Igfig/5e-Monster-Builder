@@ -3,8 +3,8 @@
     <h3 class="monster-name">{{monster.name | capitalize}}<span v-if="!monster.name">New Monster</span>
     </h3>
     
-    <p>{{monster.size.label | capitalize}} {{getLabel(monster.type)}}<span v-if="!!monster.subtype">
-        ({{getLabel(monster.subtype)}})</span>, <!--FIXME should really support multiple subtypes-->{{monster.alignment.text | lowercase}}
+    <p>{{monster.size.label | capitalize}} {{getLabel(monster.type)}}<span v-if="!!monster.subtypes">
+        ({{getLabel(monster.subtypes)}})</span>, <!--FIXME should really support multiple subtypes-->{{monster.alignment.text | lowercase}}
     </p>
     
     <hr/>

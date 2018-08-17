@@ -24,7 +24,7 @@
                           v-model="monster.type"
                           :options="TYPES"/>
           <builder-input name="subtypes" label="Subtypes"
-                         v-model="monster.subtype"
+                         v-model="monster.subtypes"
                          :options="SUBTYPES"/> <!--TODO replace with a multiselect sort of thing-->
         </fieldset>
 

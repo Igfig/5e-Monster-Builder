@@ -23,6 +23,7 @@ export class Monster {
 
   size = SIZES.MEDIUM;
   type = TYPES.HUMANOID;
+  subtypes = null;
   alignment = ALIGNMENTS.UNALIGNED;
 
   cr = 0; // TODO calculate
