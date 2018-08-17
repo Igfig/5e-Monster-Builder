@@ -6,15 +6,18 @@
         <li v-for="option in options"
             :key="getId(option)"
             class="radio-label">
+
           <builder-hidden-input-label
               :forInput="getId(option)"
-              :label="getLabel(option)">
+              :label="getLabel(option)"
+              :checked="checked(option)">
+
             <!--suppress HtmlFormInputWithoutLabel -->
             <input
                 type="radio"
                 :name="name"
                 :id="getId(option)"
-                :selected="value === option"
+                :selected="checked(option)"
                 @input="onInput(option)"
             /> <!--TODO find a way to work with the built-in :checked selector-->
           </builder-hidden-input-label>
@@ -53,13 +56,10 @@ export default {
     },
     getLabel(option) {
       return this.customLabel ? this.customLabel(option) : get(option, "label");
+    },
+    checked(option) {
+      return this.value === option;
     }
   }
 };
 </script>
-
-<style lang="scss" scoped>
-input {
-  display: none;
-}
-</style>

@@ -99,16 +99,16 @@ button {
   padding: 2px 4px;
 }
 
+select {
+  // select seems to have about 2px of side padding built in already
+  padding: 2px;
+}
+
 button {
   &:active {
     background-color: $crimson;
     color: white;
   }
-}
-
-select {
-  // select seems to have about 2px of side padding built in already
-  padding: 2px;
 }
 
 fieldset {
@@ -118,40 +118,6 @@ fieldset {
 legend {
   font-weight: bold;
   margin-bottom: 5px;
-}
-
-input[type="radio"],
-input[type="checkbox"] {
-  display: none;
-
-  $base-colour: black;
-  $selected-colour: $crimson;
-
-  + label {
-    box-sizing: border-box;
-    margin: 0px;
-    padding: 2px 4px;
-    border: 1px solid $base-colour;
-    //background-color: $base-colour;
-    color: $base-colour;
-    text-align: center;
-    font-size: $input-font-size;
-
-    ul & {
-      padding: 5px;
-    }
-  }
-
-  // &:active, &:focus, //FIXME flickers a bit when you release a click
-  &[selected],
-  &[checked] {
-    + label {
-      //border: 1px solid $selected-colour;
-      background-color: $selected-colour;
-      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4); //XXX not certain about this
-      color: white;
-    }
-  }
 }
 
 .form-control {

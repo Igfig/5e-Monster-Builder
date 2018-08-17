@@ -1,12 +1,13 @@
 <template>
   <control-info :info="info">
-    <builder-hidden-input-label :forInput="inputId" :label="label">
+    <builder-hidden-input-label :forInput="inputId" :label="label" :checked="checked">
 
       <!--suppress HtmlFormInputWithoutLabel -->
-      <input :name="name" :id="inputId" type="checkbox"
-             :checked="checked" :selected="checked"
+      <input :name="name" type="checkbox"
+             :id="inputId"
+             :checked="checked"
+             :selected="checked"
              @change="onChange"/> <!--XXX :selected is there since vue doesn't really work with the built-in checked property-->
-      <!--XXX wait a second, why don't we wrap it in an input and put a style or prop on the label programmatically instead of making it go through the html's order -->
     </builder-hidden-input-label>
   </control-info>
 </template>

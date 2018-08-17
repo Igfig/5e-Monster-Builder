@@ -12,7 +12,8 @@
   
         <builder-hidden-input-label
           :forInput="getId(option)"
-          :label="option.label | capitalize">
+          :label="option.label | capitalize"
+          :checked="shouldBeChecked(option.id)">
           
           <!--suppress HtmlFormInputWithoutLabel -->
           <input :name="name" type="checkbox"
