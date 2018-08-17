@@ -4,7 +4,7 @@
       <control-info :info="info">
       <ul>
         <li v-for="option in options"
-            :key="get(option)"
+            :key="getId(option)"
             class="radio-label">
           <builder-label-separate
               :forInput="getId(option)"
@@ -47,10 +47,9 @@ export default {
       // this method has to be in function notation, not lambda. Lambdas break it.
       this.$emit("input", value);
     },
-    get,
+    // XXX can we rework these so they won't recalculate every time we rerender? Maybe some kind of object dict instead of a function. ...wait it's already just an object, this is just an accessor
     getId(option) {
-      // XXX should this naybe be computed instead? So it'll recalculate less often
-      return this.name + "-" + this.get(option).toLowerCase();
+      return this.name + "-" + get(option, "id").toLowerCase();
     },
     getLabel(option) {
       return this.customLabel ? this.customLabel(option) : get(option, "label");
