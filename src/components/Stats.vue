@@ -24,7 +24,7 @@
           <builder-select name="type" label="Type"
                           v-model="monster.type"
                           :options="TYPES"/>
-          <builder-input name="subtypes" label="Subtypes"
+          <builder-datalist name="subtypes" label="Subtypes"
                          v-model="monster.subtypes"
                          :options="SUBTYPES"/> <!--TODO replace with a multiselect sort of thing-->
         </fieldset>
@@ -106,6 +106,7 @@ import { mapState } from "vuex";
 import { ALIGNMENTS, SIZES, TYPES, SUBTYPES, ABILITIES } from "../constants";
 import { formatBonus } from "../util";
 import BuilderInput from "./form/BuilderInput";
+import BuilderDatalist from "./form/BuilderDatalist";
 import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
 import BuilderLabel from "./form/BuilderLabel";
@@ -121,6 +122,7 @@ export default {
     BuilderCheckbox,
     BuilderRadio,
     BuilderInput,
+    BuilderDatalist,
     BuilderSelect,
     BuilderLabel
   },
