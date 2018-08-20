@@ -1,7 +1,7 @@
 <template>
     <fieldset :class="className">
       <legend v-if="!!label">{{label}}</legend>
-      <ul class="radio">
+      <ul class="radio" :style="{gridTemplateColumns: `repeat(${width}, 1fr)`}">
         <li v-for="option in options">
 
           <builder-hidden-input-label
@@ -28,7 +28,7 @@ export default {
   mixins: [optionsControl([Object, String, Boolean])],
   components: { BuilderHiddenInputLabel },
   props: {
-    optionLabeler: { type: Function } // XXX maybe unnecessary
+    width: { type: Number, default: 3 }
   },
   computed: {
     className() {

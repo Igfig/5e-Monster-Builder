@@ -1,7 +1,7 @@
 <template>
   <fieldset @input="onChange">
     <legend v-if="!!label">{{label}}</legend>
-    <ul class="checkboxes">
+    <ul class="checkboxes" :style="{gridTemplateColumns: `repeat(${width}, 1fr)`}">
       <li v-for="option in options">
         <builder-checkbox :name="name" :label="option.label | capitalize"
                           :value="getId(option)" :checked="shouldBeChecked(option)"
@@ -64,7 +64,7 @@ export default {
 <style lang="scss">
 .checkboxes {
   display: inline-grid;
-  grid-template-columns: repeat(3, 1fr); // FIXME this is only really valid in some cases
+  //grid-template-columns: repeat(3, 1fr); // FIXME this is only really valid in some cases
   //grid-template-columns: repeat(3, auto);
   grid-gap: 2px;
 
