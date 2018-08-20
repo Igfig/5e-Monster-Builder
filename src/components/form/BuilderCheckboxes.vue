@@ -49,16 +49,12 @@ export default {
 
     shouldBeChecked(option) {
       const key = this.getId(option);
-      console.log(key);
       return this.checkedVals.includes(key);
     }
   },
   data() {
     return {
-      checkedVals: [],
-      getId(option) {
-        return this.name + "-" + option.id;
-      }
+      checkedVals: []
     };
   }
 };
