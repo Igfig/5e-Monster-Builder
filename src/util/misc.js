@@ -7,6 +7,7 @@ export function callIfFunction(func, value, fallback = func) {
   return fallback;
 }
 
+// TODO convert this into a class instead
 export function ordered(obj = {}, func = ([k, v]) => v) {
   // convert any entries specified as strings or whatever into objects
   //obj = _.mapValues(obj, (v, k) => ({ id: k, ...(typeof v === "object" ? v : { label: v }) }));
@@ -23,6 +24,11 @@ export function ordered(obj = {}, func = ([k, v]) => v) {
   // generate a sort order
   const sortedArray = Object.entries(obj).sort(func);
   obj[Symbol.iterator] = sortedArray.iterator;
+  Object.defineProperty(obj, "length", {
+    value: sortedArray.length,
+    enumerable: false
+  });
+
   return obj;
 }
 

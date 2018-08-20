@@ -55,7 +55,8 @@
 
         <builder-checkboxes name="saves" label="Saving Throw Proficiencies"
                             v-model="monster.saves"
-                            :options="ABILITIES"/>
+                            :options="ABILITIES"
+                            :width="ABILITIES.length"/>
       </div>
 
       <fieldset class="hp">
