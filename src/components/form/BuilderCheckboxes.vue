@@ -1,10 +1,10 @@
 <template>
-  <fieldset @input="onChange">
+  <fieldset @input="onInput">
     <legend v-if="!!label">{{label}}</legend>
     <ul class="checkboxes" :style="{gridTemplateColumns: `repeat(${width}, 1fr)`}">
       <li v-for="option in options">
         <builder-checkbox :name="name" :label="option.label | capitalize"
-                          :value="getId(option)" :checked="shouldBeChecked(option)"
+                          :value="getId(option)" :checked="checked(option)"
                           @focus="onFocus"/>
       </li>
     </ul>
@@ -28,7 +28,7 @@ export default {
     width: { type: Number, default: 3 }
   },
   methods: {
-    onChange(event) {
+    onInput(event) {
       const { checked, value: key } = event.target;
 
       if (checked) {
@@ -37,18 +37,10 @@ export default {
         this.checkedVals.splice(this.checkedVals.indexOf(key), 1);
       }
 
-      /*
-      // turn the unsorted list of ids into a sorted list of objects
-       // TODO there is probably a more efficient way to do this.
-       // XXX Also we don't always need it sorted now that I think about it? So commenting out
-      const result = Object.keys(this.options)
-        .filter(k => this.checkedVals.includes(k))
-        .map(k => this.options[k]);*/
-
       this.$emit("input", this.checkedVals);
     },
 
-    shouldBeChecked(option) {
+    checked(option) {
       const key = this.getId(option);
       return this.checkedVals.includes(key);
     }
