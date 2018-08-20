@@ -112,12 +112,10 @@ import BuilderLabel from "./form/BuilderLabel";
 import BuilderNumeric from "./form/BuilderNumeric";
 import BuilderCheckbox from "./form/BuilderCheckbox";
 import BuilderCheckboxes from "./form/BuilderCheckboxes";
-import ControlInfo from "./ControlInfo";
 
 export default {
   name: "Stats",
   components: {
-    ControlInfo,
     BuilderCheckboxes,
     BuilderNumeric,
     BuilderCheckbox,
