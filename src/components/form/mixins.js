@@ -23,25 +23,35 @@ export const control = value => ({
   },
   data() {
     return {
-      info: this.$slots.default,
-      // XXX should these methods be methods or computed or data or what? I'm not really clear on the difference
+      info: this.$slots.default
+    };
+  }
+});
+
+// a control that can take a list of options, like select, checkboxes, or a datalist.
+// TODO is there a better way to extend an object/function like this?
+export const optionsControl = (value, required = true) => {
+  const base = control(value);
+
+  return {
+    ...base,
+    props: {
+      ...base.props,
+      optionLabeler: Function,
+      options: {
+        type: [Array, Object],
+        required
+      }
+    },
+    methods: {
+      ...base.methods,
+      // XXX feel like these methods might be better in computed or data... but I get errors when I put them there. So maybe not
       getId(option) {
         return get(option, "id");
       },
       getLabel(option) {
-        return get(option, "label");
+        return this.optionLabeler ? this.optionLabeler(option) : get(option, "label");
       }
-    }; // XXX Ditto on whether this should be elsewhere
-  }
-});
-
-// a control that can take a list of options, like select, checkboxes, or a datalist
-export const options = (required = false) => ({
-  // XXX maybe required should be true by default? Not sure why else you'd use it after all
-  props: {
-    options: {
-      type: [Array, Object],
-      required
     }
-  }
-});
+  };
+};

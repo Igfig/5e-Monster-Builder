@@ -13,12 +13,12 @@
 
 <script>
 import { get } from "../../util";
-import { control, options } from "./mixins";
+import { optionsControl } from "./mixins";
 import BuilderLabel from "./BuilderLabel";
 
 export default {
   name: "BuilderSelect",
-  mixins: [control([Object, String, Boolean]), options(true)],
+  mixins: [optionsControl([Object, String, Boolean])],
   components: { BuilderLabel },
   methods: {
     isSelected(option) {

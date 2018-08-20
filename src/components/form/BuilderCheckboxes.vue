@@ -4,20 +4,21 @@
     <ul class="checkboxes">
       <li v-for="option in options">
         <builder-checkbox :name="name" :label="option.label | capitalize"
-          :value="getId(option)" :checked="shouldBeChecked(option)" @focus="onFocus"/>
+                          :value="getId(option)" :checked="shouldBeChecked(option)"
+                          @focus="onFocus"/>
       </li>
     </ul>
   </fieldset>
 </template>
 
 <script>
-import { control, options } from "./mixins";
+import { optionsControl } from "./mixins";
 import BuilderCheckbox from "./BuilderCheckbox";
 import BuilderHiddenInputLabel from "./BuilderHiddenInputLabel";
 
 export default {
   name: "BuilderCheckboxes",
-  mixins: [control(Array), options(true)],
+  mixins: [optionsControl(Array)],
   components: { BuilderCheckbox, BuilderHiddenInputLabel },
   model: {
     prop: "checkedVals",

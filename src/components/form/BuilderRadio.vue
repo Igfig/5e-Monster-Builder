@@ -1,9 +1,8 @@
 <template>
     <fieldset :class="className">
       <legend v-if="!!label">{{label}}</legend>
-      <ul>
-        <li v-for="option in options"
-            class="radio-label">
+      <ul class="radio">
+        <li v-for="option in options">
 
           <builder-hidden-input-label
               :label="getLabel(option)"
@@ -21,16 +20,15 @@
 </template>
 
 <script>
-import { get } from "../../util";
-import { control, options } from "./mixins";
+import { optionsControl } from "./mixins";
 import BuilderHiddenInputLabel from "./BuilderHiddenInputLabel";
 
 export default {
   name: "BuilderRadio",
-  mixins: [control([Object, String, Boolean]), options(true)],
+  mixins: [optionsControl([Object, String, Boolean])],
   components: { BuilderHiddenInputLabel },
   props: {
-    customLabel: { type: Function } // XXX maybe unnecessary
+    optionLabeler: { type: Function } // XXX maybe unnecessary
   },
   computed: {
     className() {
@@ -45,13 +43,6 @@ export default {
     checked(option) {
       return this.value === option;
     }
-  },
-  data() {
-    return {
-      getLabel(option) {
-        return this.customLabel ? this.customLabel(option) : get(option, "label"); // XXX maybe unnecessary. Or move this to the 'options' mixin?
-      }
-    };
   }
 };
 </script>
