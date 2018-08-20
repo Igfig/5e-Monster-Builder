@@ -1,5 +1,5 @@
 <template>
-    <fieldset :class="className">
+    <fieldset :class="name">
       <legend v-if="!!label">{{label}}</legend>
       <ul class="radio" :style="{gridTemplateColumns: `repeat(${width}, 1fr)`}">
         <li v-for="option in options">
@@ -29,11 +29,6 @@ export default {
   components: { BuilderHiddenInputLabel },
   props: {
     width: { type: Number, default: 3 }
-  },
-  computed: {
-    className() {
-      return this.name; // TODO namespace? nah just cut
-    }
   },
   methods: {
     onInput(option) {
