@@ -20,6 +20,7 @@ export default {
     return {
       classObject: {
         [this.className]: !!this.className,
+        "form-control": true,
         "label-right": this.right,
         "label-left": !this.right
       }

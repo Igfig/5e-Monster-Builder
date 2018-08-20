@@ -1,14 +1,12 @@
 <template>
-  <fieldset @change="onChange">
+  <fieldset @input="onChange">
     <legend v-if="!!label">{{label}}</legend>
-    <control-info :info="info">
-      <ul class="checkboxes">
-        <li class="form-control" v-for="option in options">
-          <builder-checkbox :name="name" :label="option.label | capitalize"
-            :value="getId(option)" :checked="shouldBeChecked(option)"/>
-        </li>
-      </ul>
-    </control-info>
+    <ul class="checkboxes">
+      <li v-for="option in options">
+        <builder-checkbox :name="name" :label="option.label | capitalize"
+          :value="getId(option)" :checked="shouldBeChecked(option)" @focus="onFocus"/>
+      </li>
+    </ul>
   </fieldset>
 </template>
 
@@ -16,15 +14,14 @@
 import { control, options } from "./mixins";
 import BuilderCheckbox from "./BuilderCheckbox";
 import BuilderHiddenInputLabel from "./BuilderHiddenInputLabel";
-import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderCheckboxes",
   mixins: [control(Array), options(true)],
-  components: { ControlInfo, BuilderCheckbox, BuilderHiddenInputLabel },
+  components: { BuilderCheckbox, BuilderHiddenInputLabel },
   model: {
     prop: "checkedVals",
-    event: "change"
+    event: "input"
   },
   props: {
     width: { type: Number, default: 3 }
@@ -47,18 +44,22 @@ export default {
         .filter(k => this.checkedVals.includes(k))
         .map(k => this.options[k]);*/
 
-      this.$emit("change", this.checkedVals);
+      this.$emit("input", this.checkedVals);
     },
-    getId(option) {
-      return this.name + "-" + option.id;
-    },
+
     shouldBeChecked(option) {
       const key = this.getId(option);
+      console.log(key);
       return this.checkedVals.includes(key);
     }
   },
   data() {
-    return { checkedVals: [] };
+    return {
+      checkedVals: [],
+      getId(option) {
+        return this.name + "-" + option.id;
+      }
+    };
   }
 };
 </script>
@@ -67,19 +68,11 @@ export default {
 .checkboxes {
   display: inline-grid;
   grid-template-columns: repeat(3, 1fr); // FIXME this is only really valid in some cases
+  //grid-template-columns: repeat(3, auto);
   grid-gap: 2px;
 
-  > .form-control {
-    margin: 0;
-
-    > .form-control {
-      // XXX temporary measure until we can clean up ControlInfo better
-      width: 100%;
-    }
-  }
-
   label {
-    width: 100%;
+    display: block;
   }
 }
 </style>

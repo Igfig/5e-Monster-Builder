@@ -1,35 +1,34 @@
 <template>
-  <control-info :info="info">
-    <builder-hidden-input-label :label="label" :checked="checked">
+  <builder-hidden-input-label :label="label" :checked="checked">
+    <!--TODO pressing enter or space while the label is selected should toggle the input.-->
 
-      <!--suppress HtmlFormInputWithoutLabel -->
-      <input :name="name" type="checkbox"
-             :value="value"
-             :checked="checked"
-             @change="onChange"/>
-    </builder-hidden-input-label>
-  </control-info>
+    <!--suppress HtmlFormInputWithoutLabel -->
+    <input :name="name" type="checkbox"
+           :value="value"
+           :checked="checked"
+           @input="onInput" @focus="onFocus"
+    />
+  </builder-hidden-input-label>
 </template>
 
 <script>
 import { control } from "./mixins";
 import BuilderHiddenInputLabel from "./BuilderHiddenInputLabel";
-import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderCheckbox",
   mixins: [control([String, Object])],
-  components: { ControlInfo, BuilderHiddenInputLabel },
+  components: { BuilderHiddenInputLabel },
   props: {
     checked: Boolean
   },
   model: {
     prop: "checked",
-    event: "change"
+    event: "input"
   },
   methods: {
-    onChange(event) {
-      this.$emit("change", event.target.checked);
+    onInput(event) {
+      this.$emit("input", event.target.checked);
     }
   }
 };

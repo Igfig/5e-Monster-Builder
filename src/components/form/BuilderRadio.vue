@@ -1,7 +1,6 @@
 <template>
     <fieldset :class="className">
       <legend v-if="!!label">{{label}}</legend>
-      <control-info :info="info">
       <ul>
         <li v-for="option in options"
             class="radio-label">
@@ -13,12 +12,11 @@
             <!--suppress HtmlFormInputWithoutLabel -->
             <input type="radio" :name="name"
                 :checked="checked(option)"
-                @input="onInput(option)"
+                @input="onInput(option)" @focus="onFocus"
             />
           </builder-hidden-input-label>
         </li>
       </ul>
-      </control-info>
     </fieldset>
 </template>
 
@@ -26,32 +24,34 @@
 import { get } from "../../util";
 import { control, options } from "./mixins";
 import BuilderHiddenInputLabel from "./BuilderHiddenInputLabel";
-import ControlInfo from "../ControlInfo";
 
 export default {
   name: "BuilderRadio",
   mixins: [control([Object, String, Boolean]), options(true)],
-  components: { ControlInfo, BuilderHiddenInputLabel },
+  components: { BuilderHiddenInputLabel },
   props: {
-    customLabel: { type: Function }
+    customLabel: { type: Function } // XXX maybe unnecessary
   },
   computed: {
     className() {
-      return this.name; // TODO namespace?
+      return this.name; // TODO namespace? nah just cut
     }
   },
   methods: {
-    onInput(value) {
-      // this method has to be in function notation, not lambda. Lambdas break it.
-      this.$emit("input", value);
+    onInput(option) {
+      this.$emit("input", option);
     },
     // XXX can we rework these so they won't recalculate every time we rerender? Maybe some kind of object dict instead of a function. ...wait it's already just an object, these are just getters basically
-    getLabel(option) {
-      return this.customLabel ? this.customLabel(option) : get(option, "label");
-    },
     checked(option) {
       return this.value === option;
     }
+  },
+  data() {
+    return {
+      getLabel(option) {
+        return this.customLabel ? this.customLabel(option) : get(option, "label"); // XXX maybe unnecessary. Or move this to the 'options' mixin?
+      }
+    };
   }
 };
 </script>

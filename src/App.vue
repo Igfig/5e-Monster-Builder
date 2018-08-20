@@ -114,6 +114,17 @@ button {
 :invalid {
   border-color: red; // FIXME make it better
 }
+
+%focus {
+  //box-shadow: 0 0 2px 2px $crimson;
+  //outline: none; //2px solid blue;
+  outline: $crimson auto 5px; // XXX could maybe be made better?
+}
+
+:focus {
+  @extend %focus;
+}
+
 fieldset {
   margin: 0 0 1em;
   border: none;
