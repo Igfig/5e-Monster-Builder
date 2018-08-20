@@ -1,5 +1,5 @@
 <template>
-    <form class="stats" @input="setMonster(monster)">
+    <form class="stats">
       <!--FIXME name and v-model are basically duplicates. Have only one or the other. Maybe by means of slot-scope?-->
       <fieldset>
         <builder-input name="name" label="Name"
@@ -101,10 +101,9 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
 import { ALIGNMENTS, SIZES, TYPES, SUBTYPES, ABILITIES } from "../constants";
 import { formatBonus } from "../util";
-import { SET_MONSTER } from "../store/mutations";
 import BuilderInput from "./form/BuilderInput";
 import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
@@ -138,7 +137,7 @@ export default {
   computed: mapState(["monster"]),
   methods: {
     formatBonus,
-    ...mapMutations({ setMonster: SET_MONSTER }),
+    //...mapMutations({ setMonster: SET_MONSTER }), // XXX I think unnecessary because all of the mutations are done in the form controls instead of at this level. Though it's possible that'll turn out to be less performant than this approach... well, we'll deal with that later.
     resetSpeed: () => {
       console.log("reset speed"); // TODO implement
     }
