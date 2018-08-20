@@ -63,13 +63,16 @@ export default {
 
 <style lang="scss">
 .checkboxes {
+  // TODO unify with BuilderRadio style
+
   display: inline-grid;
   //grid-template-columns: repeat(3, 1fr); // FIXME this is only really valid in some cases
-  //grid-template-columns: repeat(3, auto);
   grid-gap: 2px;
 
+  li,
   label {
     display: block;
+    margin: 0;
   }
 }
 </style>

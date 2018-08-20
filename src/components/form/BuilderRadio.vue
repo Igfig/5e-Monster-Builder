@@ -46,3 +46,18 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.radio {
+  // TODO unify with BuilderCheckboxes style
+
+  display: inline-grid;
+  grid-gap: 2px;
+
+  li,
+  label {
+    display: block;
+    margin: 0;
+  }
+}
+</style>

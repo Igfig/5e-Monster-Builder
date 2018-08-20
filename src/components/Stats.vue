@@ -185,24 +185,13 @@ $column-width: 330px;
 
   .alignment {
     ul {
-      display: inline-grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-gap: 2px;
       //width: 7em; // XXX arbitrary
-
       // first 9 alignment buttons are in a grid, later ones are full-width
     }
     li {
-      display: block;
-
       &:nth-of-type(n + 10) {
         grid-column: 1 / -1;
       }
-      > label {
-        display: block;
-        margin: 0;
-      }
-
       html.no-cssgrid & {
         display: flex;
         flex-flow: row wrap;
