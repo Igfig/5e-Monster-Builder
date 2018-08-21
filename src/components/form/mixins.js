@@ -2,6 +2,7 @@ import { mapState, mapMutations } from "vuex";
 import { get } from "../../util";
 import { CURRENT_INFO } from "../../store/keys";
 import { SET_CURRENT_INFO } from "../../store/mutations";
+import { DEFAULT_INFO_DISPLAY } from "../../constants";
 
 export const control = value => ({
   // "value" is an array of the types of values you can model from this kind of control
@@ -18,7 +19,9 @@ export const control = value => ({
       this.$emit("input", event.target.value);
     },
     onFocus() {
-      return this.setCurrentInfo(this.info);
+      return this.info
+        ? this.setCurrentInfo({ title: this.label, body: this.info })
+        : this.setCurrentInfo(DEFAULT_INFO_DISPLAY);
     }
   },
   data() {

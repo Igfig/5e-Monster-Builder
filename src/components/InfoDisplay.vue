@@ -2,9 +2,13 @@
 export default {
   name: "InfoDisplay",
   functional: true,
-  props: { info: Array },
+  props: { info: Object },
   render(createElement, context) {
-    return createElement("div", { props: { info: [] } }, context.props.info); // XXX kinda wish I didn't have to wrap it in a div always. If only we could put it in just like a Fragment or something. But that breaks
+    // TODO maybe let's do the jsx approach instead, this is not very readable
+    return createElement("aside", { class: "info", props: { info: [] } }, [
+      createElement("h3", {}, context.props.info.title),
+      ...context.props.info.body
+    ]);
   }
 };
 </script>

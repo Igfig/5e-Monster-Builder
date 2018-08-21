@@ -11,12 +11,12 @@
     
     <figure class="results">
       <monster/>
+
+      <!--TODO text-->
     </figure>
   
-    <aside class="info"> <!--FIXME the relationship between this box and the focused control isn't entirely clear. Rearrange the page? Add a canvas in the background that draws a line from the info box to the control? (Or fake it with a colored div or something?) Move all the info to a popup?-->
-      <h3>Info</h3> <!--TODO maybe pull this from the control's label-->
-      <info-display :info="currentInfo"/>
-    </aside>
+    <!--FIXME the relationship between this box and the focused control isn't entirely clear. Rearrange the page? Add a canvas in the background that draws a line from the info box to the control? (Or fake it with a colored div or something?) Move all the info to a popup?-->
+    <info-display :info="currentInfo"/>
   </main>
 </template>
 

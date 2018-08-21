@@ -21,4 +21,7 @@ export const NUMBER_STRINGS = [
 //   danger: "red"
 // };
 
-export const DEFAULT_INFO_DISPLAY = ["Focus on a control to see information about it."]; // TODO make it better, I don't like how this reads
+export const DEFAULT_INFO_DISPLAY = {
+  title: "Info",
+  body: ["Focus on a control to see information about it."] // TODO make it better, I don't like how this reads
+};
