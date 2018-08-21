@@ -1,10 +1,10 @@
 <template>
   <fieldset @input="onInput">
     <legend v-if="!!label">{{label}}</legend>
-    <ul class="checkboxes" :style="{gridTemplateColumns: `repeat(${width}, 1fr)`}">
+    <ul class="checkboxes" :style="styles">
       <li v-for="option in options">
         <builder-checkbox :name="name" :label="option.label | capitalize"
-                          :value="getId(option)" :checked="checked(option)"
+                          :value="getId(option)" :checked="isChecked(option)"
                           @focus="onFocus"/>
       </li>
     </ul>
@@ -12,20 +12,17 @@
 </template>
 
 <script>
-import { optionsControl } from "./mixins";
+import { optionsControl, boxes } from "./mixins";
 import BuilderCheckbox from "./BuilderCheckbox";
 import BuilderHiddenInputLabel from "./BuilderHiddenInputLabel";
 
 export default {
   name: "BuilderCheckboxes",
-  mixins: [optionsControl(Array)],
+  mixins: [optionsControl(Array), boxes],
   components: { BuilderCheckbox, BuilderHiddenInputLabel },
   model: {
     prop: "checkedVals",
     event: "input"
-  },
-  props: {
-    width: { type: Number, default: 3 }
   },
   methods: {
     onInput(event) {
@@ -40,7 +37,7 @@ export default {
       this.$emit("input", this.checkedVals);
     },
 
-    checked(option) {
+    isChecked(option) {
       const key = this.getId(option);
       return this.checkedVals.includes(key);
     }

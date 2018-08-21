@@ -28,7 +28,7 @@ export const control = value => ({
   }
 });
 
-// a control that can take a list of options, like select, checkboxes, or a datalist.
+// a control that can take a list of options, like select, checkboxes, or a datalist. Extends 'control'.
 // TODO is there a better way to extend an object/function like this?
 export const optionsControl = (value, required = true) => {
   const base = control(value);
@@ -54,4 +54,15 @@ export const optionsControl = (value, required = true) => {
       }
     }
   };
+};
+
+export const boxes = {
+  props: {
+    width: { type: Number, default: 3 }
+  },
+  data() {
+    return {
+      styles: { gridTemplateColumns: `repeat(${this.width}, 1fr)` }
+    };
+  }
 };
