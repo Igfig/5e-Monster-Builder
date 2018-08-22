@@ -10,7 +10,7 @@
 <script>
 import { mapMutations } from "vuex";
 import { component as Fragment } from "vue-fragments";
-import { SET_CURRENT_INFO } from "../store/mutations";
+import { SET_CURRENT_INFO } from "../../store/mutations";
 
 export default {
   name: "ControlInfo",
