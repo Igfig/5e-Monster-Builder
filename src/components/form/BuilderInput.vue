@@ -1,3 +1,5 @@
+<!--Mostly for text inputs, but this should probably work ok for any inputs we haven't defined controls for yet-->
+
 <template>
   <builder-label :class-name="name" :label="label" :right="labelRight">
     <!--suppress HtmlFormInputWithoutLabel -->

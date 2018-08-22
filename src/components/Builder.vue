@@ -16,6 +16,7 @@
     </figure>
   
     <!--FIXME the relationship between this box and the focused control isn't entirely clear. Rearrange the page? Add a canvas in the background that draws a line from the info box to the control? (Or fake it with a colored div or something?) Move all the info to a popup?-->
+    <!--TODO on wide screens this might want to be a sidebar instead.-->
     <info-display :info="currentInfo"/>
   </main>
 </template>
