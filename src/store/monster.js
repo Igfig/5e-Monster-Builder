@@ -45,9 +45,6 @@ export class Monster {
     const baseHpPerHd = this.hasMaxHp ? this.size.hd : (this.size.hd + 1) / 2;
     return Math.max(1, baseHpPerHd + this.abilities.CON.bonus) * hpMultiplier;
   };
-  set hpTarget(value) {
-    this.hd = Math.max(1, Math.round(value / this.hpPerHd()));
-  }
   get hp() {
     // TODO this should be a getter, or at least cached somehow
     return Math.max(1, Math.floor(this.hd * this.hpPerHd()));
@@ -69,5 +66,5 @@ export class Monster {
 export const monster = {
   namespaced: true,
   state: new Monster(),
-  mutations: propertiesToMutations(["hd"])
+  mutations: propertiesToMutations(["hd"]) // TODO extract that string to a constant
 };

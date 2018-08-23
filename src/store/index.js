@@ -12,7 +12,7 @@ export default new Vuex.Store({
     monster
   },
   state: {
-    [CURRENT_INFO]: DEFAULT_INFO_DISPLAY
+    [CURRENT_INFO]: DEFAULT_INFO_DISPLAY // TODO I keep trying to extract this into a module, but for some reason it gives me "TypeError: Cannot convert undefined or null to object"
   },
   getters: {},
   mutations: {

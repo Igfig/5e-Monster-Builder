@@ -63,10 +63,13 @@
         <legend>Hit Points</legend>
 
         <!--TODO better label than "Target hit points"-->
+        <!--TODO placeholders (equal to real hp and hd)-->
         <builder-numeric name="hp" label="Target hit points"
-                         v-model="monster.hpTarget" :min="1" />
+                         v-model="hpTarget" :min="1" :placeholder="monster.hp"
+                         @input="hpTargetActive = true"/>
         <builder-numeric name="hd" label="Hit Dice" label-right
-                         v-model="monster.hd" :min="1" />
+                         v-model="hdSet" :min="1"  :placeholder="monster.hd"
+                         @input="hpTargetActive = false"/>
         <div>Actual hit points: <output>{{monster.hp}}</output></div>
         <!--TODO grey out (or empty?) whichever input isn't taking the lead right now-->
         <!--FIXME if HD input is empty, actual hp is calculated as NaN-->
@@ -102,8 +105,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { ALIGNMENTS, SIZES, TYPES, SUBTYPES, ABILITIES } from "../constants";
+import { mapMutations, mapState } from "vuex";
+import { ABILITIES, ALIGNMENTS, SIZES, SUBTYPES, TYPES } from "../constants";
+import { MONSTER } from "../store/keys";
 import { formatBonus } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderDatalist from "./form/BuilderDatalist";
@@ -132,13 +136,38 @@ export default {
       TYPES,
       SUBTYPES,
       ALIGNMENTS,
-      ABILITIES
+      ABILITIES,
+      hpTarget: undefined,
+      hdSet: 1,
+      hpTargetActive: false // we use this to tell which of hpTarget and hdSet was manually updated. The other will be automatically updated as a result of the first one's update, and we don't want that to roll back around and hit the first one again.
     };
   },
-  computed: mapState(["monster"]),
+  computed: {
+    ...mapState([MONSTER])
+  },
+  watch: {
+    hpTarget: function(val) {
+      if (this.hpTargetActive) {
+        this.hdSet = undefined;
+
+        this.setHd(Math.max(1, Math.round(val / this.monster.hpPerHd()))); // TODO copied from monster.set:hpTarget, needs to be unified somehow
+      }
+    },
+    hdSet: function(val) {
+      if (!this.hpTargetActive) {
+        this.hpTarget = undefined;
+        this.setHd(val);
+      }
+    }
+  },
   methods: {
     formatBonus,
-    //...mapMutations({ setMonster: SET_MONSTER }), // XXX I think unnecessary because all of the mutations are done in the form controls instead of at this level. Though it's possible that'll turn out to be less performant than this approach... well, we'll deal with that later.
+    /*getHd() {
+      return this.hdSet || this.hpTarget;
+    },*/
+    ...mapMutations({
+      setHd: "monster/hd" // TODO extract to constants
+    }),
     resetSpeed: () => {
       console.log("reset speed"); // TODO implement
     }
