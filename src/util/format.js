@@ -5,3 +5,7 @@ export function formatBonus(bonus) {
 export function wordsToConstantName(value) {
   return value.toUpperCase().replace(" ", "_");
 }
+
+export function capitalize(str) {
+  return str.charAt(0).toUpperCase() + name.slice(1);
+}
