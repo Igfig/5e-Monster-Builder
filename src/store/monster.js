@@ -1,5 +1,6 @@
 import { ABILITIES, ALIGNMENTS, SIZES, TIER_THRESHOLDS, TYPES } from "../constants";
 import _ from "lodash";
+import { propertiesToMutations } from "../util";
 
 // XXX still not sure this is good organization
 
@@ -67,5 +68,6 @@ export class Monster {
 
 export const monster = {
   namespaced: true,
-  state: new Monster()
+  state: new Monster(),
+  mutations: propertiesToMutations(["hd"])
 };

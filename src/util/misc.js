@@ -8,6 +8,7 @@ export function callIfFunction(func, value, fallback = func) {
 }
 
 // TODO convert this into a class instead
+// XXX I think some of this is very similar to _.keyBy
 export function ordered(obj = {}, func = ([k, v]) => v) {
   // convert any entries specified as strings or whatever into objects
   //obj = _.mapValues(obj, (v, k) => ({ id: k, ...(typeof v === "object" ? v : { label: v }) }));
@@ -81,4 +82,23 @@ export function max(val, of = null) {
   // TODO more comparisons
 
   return other => val >= other;
+}
+
+// TODO maybe move these into their own file?
+
+export function propertiesToGetters(obj) {
+  return objectFromProperties(obj, key => state => state[key]);
+}
+export function propertiesToMutations(obj) {
+  return objectFromProperties(obj, key => (state, newValue) => {
+    state[key] = newValue;
+  });
+}
+
+export function objectFromProperties(obj, valFunc, keyFunc = x => x) {
+  const properties = Array.isArray(obj) ? obj : Object.getOwnPropertyNames(obj);
+  return properties.reduce((collected, key) => {
+    collected[keyFunc(key)] = valFunc(key);
+    return collected;
+  }, {});
 }
