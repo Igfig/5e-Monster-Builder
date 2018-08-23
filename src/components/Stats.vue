@@ -63,17 +63,23 @@
         <legend>Hit Points</legend>
 
         <!--TODO better label than "Target hit points"-->
-        <!--TODO placeholders (equal to real hp and hd)-->
         <builder-numeric name="hp" label="Target hit points"
                          v-model="hpTarget" :min="1" :placeholder="monster.hp"
-                         @input="hpTargetActive = true"/>
+                         @focus="focusHp" @input="inputHp"/>
+        <!--TODO would be nice if clicking up and down started us from the values marked in the placeholders instead of 0-->
         <builder-numeric name="hd" label="Hit Dice" label-right
-                         v-model="hdSet" :min="1"  :placeholder="monster.hd"
-                         @input="hpTargetActive = false"/>
-        <div>Actual hit points: <output>{{monster.hp}}</output></div>
-        <!--TODO grey out (or empty?) whichever input isn't taking the lead right now-->
+                         v-model="hdSet" :min="1" :placeholder="monster.hd"
+                         @focus="focusHd" @input="inputHd"/>
         <!--FIXME if HD input is empty, actual hp is calculated as NaN-->
-        <!--TODO HD input should be another in-between number, like target hp. -->
+
+        <div>
+          <builder-checkbox name="hasMaxHp" label="Maximize hp"
+                            v-model="monster.hasMaxHp"/>
+          <builder-checkbox name="isInjured" label="Injured" label-right
+                            v-model="monster.isInjured"/>
+        </div>
+
+        <div>Actual hit points: <output>{{monster.hp}}</output></div>
       </fieldset>
       
       
@@ -138,7 +144,7 @@ export default {
       ALIGNMENTS,
       ABILITIES,
       hpTarget: undefined,
-      hdSet: 1,
+      hdSet: 1, // TODO better name, this one invites confusion with the setHd method
       hpTargetActive: false // we use this to tell which of hpTarget and hdSet was manually updated. The other will be automatically updated as a result of the first one's update, and we don't want that to roll back around and hit the first one again.
     };
   },
@@ -149,7 +155,6 @@ export default {
     hpTarget: function(val) {
       if (this.hpTargetActive) {
         this.hdSet = undefined;
-
         this.setHd(Math.max(1, Math.round(val / this.monster.hpPerHd()))); // TODO copied from monster.set:hpTarget, needs to be unified somehow
       }
     },
@@ -168,7 +173,51 @@ export default {
     ...mapMutations({
       setHd: "monster/hd" // TODO extract to constants
     }),
-    resetSpeed: () => {
+    focusHp(e) {
+      console.log("hpf", "[", e.target.value, "]");
+      if (!this.hpTargetActive) {
+        console.log("fhp");
+        // we're switching from specifying HD to hp
+        this.hpTargetActive = true;
+        // so set the value to current hp
+        this.hpTarget = this.monster.hp;
+        // and then the watcher will take care of the rest
+      }
+    },
+    focusHd(e) {
+      console.log("hdf", "[", e.target.value, "]");
+      if (this.hpTargetActive) {
+        console.log("fhd");
+        // we're switching from specifying hp to HD
+        this.hpTargetActive = false;
+        // so set the value to current HD
+        this.hdSet = this.monster.hd;
+        // and then the watcher will take care of the rest
+      }
+    },
+    inputHp(val) {
+      console.log("hpi", val, this.monster.hp, this.hpTarget);
+      if (!this.hpTargetActive) {
+        console.log("ihp");
+        // we're switching from specifying HD to hp
+        this.hpTargetActive = true;
+        // so set the value to current hp
+        this.hpTarget = this.monster.hp;
+        // and then the watcher will take care of the rest
+      }
+    },
+    inputHd(val) {
+      console.log("hdi", val, this.monster.hd, this.hdSet);
+      if (this.hpTargetActive) {
+        console.log("ihd");
+        // we're switching from specifying hp to HD
+        this.hpTargetActive = false;
+        // so set the value to current HD
+        this.hdSet = this.monster.hd;
+        // and then the watcher will take care of the rest
+      }
+    },
+    resetSpeed() {
       console.log("reset speed"); // TODO implement
     }
   }
