@@ -19,7 +19,8 @@ export const control = value => ({
     onInput(event) {
       this.$emit("input", event.target.value);
     },
-    onFocus() {
+    onFocus(event) {
+      this.$emit("focus", event); // just in case we need it for something else
       return this.info
         ? this.setCurrentInfo({ title: this.label, body: this.info })
         : this.setCurrentInfo(DEFAULT_INFO_DISPLAY);
