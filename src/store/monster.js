@@ -39,6 +39,7 @@ export class Monster {
   hasMaxHp = false;
   isInjured = false;
   hpPerHd = () => {
+    // TODO this should be a getter, or at least cached somehow
     const hpMultiplier = this.isInjured ? 0.5 : 1;
     const baseHpPerHd = this.hasMaxHp ? this.size.hd : (this.size.hd + 1) / 2;
     return Math.max(1, baseHpPerHd + this.abilities.CON.bonus) * hpMultiplier;
@@ -47,6 +48,7 @@ export class Monster {
     this.hd = Math.max(1, Math.round(value / this.hpPerHd()));
   }
   get hp() {
+    // TODO this should be a getter, or at least cached somehow
     return Math.max(1, Math.floor(this.hd * this.hpPerHd()));
   }
 
@@ -62,3 +64,8 @@ export class Monster {
   };
   canHover = false;
 }
+
+export const monster = {
+  namespaced: true,
+  state: new Monster()
+};
