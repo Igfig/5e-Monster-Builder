@@ -10,9 +10,10 @@ export const control = value => ({
     name: { type: String, required: true },
     label: { type: String, required: true },
     labelRight: Boolean,
+    placeholder: value, // i.e. the placeholder has to be of the same types as the valid values. FIXME this could get a bit weird with controls that take objects and arrays...
     value
   },
-  computed: { ...mapState([CURRENT_INFO]) },
+  computed: mapState([CURRENT_INFO]),
   methods: {
     ...mapMutations({ setCurrentInfo: SET_CURRENT_INFO }),
     onInput(event) {

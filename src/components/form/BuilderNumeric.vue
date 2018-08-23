@@ -3,6 +3,7 @@
     <!--suppress HtmlFormInputWithoutLabel -->
     <input :name="name" type="number" :value="value"
            :min="min" :max="max" :step="step"
+           :placeholder="placeholder"
            @input="onInput" @focus="onFocus"/>
   </builder-label>
 </template>
