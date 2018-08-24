@@ -24,7 +24,7 @@ export function ordered(obj = {}, func = ([k, v]) => v) {
 
   // generate a sort order
   const sortedArray = Object.entries(obj).sort(func);
-  obj[Symbol.iterator] = sortedArray.iterator;
+  obj[Symbol.iterator] = sortedArray.iterator; // TODO is this actually working correctly? I see the value as undefined.
   Object.defineProperty(obj, "length", {
     value: sortedArray.length,
     enumerable: false
@@ -87,16 +87,16 @@ export function max(val, of = null) {
 // TODO maybe move these into their own file?
 
 export function propertiesToGetters(obj) {
-  return objectFromProperties(obj, key => state => state[key]);
+  return objectFromKeys(obj, key => state => state[key]);
 }
 export function propertiesToMutations(obj) {
-  return objectFromProperties(obj, key => (state, newValue) => {
+  return objectFromKeys(obj, key => (state, newValue) => {
     state[key] = newValue;
   });
 }
 
-export function objectFromProperties(obj, valFunc, keyFunc = x => x) {
-  const properties = Array.isArray(obj) ? obj : Object.getOwnPropertyNames(obj);
+export function objectFromKeys(obj, valFunc, keyFunc = x => x) {
+  const properties = Array.isArray(obj) ? obj : Object.keys(obj);
   return properties.reduce((collected, key) => {
     collected[keyFunc(key)] = valFunc(key);
     return collected;
