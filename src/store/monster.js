@@ -10,7 +10,7 @@ class AbilityScore {
     this.score = score;
   }
 
-  get bonus() {
+  get mod() {
     return Math.floor((this.score - 10) / 2);
     // TODO cache the value if it ends up impacting performance
   }
@@ -43,7 +43,7 @@ export class Monster {
     // TODO this should be a getter, or at least cached somehow
     const hpMultiplier = this.isInjured ? 0.5 : 1;
     const baseHpPerHd = this.hasMaxHp ? this.size.hd : (this.size.hd + 1) / 2;
-    return Math.max(1, baseHpPerHd + this.abilities.CON.bonus) * hpMultiplier;
+    return Math.max(1, baseHpPerHd + this.abilities.CON.mod) * hpMultiplier;
   };
   get hp() {
     // TODO this should be a getter, or at least cached somehow

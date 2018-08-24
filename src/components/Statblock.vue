@@ -17,7 +17,7 @@
       
       <div>
         <dt>Hit Points</dt>
-        <dd>{{monster.hp}} ({{monster.hd}}d{{monster.size.hd}}<span v-if="monster.abilities.CON.bonus !== 0">{{formatBonus(monster.hd * monster.abilities.CON.bonus)}}</span>)
+        <dd>{{monster.hp}} ({{monster.hd}}d{{monster.size.hd}}<span v-if="monster.abilities.CON.mod !== 0">{{formatBonus(monster.hd * monster.abilities.CON.mod)}}</span>)
         </dd>
       </div>
       
@@ -38,7 +38,7 @@
     <dl class="abilities">
       <template v-for="ability in monster.abilities">
         <dt>{{ability.name | uppercase}}</dt>
-        <dd>{{ability.score}} ({{formatBonus(ability.bonus)}})</dd>
+        <dd>{{ability.score}} ({{formatBonus(ability.mod)}})</dd>
       </template>
     </dl>
     
@@ -50,7 +50,7 @@
         <dd>
             <span v-for="ability in ABILITIES" v-if="monster.saves.includes(ability.id)">
               {{ability.text | capitalize}}
-              {{formatBonus(monster.abilities[ability.id].bonus + monster.proficiency)}}<span class="list-separator">,</span>
+              {{formatBonus(monster.abilities[ability.id].mod + monster.proficiency)}}<span class="list-separator">,</span>
             </span>
           <!--TODO comma separate-->
         </dd>

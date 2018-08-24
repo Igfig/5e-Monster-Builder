@@ -45,7 +45,7 @@
               <builder-numeric :name="ability.label" :label="ability.label | capitalize"
                                v-model="monster.abilities[index].score"
                                :min="1" :max="30" />
-              <output>{{formatBonus(monster.abilities[index].bonus)}}</output>
+              <output>{{formatBonus(monster.abilities[index].mod)}}</output>
             </li> <!--FIXME updating Con when we have an hp target doesn't change our number of HD -->
           </ul>
 
@@ -73,9 +73,6 @@
       
         <div>Calculated hit points: <output>{{monster.hp}}</output></div>
       </fieldset>
-      
-      
-      
       
       <fieldset>
         <legend>Speed</legend>
