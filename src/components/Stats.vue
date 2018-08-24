@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapState } from "vuex";
 import { ABILITIES, ALIGNMENTS, SIZES, SUBTYPES, TYPES } from "../constants";
 import { MONSTER } from "../store/keys";
 import { formatBonus } from "../util";
@@ -134,10 +134,7 @@ export default {
       TYPES,
       SUBTYPES,
       ALIGNMENTS,
-      ABILITIES,
-      hpTarget: undefined,
-      hdSet: 1, // TODO better name, this one invites confusion with the setHd method
-      hpTargetActive: false // we use this to tell which of hpTarget and hdSet was manually updated. The other will be automatically updated as a result of the first one's update, and we don't want that to roll back around and hit the first one again.
+      ABILITIES
     };
   },
   computed: mapState([MONSTER]),
