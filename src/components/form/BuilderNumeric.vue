@@ -23,7 +23,8 @@ export default {
   },
   methods: {
     onInput(event) {
-      this.$emit("input", parseInt(event.target.value));
+      const value = parseInt(event.target.value) || this.props.min || 0;
+      this.$emit("input", value);
     }
   }
 };

@@ -65,14 +65,13 @@
         <builder-numeric name="hd" label="Hit Dice"
                          v-model="monster.hd"
                          :min="1"/>
-        <!--FIXME if HD input is empty, actual hp is calculated as NaN-->
         
-          <builder-checkbox name="hasMaxHp" label="Maximize hp"
-                            v-model="monster.hasMaxHp"/>
-          <builder-checkbox name="isInjured" label="Injured" label-right
-                            v-model="monster.isInjured"/>
-        
-        <div>Actual hit points: <output>{{monster.hp}}</output></div>
+        <builder-checkbox name="hasMaxHp" label="Maximize hp"
+                          v-model="monster.hasMaxHp"/>
+        <builder-checkbox name="isInjured" label="Injured" label-right
+                          v-model="monster.isInjured"/>
+      
+        <div>Calculated hit points: <output>{{monster.hp}}</output></div>
       </fieldset>
       
       
