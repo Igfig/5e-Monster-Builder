@@ -81,6 +81,7 @@ input,
 output,
 button,
 select {
+  box-sizing: border-box;
   background-color: transparent;
   font-family: inherit;
   font-size: $input-font-size;

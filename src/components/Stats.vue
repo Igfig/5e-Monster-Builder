@@ -164,13 +164,13 @@ $column-width: 330px;
 
   .form-group {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
   }
 
   .tags {
     display: flex;
     flex-flow: column nowrap;
-    margin-right: 10px;
+    margin-right: 20px; // XXX arbitrary
 
     label {
       display: inline-flex;
@@ -178,12 +178,12 @@ $column-width: 330px;
       align-items: baseline;
       width: 100%;
     }
-    :last-of-type label {
-      // FIXME we should really be referring to the .subtypes control by class instead of int his roundabout way... but currently we aren't putting classes on that correctly.
-      &,
-      input {
-        display: block;
-      }
+  }
+
+  .subtypes {
+    flex-flow: column nowrap;
+    input {
+      width: 100%;
     }
   }
 
@@ -234,7 +234,6 @@ $column-width: 330px;
       align-items: baseline;
     }
     input {
-      width: 2.3em;
       flex: 0 0 0;
     }
     output {
@@ -249,6 +248,9 @@ $column-width: 330px;
     grid-gap: 5px;
     justify-items: right;
 
+    input[type="number"] {
+      width: 3.1em; //XXX arbitrary, but enough for 3 digits in this font.
+    }
     .left {
       justify-self: left;
     }

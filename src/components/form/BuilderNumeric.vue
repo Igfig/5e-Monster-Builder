@@ -31,8 +31,10 @@ export default {
 </script>
 
 <style lang="scss">
+// TODO either scope this better or move it to a global
 input[type="number"] {
-  width: 2.3em; // XXX pretty arbitrary
+  width: 2.6em; // XXX pretty arbitrary, but enough for 2 digits in this font.
   padding-right: 0;
+  text-align: right;
 }
 </style>
