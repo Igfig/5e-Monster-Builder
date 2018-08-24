@@ -60,25 +60,18 @@
       </div>
 
       <fieldset class="hp">
-        <legend>Hit Points</legend>
-
-        <!--TODO better label than "Target hit points"-->
-        <builder-numeric name="hp" label="Target hit points"
-                         v-model="hpTarget" :min="1" :placeholder="monster.hp"
-                         @focus="focusHp" @input="inputHp"/>
-        <!--TODO would be nice if clicking up and down started us from the values marked in the placeholders instead of 0-->
-        <builder-numeric name="hd" label="Hit Dice" label-right
-                         v-model="hdSet" :min="1" :placeholder="monster.hd"
-                         @focus="focusHd" @input="inputHd"/>
+        <legend>Hit Dice and Hit Points</legend>
+        
+        <builder-numeric name="hd" label="Hit Dice"
+                         v-model="monster.hd"
+                         :min="1"/>
         <!--FIXME if HD input is empty, actual hp is calculated as NaN-->
-
-        <div>
+        
           <builder-checkbox name="hasMaxHp" label="Maximize hp"
                             v-model="monster.hasMaxHp"/>
           <builder-checkbox name="isInjured" label="Injured" label-right
                             v-model="monster.isInjured"/>
-        </div>
-
+        
         <div>Actual hit points: <output>{{monster.hp}}</output></div>
       </fieldset>
       
@@ -148,75 +141,9 @@ export default {
       hpTargetActive: false // we use this to tell which of hpTarget and hdSet was manually updated. The other will be automatically updated as a result of the first one's update, and we don't want that to roll back around and hit the first one again.
     };
   },
-  computed: {
-    ...mapState([MONSTER])
-  },
-  watch: {
-    hpTarget: function(val) {
-      if (this.hpTargetActive) {
-        this.hdSet = undefined;
-        this.setHd(Math.max(1, Math.round(val / this.monster.hpPerHd()))); // TODO copied from monster.set:hpTarget, needs to be unified somehow
-      }
-    },
-    hdSet: function(val) {
-      if (!this.hpTargetActive) {
-        this.hpTarget = undefined;
-        this.setHd(val);
-      }
-    }
-  },
+  computed: mapState([MONSTER]),
   methods: {
     formatBonus,
-    /*getHd() {
-      return this.hdSet || this.hpTarget;
-    },*/
-    ...mapMutations({
-      setHd: "monster/hd" // TODO extract to constants
-    }),
-    focusHp(e) {
-      console.log("hpf", "[", e.target.value, "]");
-      if (!this.hpTargetActive) {
-        console.log("fhp");
-        // we're switching from specifying HD to hp
-        this.hpTargetActive = true;
-        // so set the value to current hp
-        this.hpTarget = this.monster.hp;
-        // and then the watcher will take care of the rest
-      }
-    },
-    focusHd(e) {
-      console.log("hdf", "[", e.target.value, "]");
-      if (this.hpTargetActive) {
-        console.log("fhd");
-        // we're switching from specifying hp to HD
-        this.hpTargetActive = false;
-        // so set the value to current HD
-        this.hdSet = this.monster.hd;
-        // and then the watcher will take care of the rest
-      }
-    },
-    inputHp(val) {
-      console.log("hpi", val, this.monster.hp, this.hpTarget);
-      if (!this.hpTargetActive) {
-        console.log("ihp");
-        // we're switching from specifying HD to hp
-        this.hpTargetActive = true;
-        // so set the value to current hp
-        this.hpTarget = this.monster.hp;
-        // and then the watcher will take care of the rest
-      }
-    },
-    inputHd(val) {
-      console.log("hdi", val, this.monster.hd, this.hdSet);
-      if (this.hpTargetActive) {
-        console.log("ihd");
-        // we're switching from specifying hp to HD
-        this.hpTargetActive = false;
-        // so set the value to current HD
-        this.hdSet = this.monster.hd;
-        // and then the watcher will take care of the rest
-      }
-    },
     resetSpeed() {
       console.log("reset speed"); // TODO implement
     }
