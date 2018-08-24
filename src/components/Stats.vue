@@ -75,9 +75,11 @@
       </fieldset>
       
       
+      
+      
       <fieldset>
         <legend>Speed</legend>
-        <div class="speed">
+        <div class="speed"> <!--We have this separate div because for some reason fieldset doesn't work right with grids. It just displays everything in one column.-->
           <builder-numeric name="speed" label="Land speed"
                            v-model="monster.speed.land"
                            :min="0" :step="5"/>
