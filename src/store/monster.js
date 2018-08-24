@@ -1,4 +1,4 @@
-import { ABILITIES, ALIGNMENTS, SIZES, TIER_THRESHOLDS, TYPES } from "../constants";
+import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, TIER_THRESHOLDS, TYPES } from "../constants";
 import _ from "lodash";
 import { propertiesToMutations } from "../util";
 
@@ -35,7 +35,6 @@ export class Monster {
     return Math.max(2, Math.ceil(this.cr / 4) + 1);
   }
 
-  ac = 10;
   hd = 1;
   hasMaxHp = false;
   isInjured = false;
@@ -48,6 +47,20 @@ export class Monster {
   get hp() {
     // TODO this should be a getter, or at least cached somehow
     return Math.max(1, Math.floor(this.hd * this.hpPerHd()));
+  }
+
+  naturalAC = 10;
+  armor = ARMOR.NONE;
+  shield = SHIELDS.NONE;
+  get ac() {
+    // FIXME getter?
+    const dexMod = this.abilities.DEX.mod;
+    const natural = this.naturalAC + this.shield.ac + dexMod;
+    const armored =
+      this.armor.ac +
+      this.shield.ac +
+      (this.armor.maxDex > 0 ? Math.min(dexMod, this.armor.maxDex) : 0);
+    return Math.max(natural, armored);
   }
 
   // FIXME updating Con when we have an hp target doesn't change our number of HD

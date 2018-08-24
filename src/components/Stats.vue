@@ -29,8 +29,6 @@
                          :options="SUBTYPES"/> <!--TODO replace with a multiselect sort of thing-->
         </fieldset>
 
-        <!--TODO the layout between these isn't great still-->
-
         <builder-radio name="alignment" label="Alignment"
                        v-model="monster.alignment"
                        :options="ALIGNMENTS" />
@@ -74,6 +72,16 @@
         <div>Calculated hit points: <output>{{monster.hp}}</output></div>
       </fieldset>
       
+      <fieldset class="ac">
+        <!--TODO highlight the one of the three that's currently the best-->
+        <builder-numeric name="naturalAC" label="Natural Base AC"
+                         v-model="monster.naturalAC"
+                         :min="10"/>
+        <builder-select name="armor" label="Armor"
+                        v-model="monster.armor"
+                        :options="ARMOR"/> <!--TODO something with optgroups-->
+      </fieldset>
+      
       <fieldset>
         <legend>Speed</legend>
         <div class="speed"> <!--We have this separate div because for some reason fieldset doesn't work right with grids. It just displays everything in one column.-->
@@ -103,7 +111,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { ABILITIES, ALIGNMENTS, SIZES, SUBTYPES, TYPES } from "../constants";
+import { ABILITIES, ALIGNMENTS, ARMOR, SIZES, SUBTYPES, TYPES } from "../constants";
 import { MONSTER } from "../store/keys";
 import { formatBonus } from "../util";
 import BuilderInput from "./form/BuilderInput";
@@ -133,7 +141,8 @@ export default {
       TYPES,
       SUBTYPES,
       ALIGNMENTS,
-      ABILITIES
+      ABILITIES,
+      ARMOR
     };
   },
   computed: mapState([MONSTER]),
