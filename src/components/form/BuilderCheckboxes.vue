@@ -3,7 +3,7 @@
     <legend v-if="!!label">{{label}}</legend>
     <ul class="checkboxes" :style="styles">
       <li v-for="option in options">
-        <builder-checkbox :name="name" :label="option.label | capitalize"
+        <builder-checkbox :name="name" :label="option.label"
                           :value="getId(option)" :checked="isChecked(option)"
                           @focus="onFocus"/>
       </li>

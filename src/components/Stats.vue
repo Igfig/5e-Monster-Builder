@@ -40,7 +40,7 @@
 
           <ul>
             <li v-for="(ability, index) in ABILITIES" :key="index">
-              <builder-numeric :name="ability.label" :label="ability.label | capitalize"
+              <builder-numeric :name="ability.label | lowercase" :label="ability.label"
                                v-model="monster.abilities[index].score"
                                :min="1" :max="30" />
               <output>{{formatBonus(monster.abilities[index].mod)}}</output>
