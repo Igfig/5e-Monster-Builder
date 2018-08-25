@@ -20,9 +20,11 @@ export const ARMOR = ordered(
     CHAIN: { label: "Chain mail", ac: 16, maxDex: 0 },
     BANDED: { label: "Banded mail", ac: 17, maxDex: 0 },
     PLATE: { label: "Plate", ac: 18, maxDex: 0 }
+    // TODO maybe replace 0 with undefined? Better signifier that dex doesn't apply positive or negative.
+    // TODO the functions that process these should accept functions as well as objects
+    // TODO maybe all of these should be functions actually? Then ac and maxDex could be replaced by a function
 
-    // TODO can we add functions for unarmored defense? Maybe by means of a vuex getter or something
-    // state => ({id:"UNARMORED", label:"Unarmored", ac: abilBonus(state.dex), maxDex: 10})
+    // TODO incoroporate the entries for unarmored defense properly
   },
   compare(["maxDex", "desc"], "ac")
 );

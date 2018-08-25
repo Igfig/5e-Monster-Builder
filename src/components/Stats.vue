@@ -79,7 +79,7 @@
                          :min="10"/>
         <builder-select name="armor" label="Armor"
                         v-model="monster.armor"
-                        :options="ARMOR"/> <!--TODO something with optgroups-->
+                        :options="armors"/> <!--TODO something with optgroups-->
       </fieldset>
       
       <fieldset>
@@ -113,7 +113,7 @@
 import { mapState } from "vuex";
 import { ABILITIES, ALIGNMENTS, ARMOR, SIZES, SUBTYPES, TYPES } from "../constants";
 import { MONSTER } from "../store/keys";
-import { formatBonus } from "../util";
+import { formatBonus, unarmoredDefenses } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderDatalist from "./form/BuilderDatalist";
 import BuilderSelect from "./form/BuilderSelect";
@@ -141,11 +141,15 @@ export default {
       TYPES,
       SUBTYPES,
       ALIGNMENTS,
-      ABILITIES,
-      ARMOR
+      ABILITIES
     };
   },
-  computed: mapState([MONSTER]),
+  computed: {
+    ...mapState([MONSTER]),
+    armors() {
+      return { ...ARMOR, ...unarmoredDefenses(this.monster) };
+    }
+  },
   methods: {
     formatBonus,
     resetSpeed() {

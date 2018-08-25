@@ -63,12 +63,11 @@ export class Monster {
     return Math.max(natural, armored);
   }
 
-  // FIXME updating Con when we have an hp target doesn't change our number of HD
   abilities = _.mapValues(ABILITIES, ability => new AbilityScore(ability.label));
   saves = [];
 
   speed = {
-    land: SIZES.MEDIUM.speed, // TODO this should actually be empty by default, and return the default speed for the current size unless it's set
+    land: SIZES.MEDIUM.speed, // TODO this should actually be empty by default, and return the default speed for the current size unless it's set. Though maybe do that on the component end? ...Maybe not? If they never specified a speed, maybe it *should* update if size changes later.
     fly: undefined,
     swim: undefined,
     burrow: undefined
