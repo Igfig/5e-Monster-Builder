@@ -20,8 +20,8 @@ export function ordered(obj = {}, func = ([k, v]) => v) {
     }
   });
 
-  // TODO replace func with a param that can be something other than a function. If it's not a function, it's the key of the property we use to compare.
-
+  // TODO replace func with a param that can be something other than a function. If it's not a function, it's the key of the property we use to compare. Basically if the param isn't a function, pass it to the compare() function
+  // TODO a better approach would be to just define an iterator (and length-getter) of our own (using generator functions) instead of trying to piggyback off of Array
   // generate a sort order
   const sortedArray = Object.entries(obj).sort(func);
   obj[Symbol.iterator] = sortedArray.iterator; // TODO is this actually working correctly? I see the value as undefined.
