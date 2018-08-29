@@ -76,7 +76,6 @@ export const monster = {
   namespaced: true,
   state: new Monster(),
   mutations: {
-    // TODO extract this string to a constant
     [SET_MONSTER_LAND_SPEED]: function(state, val) {
       state.speed.land = val;
     }

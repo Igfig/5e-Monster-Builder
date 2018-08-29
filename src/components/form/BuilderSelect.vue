@@ -29,7 +29,6 @@ export default {
   data() {
     return {
       selected: event => {
-        console.log(this.options);
         // XXX this is pretty similar to the onInput method, should we just use that instead?
         const val = event.target.value;
         this.$emit("input", get(this.options, val, val));
