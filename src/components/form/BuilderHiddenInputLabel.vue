@@ -36,7 +36,8 @@ $input-font-size: 0.9rem; //14px;
 
 $crimson: #a11111;
 
-$base-colour: black;
+$line-colour: black;
+$bg-color: #8894a6;
 $selected-colour: $crimson;
 
 %focus {
@@ -45,11 +46,12 @@ $selected-colour: $crimson;
 }
 
 .label-hidden_input {
+  // TODO unify some of this with the button styles
   box-sizing: border-box;
   margin: 0;
   padding: 2px 4px;
-  border: 1px solid $base-colour;
-  color: $base-colour;
+  background-color: $bg-color;
+  color: white;
   text-align: center;
   font-size: $input-font-size;
 

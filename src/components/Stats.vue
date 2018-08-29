@@ -196,22 +196,28 @@ $column-width: 330px;
 
   .alignment {
     ul {
-      //width: 7em; // XXX arbitrary
-      // first 9 alignment buttons are in a grid, later ones are full-width
-    }
-    li {
-      &:nth-of-type(n + 10) {
-        grid-column: 1 / -1;
-      }
+      border-radius: 0.7em;
+      overflow: hidden;
+
       html.no-cssgrid & {
         display: flex;
         flex-flow: row wrap;
-
         width: 7em;
-        > label {
+
+        li {
           flex: 1 1 30%;
         }
       }
+    }
+    li {
+      // first 9 alignment buttons are in a grid, later ones are full-width
+      &:nth-of-type(n + 10) {
+        grid-column: 1 / -1;
+      }
+    }
+    label {
+      padding-top: 7px;
+      padding-bottom: 7px;
     }
   }
 

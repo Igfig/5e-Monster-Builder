@@ -26,6 +26,7 @@ $spacing: 30px;
 $header-height: 2rem * $line-height; // need to have this set so <main> can have a well-defined height
 
 $crimson: #a11111;
+$grey: #8894a6;
 
 // TODO make more SASSy and SOCSSy
 
@@ -106,9 +107,12 @@ select {
 }
 
 button {
+  border: none;
+  background-color: $grey;
+  color: white;
+
   &:active {
     background-color: $crimson;
-    color: white;
   }
 }
 
