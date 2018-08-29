@@ -7,30 +7,26 @@ export function callIfFunction(func, value, fallback = func) {
   return fallback;
 }
 
-// TODO convert this into a class instead
-// XXX I think some of this is very similar to _.keyBy
-export function ordered(obj = {}, func = ([k, v]) => v) {
-  // convert any entries specified as strings or whatever into objects
-  //obj = _.mapValues(obj, (v, k) => ({ id: k, ...(typeof v === "object" ? v : { label: v }) }));
+export class Ordered {
+  constructor(obj, sortFunc) {
+    Object.assign(this, obj);
 
-  // make sure any sub-objects in obj have an id
-  Object.entries(obj).forEach(([k, v]) => {
-    if (typeof v === "object" && !v.hasOwnProperty("id")) {
-      v.id = k;
+    Object.defineProperty(this, "length", {
+      get: () => Object.keys(this).length,
+      enumerable: false
+    });
+    Object.defineProperty(this, "sortFunc", {
+      value: sortFunc,
+      enumerable: false
+    });
+  }
+
+  *[Symbol.iterator]() {
+    const sorted = Object.values(this).sort(this.sortFunc);
+    for (const s of sorted) {
+      yield s;
     }
-  });
-
-  // TODO replace func with a param that can be something other than a function. If it's not a function, it's the key of the property we use to compare. Basically if the param isn't a function, pass it to the compare() function
-  // TODO a better approach would be to just define an iterator (and length-getter) of our own (using generator functions) instead of trying to piggyback off of Array
-  // generate a sort order
-  const sortedArray = Object.entries(obj).sort(func);
-  obj[Symbol.iterator] = sortedArray.iterator; // TODO is this actually working correctly? I see the value as undefined.
-  Object.defineProperty(obj, "length", {
-    value: sortedArray.length,
-    enumerable: false
-  });
-
-  return obj;
+  }
 }
 
 const sortDescendingIndicators = ["desc", "d", "descending", -1];
@@ -38,14 +34,19 @@ const sortDescendingIndicators = ["desc", "d", "descending", -1];
 // FIXME not very efficient
 // TODO accept strings instead of sublists
 export function compare(...keyDirections) {
-  return ([aKey, aVal], [bKey, bVal]) => {
-    for (const kd in keyDirections) {
-      const [key, direction] = Array.isArray(kd) ? keyDirections[kd] : [kd, 1];
+  return (aVal, bVal) => {
+    //debugger;
+    for (const kd of keyDirections) {
+      const [key, direction] = Array.isArray(kd) ? kd : [kd, 1];
       const mult = _.includes(sortDescendingIndicators, direction) ? -1 : 1;
+      if (!aVal.hasOwnProperty(key) || !bVal.hasOwnProperty(key)) {
+        throw Error("aaaa" + aVal + key);
+      }
       if (aVal[key] === bVal[key]) {
         continue;
       }
-      return aVal[key] < bVal[key] ? -mult : mult;
+      //console.log(aVal, bVal, aVal[key] < bVal[key] * mult);
+      return aVal[key] - bVal[key] * mult;
     }
   };
 }

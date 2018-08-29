@@ -1,6 +1,6 @@
-import { ordered, compare } from "../util/misc";
+import { Ordered, compare } from "../util/misc";
 
-export const ABILITIES = ordered(
+export const ABILITIES = new Ordered(
   {
     // XXX somewhat tempted to make the keys lowercase actually, so that when we get the corresponding entries from the store they won't be monster.abilities.STR.score or whatever
     STR: { order: 0, label: "Str", text: "strength" },

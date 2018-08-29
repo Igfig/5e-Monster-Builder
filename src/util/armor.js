@@ -11,6 +11,10 @@ class Armor {
   getAC() {
     return this.baseAC;
   }
+
+  toString() {
+    return this.label;
+  }
 }
 
 export class LightArmor extends Armor {

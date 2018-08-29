@@ -1,8 +1,8 @@
 import { ABILITIES } from "../constants";
-import { objectFromKeys, ordered } from "./misc";
+import { objectFromKeys, Ordered } from "./misc";
 
 export function unarmoredDefenses(monster) {
-  return ordered(
+  return new Ordered(
     objectFromKeys(
       ABILITIES,
       name => ({
