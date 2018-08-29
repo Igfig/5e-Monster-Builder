@@ -12,7 +12,8 @@
     <dl>
       <div>
         <dt>Armor Class</dt>
-        <dd>{{monster.ac}}</dd> <!--TODO include source-->
+        <dd>{{monster.ac}}
+          <span v-if="monster.armor.text">({{monster.armor.text}})</span></dd> <!--TODO include other sources, like the shield or natural.-->
       </div>
       
       <div>
