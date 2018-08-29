@@ -73,13 +73,20 @@
       </fieldset>
       
       <fieldset class="ac">
-        <!--TODO highlight the one of the three that's currently the best-->
+        <legend>Armor Class</legend>
+        <!--TODO highlight the one of the two that's currently the best-->
         <builder-numeric name="naturalAC" label="Natural Base AC"
                          v-model="monster.naturalAC"
                          :min="10"/>
+        <br>
+
         <builder-select name="armor" label="Armor"
                         v-model="monster.armor"
                         :options="ARMOR"/> <!--TODO something with optgroups-->
+        <builder-select name="shield" label="Shield"
+                          v-model="monster.shield"
+                        :options="SHIELDS"
+                          label-right/> <!--XXX wondering if this should actually be a checkbox-->
       </fieldset>
       
       <fieldset>
@@ -100,6 +107,10 @@
           <builder-numeric name="speed-swim" label="Swim"
                            v-model="monster.speed.swim"
                            :min="0" :step="5"/>
+
+          <builder-numeric name="speed-climb" label="Climb"
+                           v-model="monster.speed.climb"
+                           :min="0" :step="5"/>
   
           <builder-numeric name="speed-burrow" label="Burrow"
                            v-model="monster.speed.burrow"
@@ -111,7 +122,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import { ABILITIES, ALIGNMENTS, ARMOR, SIZES, SUBTYPES, TYPES } from "../constants";
+import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, SUBTYPES, TYPES } from "../constants";
 import { MONSTER } from "../store/keys";
 import { formatBonus } from "../util";
 import BuilderInput from "./form/BuilderInput";
@@ -143,6 +154,7 @@ export default {
       ALIGNMENTS,
       ABILITIES,
       ARMOR,
+      SHIELDS,
       landSpeed: undefined
     };
   },

@@ -67,6 +67,7 @@ export class Monster {
     land: undefined,
     fly: undefined,
     swim: undefined,
+    climb: undefined,
     burrow: undefined
   };
   canHover = false;
