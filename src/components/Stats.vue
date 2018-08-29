@@ -113,7 +113,7 @@
 import { mapState } from "vuex";
 import { ABILITIES, ALIGNMENTS, ARMOR, SIZES, SUBTYPES, TYPES } from "../constants";
 import { MONSTER } from "../store/keys";
-import { formatBonus, unarmoredDefenses } from "../util";
+import { formatBonus } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderDatalist from "./form/BuilderDatalist";
 import BuilderSelect from "./form/BuilderSelect";
