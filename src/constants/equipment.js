@@ -2,16 +2,18 @@ import { compare, objectFromKeys, Ordered } from "../util/misc";
 import { ABILITIES } from "./stats";
 import { HeavyArmor, LightArmor, MedArmor, UnarmoredDefense } from "../util/armor";
 
-// FIXME need to skip Dex
+const unarmoredKey = id => `UNARMORED_${id}`;
+
 const unarmoredDefenses = objectFromKeys(
   ABILITIES,
-  id => `UNARMORED_${id}`,
+  unarmoredKey,
   (id, ability) => new UnarmoredDefense(ability)
 );
+delete unarmoredDefenses[unarmoredKey(ABILITIES.DEX.id)]; // you can't have Dex-based unarmored defense. That'd be double Dex!
 
 export const ARMOR = new Ordered(
   {
-    // FIXME order is coincidental, not properly sorted
+    // FIXME order is quasi-coincidental, not properly sorted
     NONE: new LightArmor(10, ""),
     PADDED: new LightArmor(11, "Padded armor"),
     LEATHER: new LightArmor(11, "Leather armor"),
@@ -27,7 +29,7 @@ export const ARMOR = new Ordered(
     RING: new HeavyArmor(14, "Ring mail"),
     CHAIN: new HeavyArmor(16, "Chain mail"),
     BANDED: new HeavyArmor(17, "Banded mail"),
-    PLATE: new HeavyArmor(18, "Plate"),
+    PLATE: new HeavyArmor(18, "Full plate"),
 
     ...unarmoredDefenses
   },
