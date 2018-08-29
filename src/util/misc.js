@@ -9,7 +9,17 @@ export function callIfFunction(func, value, fallback = func) {
 
 export class Ordered {
   constructor(obj, sortFunc) {
-    Object.assign(this, obj);
+    for (const [key, val] of Object.entries(obj)) {
+      // always store entries as objects
+      const record = typeof val === "object" ? val : { label: val };
+      // TODO maybe only store val in the label if it was a string? Integers, say, should be stored as such
+
+      // every entry must have an id
+      record.id = record.id || key;
+
+      // add entry to this
+      this[key] = record;
+    }
 
     Object.defineProperty(this, "length", {
       get: () => Object.keys(this).length,
