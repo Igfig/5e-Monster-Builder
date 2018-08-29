@@ -87,18 +87,18 @@ export function max(val, of = null) {
 // TODO maybe move these into their own file?
 
 export function propertiesToGetters(obj) {
-  return objectFromKeys(obj, key => state => state[key]);
+  return objectFromKeys(obj, undefined, key => state => state[key]);
 }
 export function propertiesToMutations(obj) {
-  return objectFromKeys(obj, key => (state, newValue) => {
+  return objectFromKeys(obj, undefined, key => (state, newValue) => {
     state[key] = newValue;
   });
 }
 
-export function objectFromKeys(obj, valFunc, keyFunc = x => x) {
+export function objectFromKeys(obj, keyFunc = k => k, valFunc = k => obj[k]) {
   const properties = Array.isArray(obj) ? obj : Object.keys(obj);
   return properties.reduce((collected, key) => {
-    collected[keyFunc(key)] = valFunc(key);
+    collected[keyFunc(key)] = valFunc(key, obj[key]); // note that by default the second param does nothing
     return collected;
   }, {});
 }
