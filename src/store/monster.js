@@ -1,6 +1,6 @@
 import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, TIER_THRESHOLDS, TYPES } from "../constants";
 import _ from "lodash";
-import { propertiesToMutations } from "../util";
+import { SET_MONSTER_LAND_SPEED } from "./mutations";
 
 // XXX still not sure this is good organization
 
@@ -62,8 +62,9 @@ export class Monster {
   abilities = _.mapValues(ABILITIES, ability => new AbilityScore(ability.label));
   saves = [];
 
+  // accessed via getters
   speed = {
-    land: SIZES.MEDIUM.speed, // TODO this should actually be empty by default, and return the default speed for the current size unless it's set. Though maybe do that on the component end? ...Maybe not? If they never specified a speed, maybe it *should* update if size changes later.
+    land: undefined,
     fly: undefined,
     swim: undefined,
     burrow: undefined
@@ -74,5 +75,19 @@ export class Monster {
 export const monster = {
   namespaced: true,
   state: new Monster(),
-  mutations: propertiesToMutations(["hd"]) // TODO extract that string to a constant
+  mutations: {
+    // TODO extract this string to a constant
+    [SET_MONSTER_LAND_SPEED]: function(state, val) {
+      state.speed.land = val;
+    }
+  },
+  getters: {
+    speed: state => {
+      const speed = { ...state.speed };
+      if (_.isNil(speed.land)) {
+        speed.land = state.size.speed;
+      }
+      return speed;
+    }
+  }
 };

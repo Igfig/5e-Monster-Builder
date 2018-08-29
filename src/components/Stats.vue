@@ -86,31 +86,31 @@
         <legend>Speed</legend>
         <div class="speed"> <!--We have this separate div because for some reason fieldset doesn't work right with grids. It just displays everything in one column.-->
           <builder-numeric name="speed" label="Land speed"
-                           v-model="monster.speed.land"
+                           v-model="landSpeed"
+                           :placeholder="monster.size.speed"
                            :min="0" :step="5"/>
-          <button class="form-control" type="button" @click="resetSpeed">Reset to default</button>
-          
+
           <builder-numeric name="speed-fly" label="Fly"
                            v-model="monster.speed.fly"
                            :min="0" :step="5"/>
           <builder-checkbox name="canHover"  label="Hover"
                             v-model="monster.canHover"
-                            class="left"/> <!--that's a dumb class make it better-->
+                            class="left"/> <!--"left" as in "left-aligned" TODO generalize -->
   
           <builder-numeric name="speed-swim" label="Swim"
-                           v-model="monster.speed.swim" :min="0" :step="5"/>
+                           v-model="monster.speed.swim"
+                           :min="0" :step="5"/>
   
           <builder-numeric name="speed-burrow" label="Burrow"
                            v-model="monster.speed.burrow"
-                           :min="0" :step="5"
-                           :style="{gridColumn: 1}"/>
+                           :min="0" :step="5"/>
         </div>
       </fieldset>
     </form>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import { ABILITIES, ALIGNMENTS, ARMOR, SIZES, SUBTYPES, TYPES } from "../constants";
 import { MONSTER } from "../store/keys";
 import { formatBonus } from "../util";
@@ -142,17 +142,21 @@ export default {
       SUBTYPES,
       ALIGNMENTS,
       ABILITIES,
-      ARMOR
+      ARMOR,
+      landSpeed: undefined
     };
   },
   computed: {
     ...mapState([MONSTER])
   },
+  watch: {
+    landSpeed() {
+      this.setSpeed(this.landSpeed);
+    }
+  },
   methods: {
     formatBonus,
-    resetSpeed() {
-      console.log("reset speed"); // TODO implement
-    }
+    ...mapMutations({ setSpeed: "monster/speed/land" })
   }
 };
 </script>
@@ -264,7 +268,12 @@ $column-width: 330px;
     input[type="number"] {
       width: 3.1em; //XXX arbitrary, but enough for 3 digits in this font.
     }
+
+    > label {
+      grid-column: 1;
+    }
     .left {
+      grid-column: 2;
       justify-self: left;
     }
   }

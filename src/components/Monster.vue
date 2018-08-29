@@ -11,14 +11,20 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import Statblock from "./Statblock";
 import { MONSTER } from "../store/keys";
 
 export default {
   name: "Monster",
   components: { Statblock },
-  computed: mapState([MONSTER])
+  computed: {
+    ...mapState({ monsterState: MONSTER }),
+    ...mapGetters({ speed: "monster/speed" }),
+    monster: function() {
+      return { ...this.monsterState, speed: this.speed };
+    }
+  }
 };
 </script>
 
