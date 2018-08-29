@@ -54,12 +54,8 @@ export class Monster {
   shield = SHIELDS.NONE;
   get ac() {
     // FIXME getter?
-    const dexMod = this.abilities.DEX.mod;
-    const natural = this.naturalAC + this.shield.ac + dexMod;
-    const armored =
-      this.armor.ac +
-      this.shield.ac +
-      (this.armor.maxDex > 0 ? Math.min(dexMod, this.armor.maxDex) : 0);
+    const natural = this.naturalAC + this.abilities.DEX.mod + this.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
+    const armored = this.armor.getAC(this) + this.shield.ac;
     return Math.max(natural, armored);
   }
 

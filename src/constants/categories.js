@@ -1,5 +1,5 @@
 //import { ordered, compare } from "../util"; // TODO get this to work
-import { ordered, compare, min, max } from "../util/misc";
+import { compare, max, min, ordered } from "../util/misc";
 
 // FIXME currently if you want to import from util/index, you have to do it this way which is dumb.
 /*import d from "../util";
@@ -135,3 +135,19 @@ export const ALIGNMENTS = ordered(
   },
   compare("order")
 );
+
+class ArmorWeight {
+  constructor(order) {
+    this.order = order;
+  }
+  valueOf() {
+    return this.order;
+  }
+}
+
+export const ARMOR_WEIGHTS = {
+  LIGHT: new ArmorWeight(0),
+  MEDIUM: new ArmorWeight(1),
+  HEAVY: new ArmorWeight(2),
+  UNARMORED_DEFENSE: new ArmorWeight(3) // not calling it UNARMORED because that might confuse with the NONE armor
+};

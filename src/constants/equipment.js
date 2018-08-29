@@ -1,33 +1,39 @@
-//import { ordered, compare } from "../util";
-import { ordered, compare } from "../util/misc";
+import { compare, objectFromKeys, ordered } from "../util/misc";
+import { ABILITIES } from "./stats";
+import { HeavyArmor, LightArmor, MedArmor, UnarmoredDefense } from "../util/armor";
 
-// TODO add optgroups. Maybe via a groupBy prop? ...I guess we can group by maxDex
+// FIXME need to skip Dex
+const unarmoredDefenses = objectFromKeys(
+  ABILITIES,
+  id => `UNARMORED_${id}`,
+  (id, ability) => new UnarmoredDefense(ability)
+);
+
 export const ARMOR = ordered(
   {
-    NONE: { label: "", ac: 10, maxDex: 10 },
-    PADDED: { label: "Padded armor", ac: 11, maxDex: 10 },
-    LEATHER: { label: "Leather armor", ac: 11, maxDex: 10 },
-    STUDDED: { label: "Studded leather", ac: 12, maxDex: 10 },
-    MAGE: { label: "Mage armor", ac: 13, maxDex: 10 },
+    // FIXME order is coincidental, not properly sorted
+    NONE: new LightArmor(10, ""),
+    PADDED: new LightArmor(11, "Padded armor"),
+    LEATHER: new LightArmor(11, "Leather armor"),
+    STUDDED: new LightArmor(12, "Studded leather"),
+    MAGE: new LightArmor(13, "Mage armor"),
 
-    HIDE: { label: "Hide armor", ac: 12, maxDex: 2 },
-    CHAIN_SHIRT: { label: "Chain shirt", ac: 13, maxDex: 2 },
-    SCALE: { label: "Scale mail", ac: 14, maxDex: 2 },
-    BREASTPLATE: { label: "Breastplate", ac: 14, maxDex: 2 },
-    HALF_PLATE: { label: "Half plate", ac: 15, maxDex: 2 },
+    HIDE: new MedArmor(12, "Hide armor"),
+    CHAIN_SHIRT: new MedArmor(13, "Chain shirt"),
+    SCALE: new MedArmor(14, "Scale mail"),
+    BREASTPLATE: new MedArmor(14, "Breastplate"),
+    HALF_PLATE: new MedArmor(15, "Half plate"),
 
-    RING: { label: "Ring mail", ac: 14, maxDex: 0 },
-    CHAIN: { label: "Chain mail", ac: 16, maxDex: 0 },
-    BANDED: { label: "Banded mail", ac: 17, maxDex: 0 },
-    PLATE: { label: "Plate", ac: 18, maxDex: 0 }
-    // TODO maybe replace 0 with undefined? Better signifier that dex doesn't apply positive or negative.
-    // TODO the functions that process these should accept functions as well as objects
-    // TODO maybe all of these should be functions actually? Then ac and maxDex could be replaced by a function
+    RING: new HeavyArmor(14, "Ring mail"),
+    CHAIN: new HeavyArmor(16, "Chain mail"),
+    BANDED: new HeavyArmor(17, "Banded mail"),
+    PLATE: new HeavyArmor(18, "Plate"),
 
-    // TODO incoroporate the entries for unarmored defense properly
+    ...unarmoredDefenses
   },
-  compare(["maxDex", "desc"], "ac")
+  compare("weight")
 );
+
 export const SHIELDS = ordered({
   NONE: { label: "", ac: 0 },
   SHIELD: { label: "Shield", ac: 2 }
