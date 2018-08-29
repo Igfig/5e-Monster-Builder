@@ -79,7 +79,7 @@
                          :min="10"/>
         <builder-select name="armor" label="Armor"
                         v-model="monster.armor"
-                        :options="armors"/> <!--TODO something with optgroups-->
+                        :options="ARMOR"/> <!--TODO something with optgroups-->
       </fieldset>
       
       <fieldset>
@@ -141,14 +141,12 @@ export default {
       TYPES,
       SUBTYPES,
       ALIGNMENTS,
-      ABILITIES
+      ABILITIES,
+      ARMOR
     };
   },
   computed: {
-    ...mapState([MONSTER]),
-    armors() {
-      return { ...ARMOR, ...unarmoredDefenses(this.monster) };
-    }
+    ...mapState([MONSTER])
   },
   methods: {
     formatBonus,
