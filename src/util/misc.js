@@ -32,6 +32,7 @@ export class Ordered {
 const sortDescendingIndicators = ["desc", "d", "descending", -1];
 
 // FIXME not very efficient
+// FIXME it actually doesn't seem to work right, I think
 // TODO accept strings instead of sublists
 export function compare(...keyDirections) {
   return (aVal, bVal) => {

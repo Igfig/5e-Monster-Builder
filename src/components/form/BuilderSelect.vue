@@ -1,10 +1,11 @@
+<!--TODO implement optgroups somehow-->
 <template>
   <builder-label :label="label" :right="labelRight">
     <!--suppress HtmlFormInputWithoutLabel -->
     <select :name="name"
             :value="getId(value)"
             @input="selected" @focus="onFocus">
-      <option v-for="option in options"
+      <option v-for="option of options"
               :value="getId(option)"
               :selected="isSelected(option)">{{getLabel(option)}}</option>
     </select>
@@ -28,6 +29,7 @@ export default {
   data() {
     return {
       selected: event => {
+        console.log(this.options);
         // XXX this is pretty similar to the onInput method, should we just use that instead?
         const val = event.target.value;
         this.$emit("input", get(this.options, val, val));
