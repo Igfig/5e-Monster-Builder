@@ -19,11 +19,15 @@ export default {
   props: {
     min: Number,
     max: Number,
+    default: Number,
     step: Number
   },
   methods: {
     onInput(event) {
-      const value = parseInt(event.target.value) || this.props.min || 0;
+      const value =
+        parseInt(event.target.value) ||
+        this.default || // if value is unparseable (probably because it's empty), use the default
+        undefined; // or if there is none, return undefined.
       this.$emit("input", value);
     }
   }
