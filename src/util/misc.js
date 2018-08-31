@@ -17,8 +17,10 @@ export class Ordered {
       // every entry must have an id
       record.id = record.id || key;
 
+      // these records are effectively constants, shouldn't be edited later
+
       // add entry to this
-      this[key] = record;
+      this[key] = Object.freeze(record);
     }
 
     Object.defineProperty(this, "length", {
