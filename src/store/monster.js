@@ -1,12 +1,11 @@
-import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, TIER_THRESHOLDS, TYPES } from "../constants";
 import _ from "lodash";
-import { SET_MONSTER_LAND_SPEED } from "./mutations";
+import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, TIER_THRESHOLDS, TYPES } from "../constants";
+import { createMutationTree, SET_MONSTER_LAND_SPEED } from "./mutations";
 
 // XXX still not sure this is good organization
 
 class AbilityScore {
   constructor(name, score = 10) {
-    this.name = name; // XXX not sure we really need this... it's nice for reading, but it could be a problem if we ever want to, say, swap two scores.
     this.score = score;
   }
 
@@ -72,6 +71,10 @@ export class Monster {
   };
   canHover = false;
 }
+
+const monsterMutationTree = createMutationTree(new Monster(), "");
+
+//console.log(monsterMutationTree); // XXX
 
 export const monster = {
   namespaced: true,
