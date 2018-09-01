@@ -123,8 +123,8 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, SUBTYPES, TYPES } from "../constants";
-import { MONSTER } from "../store/keys";
-import { formatBonus } from "../util";
+import { keys } from "../store/monster/index";
+import { formatBonus, mapVuexMap } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderDatalist from "./form/BuilderDatalist";
 import BuilderSelect from "./form/BuilderSelect";
@@ -159,16 +159,16 @@ export default {
     };
   },
   computed: {
-    ...mapState([MONSTER])
+    ...mapVuexMap(mapState, keys.monster)
   },
   watch: {
     landSpeed() {
-      this.setSpeed(this.landSpeed);
+      this[keys.monster.speed.land](this.landSpeed);
     }
   },
   methods: {
     formatBonus,
-    ...mapMutations({ setSpeed: "monster/speed/land" })
+    ...mapVuexMap(mapMutations, keys.monster.speed.land)
   }
 };
 </script>

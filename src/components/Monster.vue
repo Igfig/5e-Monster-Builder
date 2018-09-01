@@ -4,7 +4,7 @@
 		
     <!--XXX text here-->
     
-    <Statblock :monster="monster"/>
+    <Statblock :monster="monsterComputed"/>
 		
 		<div class="description"></div> <!--XXX div doesn't seem quite right... maybe just have a bunch of sections, with no wrapper? Might even pass them in with slots, idk-->
 	</article>
@@ -13,16 +13,17 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import Statblock from "./Statblock";
-import { MONSTER } from "../store/keys";
+import { keys } from "../store/monster/index";
+import { mapVuexMap } from "../util";
 
 export default {
   name: "Monster",
   components: { Statblock },
   computed: {
-    ...mapState({ monsterState: MONSTER }),
-    ...mapGetters({ speed: "monster/speed" }),
-    monster: function() {
-      return { ...this.monsterState, speed: this.speed };
+    ...mapVuexMap(mapState, keys.monster),
+    ...mapVuexMap(mapGetters, keys.monster.speed),
+    monsterComputed: function() {
+      return { ...this.monster, speed: this[keys.monster.speed] }; // TODO abstract out an API that'll do this merge thing for me
     }
   }
 };
