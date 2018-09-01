@@ -24,10 +24,12 @@
       
       <div>
         <dt>Speed</dt>
-        <dd>{{monster.speed.land}} ft.<span v-if="monster.speed.fly">,
-            fly {{monster.speed.fly}} ft. <span v-if="monster.canHover">(hover)</span>
-          </span><span v-if="monster.speed.swim">, swim {{monster.speed.swim}} ft.
-          </span><span v-if="monster.speed.burrow">, burrow {{monster.speed.burrow}} ft.</span>
+        <dd>{{monster.speed.land}} ft.
+          <span v-if="monster.speed.burrow">, burrow {{monster.speed.burrow}}
+            ft.</span><span v-if="monster.speed.climb">, climb {{monster.speed.climb}}
+            ft.</span><span v-if="monster.speed.fly">,fly {{monster.speed.fly}}
+            ft.<span v-if="monster.canHover">
+              (hover)</span></span><span v-if="monster.speed.swim">, swim {{monster.speed.swim}} ft.</span>
         </dd>
       </div>
       
