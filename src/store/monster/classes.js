@@ -23,6 +23,7 @@ class AbilityScore {
 }
 
 // TODO turn all these js getters into vuex getters. They're better because they cache values.
+// also FIXME right now the get()ed properties don't show up in the statblock, because we use Object.entries() to get the properties list, and I guess get()s don't show up on that.
 
 export class Monster {
   name = "";
