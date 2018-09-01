@@ -168,7 +168,7 @@ export default {
   },
   methods: {
     formatBonus,
-    ...mapVuexMap(mapMutations, keys.monster.speed.land)
+    ...mapVuexMap(mapMutations, keys.monster.speed.land) // TODO hook up all the controls to mutations properly
   }
 };
 </script>
