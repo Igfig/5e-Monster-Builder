@@ -1,22 +1,29 @@
 <template>
-    <fieldset :class="name">
-      <legend v-if="!!label">{{label}}</legend>
-      <ul class="radio" :style="styles">
-        <li v-for="option in options">
+  <fieldset :class="name">
+    <legend v-if="!!label">{{ label }}</legend>
+    <ul
+      :style="styles"
+      class="radio">
+      <li 
+        v-for="option in options" 
+        :key="getId(option)">
 
-          <builder-hidden-input-label
-              :label="getLabel(option)"
-              :checked="isChecked(option)">
+        <builder-hidden-input-label
+          :label="getLabel(option)"
+          :checked="isChecked(option)">
 
-            <!--suppress HtmlFormInputWithoutLabel -->
-            <input type="radio" :name="name"
-                :checked="isChecked(option)"
-                @input="onInput(option)" @focus="onFocus"
-            />
-          </builder-hidden-input-label>
-        </li>
-      </ul>
-    </fieldset>
+          <!--suppress HtmlFormInputWithoutLabel -->
+          <input
+            :name="name"
+            :checked="isChecked(option)"
+            type="radio"
+            @input="onInput(option)"
+            @focus="onFocus"
+          >
+        </builder-hidden-input-label>
+      </li>
+    </ul>
+  </fieldset>
 </template>
 
 <script>
@@ -25,8 +32,8 @@ import BuilderHiddenInputLabel from "./BuilderHiddenInputLabel";
 
 export default {
   name: "BuilderRadio",
-  mixins: [optionsControl([Object, String, Boolean]), boxes],
   components: { BuilderHiddenInputLabel },
+  mixins: [optionsControl([Object, String, Boolean]), boxes],
   methods: {
     onInput(option) {
       this.$emit("input", option);

@@ -1,20 +1,22 @@
 <template>
   <main class="builder">
-    <tabs :options="{ useUrlFragment: false }" class="builder-tabs">
+    <tabs
+      :options="{ useUrlFragment: false }"
+      class="builder-tabs">
       <tab name="Stats">
         <Stats/>
       </tab>
-      <tab name="Traits">{{msg}} 2</tab>
-      <tab name="Actions">{{msg}} 3</tab>
-      <tab name="Description">{{msg}} 4</tab>
+      <tab name="Traits">{{ msg }} 2</tab>
+      <tab name="Actions">{{ msg }} 3</tab>
+      <tab name="Description">{{ msg }} 4</tab>
     </tabs>
-    
+
     <figure class="results">
       <monster/>
 
       <!--TODO text-->
     </figure>
-  
+
     <!--FIXME the relationship between this box and the focused control isn't entirely clear. Rearrange the page? Add a canvas in the background that draws a line from the info box to the control? (Or fake it with a colored div or something?) Move all the info to a popup?-->
     <!--TODO on wide screens this might want to be a sidebar instead.-->
     <info-display :info="currentInfo"/>
@@ -30,15 +32,15 @@ import Stats from "./Stats";
 import InfoDisplay from "./InfoDisplay";
 
 export default {
-  name: "builder",
+  name: "Builder",
   components: { InfoDisplay, Stats, Monster, Tabs, Tab },
-  computed: {
-    ...mapState([CURRENT_INFO])
-  },
   data() {
     return {
       msg: "Welcome to Your Vue.js PWA"
     };
+  },
+  computed: {
+    ...mapState([CURRENT_INFO])
   }
 };
 </script>

@@ -1,10 +1,18 @@
 <template>
-  <builder-label :label="label" :right="labelRight">
+  <builder-label
+    :label="label"
+    :right="labelRight">
     <!--suppress HtmlFormInputWithoutLabel -->
-    <input :name="name" type="number" :value="value"
-           :min="min" :max="max" :step="step"
-           :placeholder="placeholder"
-           @input="onInput" @focus="onFocus"/>
+    <input
+      :name="name"
+      :value="value"
+      :min="min"
+      :max="max"
+      :step="step"
+      :placeholder="placeholder"
+      type="number"
+      @input="onInput"
+      @focus="onFocus">
   </builder-label>
 </template>
 
@@ -14,8 +22,8 @@ import BuilderLabel from "./BuilderLabel";
 
 export default {
   name: "BuilderNumeric",
-  mixins: [control(Number)],
   components: { BuilderLabel },
+  mixins: [control(Number)],
   props: {
     min: Number,
     max: Number,

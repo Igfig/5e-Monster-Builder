@@ -12,17 +12,17 @@ export default {
   name: "BuilderLabel",
   components: { Fragment },
   props: {
-    className: String,
+    className: { type: String, default: null },
     label: { type: String, required: true },
-    right: { type: Boolean }
+    right: { type: Boolean, default: false }
   },
   data() {
     return {
       classObject: {
-        [this.className]: !!this.className,
         "form-control": true,
         "label-right": this.right,
-        "label-left": !this.right
+        "label-left": !this.right,
+        [this.className]: !!this.className
       }
     };
   }

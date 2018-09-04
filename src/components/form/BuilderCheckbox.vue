@@ -1,13 +1,18 @@
 <template>
-  <builder-hidden-input-label :label="label" :checked="checked">
+  <builder-hidden-input-label
+    :label="label"
+    :checked="checked">
     <!--TODO pressing enter or space while the label is selected should toggle the input.-->
 
     <!--suppress HtmlFormInputWithoutLabel -->
-    <input :name="name" type="checkbox"
-           :value="value"
-           :checked="checked"
-           @input="onInput" @focus="onFocus"
-    />
+    <input
+      :name="name"
+      :value="value"
+      :checked="checked"
+      type="checkbox"
+      @input="onInput"
+      @focus="onFocus"
+    >
   </builder-hidden-input-label>
 </template>
 
@@ -17,14 +22,14 @@ import BuilderHiddenInputLabel from "./BuilderHiddenInputLabel";
 
 export default {
   name: "BuilderCheckbox",
-  mixins: [control([String, Object])],
   components: { BuilderHiddenInputLabel },
-  props: {
-    checked: Boolean
-  },
+  mixins: [control([String, Object])],
   model: {
     prop: "checked",
     event: "input"
+  },
+  props: {
+    checked: { type: Boolean, default: false }
   },
   methods: {
     onInput(event) {

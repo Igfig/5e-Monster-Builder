@@ -2,7 +2,7 @@
 export default {
   name: "InfoDisplay",
   functional: true,
-  props: { info: Object },
+  props: { info: { type: Object, default: () => ({}) } },
   render(createElement, context) {
     // TODO maybe let's do the jsx approach instead, this is not very readable
     return createElement("aside", { class: "info", props: { info: [] } }, [

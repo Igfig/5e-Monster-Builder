@@ -1,11 +1,18 @@
 <template>
   <fieldset @input="onInput">
-    <legend v-if="!!label">{{label}}</legend>
-    <ul class="checkboxes" :style="styles">
-      <li v-for="option in options">
-        <builder-checkbox :name="name" :label="option.label"
-                          :value="getId(option)" :checked="isChecked(option)"
-                          @focus="onFocus"/>
+    <legend v-if="!!label">{{ label }}</legend>
+    <ul
+      :style="styles"
+      class="checkboxes">
+      <li 
+        v-for="option in options" 
+        :key="getId(option)">
+        <builder-checkbox
+          :name="name"
+          :label="option.label"
+          :value="getId(option)"
+          :checked="isChecked(option)"
+          @focus="onFocus"/>
       </li>
     </ul>
   </fieldset>
@@ -18,11 +25,16 @@ import BuilderHiddenInputLabel from "./BuilderHiddenInputLabel";
 
 export default {
   name: "BuilderCheckboxes",
-  mixins: [optionsControl(Array), boxes],
   components: { BuilderCheckbox, BuilderHiddenInputLabel },
+  mixins: [optionsControl(Array), boxes],
   model: {
     prop: "checkedVals",
     event: "input"
+  },
+  data() {
+    return {
+      checkedVals: []
+    };
   },
   methods: {
     onInput(event) {
@@ -41,11 +53,6 @@ export default {
       const key = this.getId(option);
       return this.checkedVals.includes(key);
     }
-  },
-  data() {
-    return {
-      checkedVals: []
-    };
   }
 };
 </script>

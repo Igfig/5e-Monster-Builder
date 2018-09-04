@@ -1,8 +1,10 @@
 <template>
-    <label :class="classObject" :checked="checked">
-      {{ label }}
-      <slot/>
-    </label>
+  <label
+    :class="classObject"
+    :checked="checked">
+    {{ label }}
+    <slot/>
+  </label>
 
 </template>
 
@@ -13,9 +15,9 @@ export default {
   name: "BuilderHiddenInputLabel",
   components: { Fragment },
   props: {
-    className: String,
+    className: { type: String, default: null },
     label: { type: String, required: true },
-    checked: { type: Boolean }
+    checked: { type: Boolean, default: false }
   },
   data() {
     return {
