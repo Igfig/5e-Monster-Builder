@@ -30,40 +30,15 @@ export default {
 </script>
 
 <style lang="scss">
-// TODO extract constants
-
-$input-font-size: 0.9rem; //14px;
-
-$crimson: #a11111;
-
-$line-colour: black;
-$bg-color: #8894a6;
-$selected-colour: $crimson;
-
-%focus {
-  // TODO unify with same mixin in App.vue
-  outline: $crimson auto 5px; // XXX could maybe be made better?
-}
+@import "../../styles/tools";
 
 .label-hidden_input {
-  // TODO unify some of this with the button styles
-  box-sizing: border-box;
-  margin: 0;
-  padding: 2px 4px;
-  background-color: $bg-color;
-  color: white;
-  text-align: center;
-  font-size: $input-font-size;
-
-  // &:active, //FIXME flickers a bit when you release a click
-  &[checked] {
-    background-color: $selected-colour;
-    //color: white;
-  }
+  @extend %pressable-control;
 
   &:focus-within {
+    // so that when the invisible input inside this gets focused, this does too
     // TODO fallback or shim for browsers that don't support this selector
-    @extend %focus;
+    @extend %control-focus;
   }
 
   ul & {
@@ -72,8 +47,7 @@ $selected-colour: $crimson;
   }
 
   input {
-    //display: none;
-    //visibility: hidden !important;
+    // make it effectively invisible while still showing up on screen readers
     height: 0 !important;
     width: 0 !important;
     margin: 0 !important;

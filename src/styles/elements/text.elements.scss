@@ -1,0 +1,13 @@
+@import "../tools";
+p,
+dl {
+  margin: 0.5em 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+h1 {
+  height: $header-height;
+}

@@ -1,0 +1,33 @@
+@import "../tools";
+
+output {
+  @extend %control;
+}
+
+input {
+  // this will get elaborated on by the individual controls
+  @extend %control;
+  @extend %control-border;
+  padding: $control-standard-box-padding;
+}
+
+button {
+  @extend %pressable-control;
+}
+
+:invalid {
+  border-color: red; // FIXME make it better
+}
+
+:focus {
+  @extend %control-focus;
+}
+
+fieldset {
+  margin: 0 0 1em;
+  border: none;
+}
+legend {
+  font-weight: bold;
+  margin-bottom: 5px;
+}

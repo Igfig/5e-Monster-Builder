@@ -1,0 +1,40 @@
+@import "../tools/sizes.tools";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  font-size: $base-font-size;
+  line-height: $line-height;
+}
+
+body {
+  height: 100%;
+  padding: 0;
+}
+
+#app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-gap: $page-layout-spacing;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: $page-layout-spacing;
+  font-family: "Estrangelo Edessa", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  display: grid;
+  grid-gap: $page-layout-spacing;
+  height: calc(
+    100vh - #{$header-height} - #{$page-layout-spacing * 3}
+  ); // This is key for keeping the layout all on one page
+  text-align: left;
+
+  // additional styles on this in Builder.vue
+}

@@ -51,17 +51,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../../styles/tools";
 .checkboxes {
-  // TODO unify with BuilderRadio style
-
-  display: inline-grid;
-  //grid-template-columns: repeat(3, 1fr); // FIXME this is only really valid in some cases
-  grid-gap: 2px;
-
-  li,
-  label {
-    display: block;
-    margin: 0;
-  }
+  @extend %pressable-grid;
 }
 </style>

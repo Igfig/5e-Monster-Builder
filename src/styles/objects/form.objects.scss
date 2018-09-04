@@ -1,0 +1,10 @@
+.form-control {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  vertical-align: text-bottom;
+  margin: 5px 10px 5px 0;
+}
+fieldset > .form-control {
+  //margin: 5px 10px 5px 0;
+}

@@ -1,0 +1,6 @@
+$base-font-size: 16px;
+$input-font-size: 0.9rem; // text in inputs and buttons and such
+$line-height: 1.2;
+
+$page-layout-spacing: 30px;
+$header-height: 2rem * $line-height; // need to have this set, and globally so, so <main> can have a well-defined height

@@ -37,3 +37,13 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+@import "../../styles/tools";
+
+.form-control select {
+  @extend %control;
+  @extend %control-border;
+  padding: $control-box-spacing; // select seems to have about 2px of side padding built in already
+}
+</style>
