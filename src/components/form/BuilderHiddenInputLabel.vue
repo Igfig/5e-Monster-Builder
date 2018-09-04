@@ -58,8 +58,7 @@ $selected-colour: $crimson;
   // &:active, //FIXME flickers a bit when you release a click
   &[checked] {
     background-color: $selected-colour;
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4); //XXX not certain about this
-    color: white;
+    //color: white;
   }
 
   &:focus-within {
