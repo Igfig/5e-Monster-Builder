@@ -81,4 +81,19 @@ export class Monster {
     burrow: undefined
   };
   canHover = false;
+
+  // GETTERS
+
+  static getters = {
+    speed: state => {
+      const speed = { ...state.speed };
+      if (_.isNil(speed.land)) {
+        speed.land = state.size.speed;
+      }
+      return speed;
+    }
+  };
+
+  // MUTATIONS
+  static mutations = {};
 }
