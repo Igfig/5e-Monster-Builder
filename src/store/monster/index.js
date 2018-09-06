@@ -1,10 +1,18 @@
-import _ from "lodash";
-import { createKeyTree } from "../../util/store";
+import { createBasicMutations, createKeyTree } from "../../util/store";
 import { Monster } from "./classes";
 import { MONSTER } from "../keys";
 
 const state = new Monster();
-const [monsterKeys, basicMutations] = createKeyTree(state, MONSTER);
+const monsterKeys = createKeyTree(state, MONSTER);
+const basicMutations = createBasicMutations(monsterKeys, MONSTER);
+
+//console.log(monsterKeys, basicMutations);
+
+/*for (const g in Monster.getters) {
+  monsterKeys[g] = createKeyTree()
+}*/
+
+//Object.monsterKeys
 
 export const keys = { monster: monsterKeys }; // TODO move to separate keys file?
 
@@ -20,5 +28,3 @@ const monster = {
   getters: Monster.getters
 };
 export default monster;
-
-console.log(keys);

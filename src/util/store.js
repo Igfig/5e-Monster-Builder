@@ -1,7 +1,13 @@
 import _ from "lodash";
 
-export function mapVuexMap(vuexMap, ...mutations) {
-  return vuexMap(mutations.map(mutation => mutation.toString()));
+export function mapVuexMap(vuexMap, ...names) {
+  return vuexMap(
+    names.map(name => {
+      //console.log("name", name);
+      //debugger;
+      return name.toString();
+    })
+  ); // toString because they're probably not stored as strings, if they're from a KeyTree or something
 }
 
 const genericSetter = context => {
@@ -14,6 +20,11 @@ const genericSetter = context => {
 class KeyTree {
   constructor(...context) {
     Object.defineProperties(this, {
+      /*_root: {
+        value: root,
+        writable: false,
+        enumerable: false
+      },*/
       _name: {
         value: context.join("/"),
         writable: false,
@@ -28,20 +39,12 @@ class KeyTree {
   }
 }
 
-export function createKeyTree(obj, root, ...context) {
-  const tree = new KeyTree(root, ...context);
-  const mutations = {};
+export function createKeyTree(obj, ...context) {
+  const tree = new KeyTree(...context);
 
   const entries = Object.entries(obj);
 
   for (const [key, value] of entries) {
-    const newContext = [...context, key];
-
-    // add mutations to the list
-    // we don't include getters because every getter is a special case. (If it weren't, we could just look at the state directly.)
-    const mutationName = newContext.join("/");
-    mutations[mutationName] = genericSetter(newContext);
-
     if (
       typeof value === "object" &&
       !_.isNil(value) &&
@@ -49,14 +52,33 @@ export function createKeyTree(obj, root, ...context) {
       !Object.isFrozen(value) // TODO any more corner cases to avoid?
     ) {
       // if it's an object, go deeper with a new subtree
-      const [subTree, subTreeMutations] = createKeyTree(value, root, ...newContext); // XXX unrestricted recursivity could be dangerous, limit this maybe
+      const subTree = createKeyTree(value, ...context, key); // XXX unrestricted recursivity could be dangerous, limit this maybe
       tree[key] = subTree;
-      Object.assign(mutations, subTreeMutations); // merge in mutations from subtree
     } else {
       // otherwise, add a new leaf to the tree
-      tree[key] = new KeyTree(root, ...newContext);
+      tree[key] = new KeyTree(...context, key);
     }
   }
 
-  return [tree, mutations];
+  return tree;
+}
+
+// We don't create basic getters because every getter is a special case. (If it weren't, we could just look at the state directly.)
+
+export function createBasicMutations(keyTree, ...context) {
+  const mutations = {};
+  const entries = Object.entries(keyTree);
+
+  for (const [key, subTree] of entries) {
+    const newContext = [...context, key];
+    //const mutationName = subTree.toString();
+    const mutationName = newContext.join("/");
+
+    mutations[mutationName] = genericSetter(newContext);
+
+    const subTreeMutations = createBasicMutations(subTree, ...newContext);
+    Object.assign(mutations, subTreeMutations); // merge in mutations from subtree
+  }
+
+  return mutations;
 }

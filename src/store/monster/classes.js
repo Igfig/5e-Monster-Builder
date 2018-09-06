@@ -62,12 +62,12 @@ export class Monster {
   armor = ARMOR.NONE;
   shield = SHIELDS.NONE;
 
-  get ac() {
+  /*get ac() {
     // FIXME getter?
     const natural = this.naturalAC + this.abilities.DEX.mod + this.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
     const armored = this.armor.getAC(this) + this.shield.ac;
     return Math.max(natural, armored);
-  }
+  }*/
 
   abilities = _.mapValues(ABILITIES, ability => new AbilityScore(ability.label));
   saves = [];
@@ -85,6 +85,11 @@ export class Monster {
   // GETTERS
 
   static getters = {
+    ac: state => {
+      const natural = state.naturalAC + state.abilities.DEX.mod + state.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
+      const armored = state.armor.getAC(state) + state.shield.ac;
+      return Math.max(natural, armored);
+    },
     speed: state => {
       const speed = { ...state.speed };
       if (_.isNil(speed.land)) {
