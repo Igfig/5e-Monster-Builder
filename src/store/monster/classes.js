@@ -100,5 +100,8 @@ export class Monster {
   };
 
   // MUTATIONS
-  static mutations = {};
+  static mutations = {
+    foo: state => 1,
+    speed: state => 1
+  };
 }

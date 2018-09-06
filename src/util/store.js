@@ -17,14 +17,10 @@ const genericSetter = context => {
 };
 
 // XXX I must admit this is a little finicky. If you're not careful, you'll find yourself dealing with objects when you expected strings.
+// technically this is a node in a KeyTree, but whatever the concepts are interchangeable
 class KeyTree {
   constructor(...context) {
     Object.defineProperties(this, {
-      /*_root: {
-        value: root,
-        writable: false,
-        enumerable: false
-      },*/
       _name: {
         value: context.join("/"),
         writable: false,
@@ -45,19 +41,13 @@ export function createKeyTree(obj, ...context) {
   const entries = Object.entries(obj);
 
   for (const [key, value] of entries) {
-    if (
+    tree[key] =
       typeof value === "object" &&
       !_.isNil(value) &&
       !Array.isArray(value) && // TODO maybe add special case for adding to array?
       !Object.isFrozen(value) // TODO any more corner cases to avoid?
-    ) {
-      // if it's an object, go deeper with a new subtree
-      const subTree = createKeyTree(value, ...context, key); // XXX unrestricted recursivity could be dangerous, limit this maybe
-      tree[key] = subTree;
-    } else {
-      // otherwise, add a new leaf to the tree
-      tree[key] = new KeyTree(...context, key);
-    }
+        ? createKeyTree(value, ...context, key) // if it's an object, go deeper with a new subtree // XXX unrestricted recursivity could be dangerous if an object contains itself, limit this maybe
+        : new KeyTree(...context, key); // otherwise, add a new leaf to the tree
   }
 
   return tree;

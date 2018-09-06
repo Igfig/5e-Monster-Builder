@@ -13,17 +13,17 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import Statblock from "./Statblock";
-import { keys } from "../store/monster/index";
+import { stateKeys } from "../store/monster/index";
 import { mapVuexMap } from "../util";
 
 export default {
   name: "Monster",
   components: { Statblock },
   computed: {
-    ...mapVuexMap(mapState, keys.monster),
-    ...mapVuexMap(mapGetters, keys.monster.speed),
+    ...mapVuexMap(mapState, stateKeys.monster),
+    ...mapVuexMap(mapGetters, stateKeys.monster.speed, "monster/ac"),
     monsterComputed: function() {
-      return { ...this.monster, speed: this[keys.monster.speed] }; // TODO abstract out an API that'll do this merge thing for me
+      return { ...this.monster, speed: this[stateKeys.monster.speed], ac: this["monster/ac"] }; // TODO abstract out an API that'll do this merge thing for me
     }
   }
 };
