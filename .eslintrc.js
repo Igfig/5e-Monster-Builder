@@ -3,14 +3,13 @@
 module.exports = {
   root: true,
   parserOptions: {
-    //parser: "babel-eslint",
+    parser: "babel-eslint",
     sourceType: "module"
   },
   env: {
     browser: true
   },
-  // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-  extends: ["plugin:vue/recommended"],
+  extends: ["plugin:vue/essential"],
   // required to lint *.vue files
   plugins: ["vue"],
   // add your custom rules here
