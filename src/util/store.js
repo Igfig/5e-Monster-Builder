@@ -70,7 +70,7 @@ function createKeyTree(obj, ...context) {
 // We don't create basic getters because every getter is a special case. (If it weren't, we could just look at the state directly.)
 // XXX though maybe we should use getters? idk
 
-function collectBasicMutations(keyTree, ...context) {
+function collectBasicMutations(keyTree, root, ...context) {
   const mutations = {};
   const entries = Object.entries(keyTree);
 
@@ -80,7 +80,7 @@ function collectBasicMutations(keyTree, ...context) {
 
     mutations[mutationName] = genericSetter(newContext);
 
-    const subTreeMutations = collectBasicMutations(subTree, ...newContext);
+    const subTreeMutations = collectBasicMutations(subTree, root, ...newContext);
     Object.assign(mutations, subTreeMutations); // merge in mutations from subtree
   }
 
