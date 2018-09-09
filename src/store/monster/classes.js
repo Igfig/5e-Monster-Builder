@@ -62,13 +62,6 @@ export class Monster {
   armor = ARMOR.NONE;
   shield = SHIELDS.NONE;
 
-  /*get ac() {
-    // FIXME getter?
-    const natural = this.naturalAC + this.abilities.DEX.mod + this.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
-    const armored = this.armor.getAC(this) + this.shield.ac;
-    return Math.max(natural, armored);
-  }*/
-
   abilities = _.mapValues(ABILITIES, ability => new AbilityScore(ability.label));
   saves = [];
 
@@ -86,7 +79,6 @@ export class Monster {
   // note that these must be static
 
   static getters = {
-    // "bar/gar": () => 1,
     ac: state => {
       const natural = state.naturalAC + state.abilities.DEX.mod + state.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
       const armored = state.armor.getAC(state) + state.shield.ac;
@@ -99,10 +91,11 @@ export class Monster {
       }
       return speed;
     }
-    //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land)
+    // "bar/gar": () => 1,
+    //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land) // TODO allow for merging when using slash form. The bar/gar bit works fine, but the speed/land overwrites speed.
   };
 
-  // MUTATIONS
+  // SPECIAL CUSTOM MUTATIONS
   // note that these must be static
   static mutations = {
     foo: () => 1

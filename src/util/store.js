@@ -68,8 +68,6 @@ function createKeyTree(obj, ...context) {
 }
 
 // We don't create basic getters because every getter is a special case. (If it weren't, we could just look at the state directly.)
-// XXX though maybe we should use getters? idk
-
 function collectBasicMutations(keyTree, root, ...context) {
   const mutations = {};
   const entries = Object.entries(keyTree);
@@ -91,11 +89,9 @@ function updateFromPathList(obj, tree, property) {
   const keys = Object.keys(obj);
 
   for (const key of keys) {
-    let pathToArray1 = pathToArray(key);
-    console.log("pa", pathToArray1);
     _.setWith(
       tree,
-      [...pathToArray1, property],
+      [...pathToArray(key), property],
       true,
       (objValue, key, parent) => objValue || new KeyTree(parent, key) // TODO comment properly
     );
@@ -103,9 +99,7 @@ function updateFromPathList(obj, tree, property) {
 }
 
 export function mapVuexMap(vuexMap, ...names) {
-  const a = vuexMap(names.map(name => name.toString())); // toString because they're probably not stored as strings, if they're from a KeyTree or something
-  console.log("mvm", a);
-  return a;
+  return vuexMap(names.map(name => name.toString())); // toString because they're probably not stored as strings, if they're from a KeyTree or something
 }
 
 export function createStoreModule(Class, name) {
@@ -116,10 +110,6 @@ export function createStoreModule(Class, name) {
 
   updateFromPathList(Class.getters, keyTree, "_getter");
   updateFromPathList(Class.mutations, keyTree, "_mutation");
-
-  const g2 = _.mapKeys(Class.getters, (v, k) => name + "/" + k);
-
-  console.log(Class.getters, g2);
 
   return {
     module: {

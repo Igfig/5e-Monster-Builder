@@ -68,7 +68,7 @@
         <dd>{{ monster.cr }}</dd>
       </div>
     </dl>
-
+    
   </figure>
 </template>
 

@@ -11,39 +11,30 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import Statblock from "./Statblock";
 import { stateKeys } from "../store/monster/index";
 import { mapVuexMap } from "../util";
-
-console.log(
-  "keys",
-  stateKeys.monster,
-  stateKeys.monster.ac,
-  "monster/" + stateKeys.monster.ac,
-  stateKeys.monster.speed,
-  stateKeys.monster.speed.land
-);
-
-let mapVuexMapState = mapVuexMap(mapState, stateKeys.monster);
-let mapVuexMapGetters = mapVuexMap(mapGetters, stateKeys.monster.speed, stateKeys.monster.ac);
-console.log("mvm1", mapVuexMapState, mapVuexMapGetters);
-//console,.log("ac", )
 
 export default {
   name: "Monster",
   components: { Statblock },
   computed: {
-    ...mapVuexMapState,
-    ...mapVuexMapGetters,
+    ...mapVuexMap(mapState, stateKeys.monster),
+    ...mapVuexMap(
+      mapGetters,
+      stateKeys.monster.speed,
+      stateKeys.monster.ac
+      // stateKeys.monster.bar.gar
+    ),
     monsterComputed: function() {
-      const a = {
+      // TODO abstract out an API that'll do this merge thing for me
+      return {
         ...this.monster,
         speed: this[stateKeys.monster.speed],
         ac: this[stateKeys.monster.ac]
-      }; // TODO abstract out an API that'll do this merge thing for me
-      console.log("mc", this, a);
-      return a;
+        // bar: { gar: this[stateKeys.monster.bar.gar] }
+      };
     }
   }
 };
