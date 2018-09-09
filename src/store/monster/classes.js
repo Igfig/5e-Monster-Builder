@@ -83,8 +83,10 @@ export class Monster {
   canHover = false;
 
   // GETTERS
+  // note that these must be static
 
   static getters = {
+    // "bar/gar": () => 1,
     ac: state => {
       const natural = state.naturalAC + state.abilities.DEX.mod + state.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
       const armored = state.armor.getAC(state) + state.shield.ac;
@@ -97,11 +99,13 @@ export class Monster {
       }
       return speed;
     }
+    //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land)
   };
 
   // MUTATIONS
+  // note that these must be static
   static mutations = {
-    foo: state => 1,
-    speed: state => 1
+    foo: () => 1
+    //speed: () => 1
   };
 }

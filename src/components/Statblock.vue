@@ -22,7 +22,7 @@
         </dd>
       </div>
 
-      <div>
+        <div>
         <dt>Speed</dt>
         <dd>{{ monster.speed.land }} ft.
           <span v-if="monster.speed.burrow">, burrow {{ monster.speed.burrow }}

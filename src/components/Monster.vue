@@ -16,14 +16,34 @@ import Statblock from "./Statblock";
 import { stateKeys } from "../store/monster/index";
 import { mapVuexMap } from "../util";
 
+console.log(
+  "keys",
+  stateKeys.monster,
+  stateKeys.monster.ac,
+  "monster/" + stateKeys.monster.ac,
+  stateKeys.monster.speed,
+  stateKeys.monster.speed.land
+);
+
+let mapVuexMapState = mapVuexMap(mapState, stateKeys.monster);
+let mapVuexMapGetters = mapVuexMap(mapGetters, stateKeys.monster.speed, stateKeys.monster.ac);
+console.log("mvm1", mapVuexMapState, mapVuexMapGetters);
+//console,.log("ac", )
+
 export default {
   name: "Monster",
   components: { Statblock },
   computed: {
-    ...mapVuexMap(mapState, stateKeys.monster),
-    ...mapVuexMap(mapGetters, stateKeys.monster.speed, "monster/ac"),
+    ...mapVuexMapState,
+    ...mapVuexMapGetters,
     monsterComputed: function() {
-      return { ...this.monster, speed: this[stateKeys.monster.speed], ac: this["monster/ac"] }; // TODO abstract out an API that'll do this merge thing for me
+      const a = {
+        ...this.monster,
+        speed: this[stateKeys.monster.speed],
+        ac: this[stateKeys.monster.ac]
+      }; // TODO abstract out an API that'll do this merge thing for me
+      console.log("mc", this, a);
+      return a;
     }
   }
 };
