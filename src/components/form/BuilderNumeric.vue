@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 import { control } from "./mixins";
 import BuilderLabel from "./BuilderLabel";
 
@@ -32,10 +33,11 @@ export default {
   },
   methods: {
     onInput(event) {
+      const rawValue = parseInt(event.target.value);
       const value =
-        parseInt(event.target.value) ||
-        this.default || // if value is unparseable (probably because it's empty), use the default
-        undefined; // or if there is none, return undefined.
+        !_.isNaN(rawValue) && !_.isNil(rawValue) //  These checks allow for values of 0
+          ? rawValue
+          : this.default || undefined; // if value is unparseable (probably because it's empty), use the default. If there is no default, return undefined.
       this.$emit("input", value);
     }
   }

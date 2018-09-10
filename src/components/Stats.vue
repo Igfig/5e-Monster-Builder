@@ -82,6 +82,7 @@
       <builder-numeric
         v-model="monster.hd"
         :min="1"
+        :default="1"
         name="hd"
         label="Hit Dice"/>
 
@@ -104,6 +105,7 @@
       <builder-numeric
         v-model="monster.naturalAC"
         :min="10"
+        :default="10"
         name="naturalAC"
         label="Natural Base AC"/>
       <br>
