@@ -22,6 +22,13 @@ class AbilityScore {
   // valueOf() { return this.score; } // XXX this might be nice but it's also a bit dangerous
 }
 
+export class Attack {
+  name = "";
+
+  atkOverride = undefined;
+  dmgOverride = undefined;
+}
+
 // TODO turn all these js getters into vuex getters. They're better because they cache values.
 // also FIXME right now the get()ed properties don't show up in the statblock, because we use Object.entries() to get the properties list, and I guess get()s don't show up on that.
 
@@ -75,6 +82,8 @@ export class Monster {
   };
   canHover = false;
 
+  attacks = [new Attack()];
+
   // GETTERS
   // note that these must be static
 
@@ -98,7 +107,9 @@ export class Monster {
   // SPECIAL CUSTOM MUTATIONS
   // note that these must be static
   static mutations = {
-    foo: () => 1
-    //speed: () => 1
+    "attacks/add": (state, val) => {
+      state.attacks.push(val);
+      return state;
+    }
   };
 }

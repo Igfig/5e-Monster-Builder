@@ -1,8 +1,9 @@
 <template>
-  <article><form> <!--XXX not sure we need both of these, but they seem semantic.-->
+  <article class="attack-builder"><form> <!--XXX not sure we need both of these, but they seem semantic.-->
     <BuilderInput v-model="value.name" name="name" label="Name"/>
+    <br />
     <BuilderNumeric v-model="value.atkOverride" name="atkOverride" label="Attack" />
-    <BuilderNumeric v-model="value.dmgOverride" name="dmgOverride" label="Damage" />
+    <BuilderNumeric v-model="value.dmgOverride" name="dmgOverride" label="Damage" labelRight/>
   </form></article>
 </template>
 
@@ -19,4 +20,10 @@ export default {
 </script>
 
 <style lang="scss">
+.attack-builder {
+  width: 300px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: 1px solid black;
+}
 </style>
