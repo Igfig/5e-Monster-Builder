@@ -6,9 +6,10 @@
       <tab name="Stats">
         <Stats/>
       </tab>
-      <tab name="Traits">{{ msg }} 2</tab>
-      <tab name="Actions">{{ msg }} 3</tab>
-      <tab name="Description">{{ msg }} 4</tab>
+      <tab name="Traits">Traits</tab>
+      <tab name="Attacks"><Attacks/></tab>
+      <tab name="Actions">Other Actions</tab> <!--TODO not sure if this is really how I want to split it all up or no-->
+      <tab name="Description">Description</tab>
     </tabs>
 
     <figure class="results">
@@ -30,10 +31,11 @@ import { CURRENT_INFO } from "../store/keys";
 import Monster from "./Monster";
 import Stats from "./Stats";
 import InfoDisplay from "./InfoDisplay";
+import Attacks from "./Attacks";
 
 export default {
   name: "Builder",
-  components: { InfoDisplay, Stats, Monster, Tabs, Tab },
+  components: { Attacks, InfoDisplay, Stats, Monster, Tabs, Tab },
   data() {
     return {
       msg: "Welcome to Your Vue.js PWA"
