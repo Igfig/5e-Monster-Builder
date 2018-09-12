@@ -50,7 +50,7 @@
       <fieldset class="abilities">
         <legend>Ability Scores</legend>
 
-        <ul>
+        <ul class="form-no_control_margins">
           <li
             v-for="(ability, index) in ABILITIES"
             :key="index">
@@ -120,12 +120,12 @@
         :options="SHIELDS"
         name="shield"
         label="Shield"
-        label-right/> <!--XXX wondering if this should actually be a checkbox-->
+        label-right/> <!--XXX wondering if this should actually be a checkbox? Or some kind of custom input... I'm just wondering about how I'd build the Fire Giant Juggernaut with its double shields.-->
     </fieldset>
 
     <fieldset>
       <legend>Speed</legend>
-      <div class="speed"> <!--We have this separate div because for some reason fieldset doesn't work right with grids. It just displays everything in one column.-->
+      <div class="speed form-no_control_margins"> <!--We have this separate div because for some reason fieldset doesn't work right with grids. It just displays everything in one column.-->
         <builder-numeric
           v-model="landSpeed"
           :placeholder="monster.size.speed"
