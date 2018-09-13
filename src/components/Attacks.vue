@@ -12,7 +12,6 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import AttackBuilder from "./AttackBuilder";
-import { Attack } from "../store/monster/classes";
 import { keys } from "../store/monster/index";
 import { mapVuexMap } from "../util";
 
@@ -25,7 +24,7 @@ export default {
   methods: {
     ...mapVuexMap(mapMutations, keys.monster.attacks.add),
     addAttack() {
-      this[keys.monster.attacks.add](new Attack()); // FIXME this all is kinda ugly
+      this[keys.monster.attacks.add]();
     }
   }
 };

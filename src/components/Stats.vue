@@ -168,13 +168,14 @@
           label="Burrow"/>
       </div>
     </fieldset>
+    <button type="button" @click="bork">aaaaa</button>
   </form>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
 import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, SUBTYPES, TYPES } from "../constants";
-import { keys } from "../store/monster/index";
+import { keys, api } from "../store/monster/index";
 import { formatBonus, mapVuexMap } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderDatalist from "./form/BuilderDatalist";
@@ -219,6 +220,10 @@ export default {
   },
   methods: {
     formatBonus,
+    bork() {
+      console.log("bork", keys.monster.name, api);
+      api[keys.monster.name] = "foo";
+    },
     ...mapVuexMap(mapMutations, keys.monster.speed.land) // TODO hook up all the controls to mutations properly
   }
 };
