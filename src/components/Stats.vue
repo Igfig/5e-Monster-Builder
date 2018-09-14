@@ -230,7 +230,7 @@ export default {
 </script>
 
 <style lang="scss">
-$column-width: 330px;
+@import "../styles/tools/sizes.tools";
 
 //TODO make properly responsive
 

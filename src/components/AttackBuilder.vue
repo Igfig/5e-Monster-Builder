@@ -21,9 +21,5 @@ export default {
 
 <style lang="scss">
 .attack-builder {
-  width: 300px;
-  margin-bottom: 5px;
-  padding: 5px;
-  border: 1px solid black;
 }
 </style>
