@@ -76,7 +76,7 @@
     <dl>
       <div v-for="(attack, index) in monster.attacks" :key="index"> <!--TODO incldue other actions too-->
         <dt>{{attack.name}}</dt> <!--TODO fallback attack name-->
-        <dd>Attack +{{attack.getAttack(monster)}}, damage +{{attack.getDamage(monster)}}</dd> <!--TODO so much-->
+        <dd>Attack +{{attack.getAttack(monster)}}, damage {{attack.getDamageExpression(monster)}}</dd> <!--TODO so much-->
       </div>
     </dl>
     

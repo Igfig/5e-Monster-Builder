@@ -8,7 +8,7 @@ import {
   TYPES
 } from "../../constants";
 import _ from "lodash";
-import { diceAverage } from "../../util";
+import { diceAverage, formatBonus } from "../../util";
 
 class AbilityScore {
   constructor(name, score = 10) {
@@ -30,27 +30,44 @@ export class Attack {
 
   // TODO much more nuance, multiple dice, etc
   numDamageDice = 1;
-  damageDieSize = 2;
+  damageDieSize = 4;
 
   attackOverride = undefined;
   damageOverride = undefined;
 
+  getAbilityDamageBonus(monster) {
+    if (this.damageDieSize === 1) {
+      // very small creatures just deal 1 damage flat.
+      // XXX does this apply to, say, humanoids making unarmed attacks though?
+      return 0;
+    }
+    if (_.includes([ABILITIES.STR, ABILITIES.DEX], this.ability)) {
+      return monster.abilities[this.ability.id].mod;
+    }
+    return 0;
+  }
+
   getAttack(monster) {
     return /*monster.proficiency +*/ monster.abilities[this.ability.id].mod; // FIXME monster.proficiency is not properly accessible
   }
-  getDamage(monster) {
-    const abilityBonus =
-      this.ability === ABILITIES.STR || this.ability === ABILITIES.DEX
-        ? monster.abilities[this.ability.id].mod
-        : 0;
-    return diceAverage(this.numDamageDice, this.damageDieSize) + abilityBonus;
+  getDamageExpression(monster) {
+    // TODO a lot more
+    const abilityBonus = this.getAbilityDamageBonus(monster);
+    const formattedBonus = abilityBonus ? formatBonus(abilityBonus) : "";
+    return `${this.numDamageDice}d${this.damageDieSize}${formattedBonus}`;
+  }
+  getAverageDamage(monster) {
+    // TODO multiple dice types
+    return (
+      diceAverage(this.numDamageDice, this.damageDieSize) + this.getAbilityDamageBonus(monster)
+    );
   }
 
   getEffectiveAttack(monster) {
     return this.attackOverride || this.getAttack(monster) || 0; // TODO if no override, calculate it properly
   }
   getEffectiveDamage(monster) {
-    return this.damageOverride || this.getDamage(monster) || 0; // TODO if no override, calculate it properly
+    return this.damageOverride || this.getAverageDamage(monster) || 0; // TODO if no override, calculate it properly
   }
 }
 
