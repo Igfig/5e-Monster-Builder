@@ -8,6 +8,7 @@ import {
   TYPES
 } from "../../constants";
 import _ from "lodash";
+import { diceAverage } from "../../util";
 
 class AbilityScore {
   constructor(name, score = 10) {
@@ -25,8 +26,32 @@ class AbilityScore {
 export class Attack {
   name = "";
 
-  atkOverride = undefined;
-  dmgOverride = undefined;
+  ability = ABILITIES.STR;
+
+  // TODO much more nuance, multiple dice, etc
+  numDamageDice = 1;
+  damageDieSize = 2;
+
+  attackOverride = undefined;
+  damageOverride = undefined;
+
+  getAttack(monster) {
+    return /*monster.proficiency +*/ monster.abilities[this.ability.id].mod; // FIXME monster.proficiency is not properly accessible
+  }
+  getDamage(monster) {
+    const abilityBonus =
+      this.ability === ABILITIES.STR || this.ability === ABILITIES.DEX
+        ? monster.abilities[this.ability.id].mod
+        : 0;
+    return diceAverage(this.numDamageDice, this.damageDieSize) + abilityBonus;
+  }
+
+  getEffectiveAttack(monster) {
+    return this.attackOverride || this.getAttack(monster) || 0; // TODO if no override, calculate it properly
+  }
+  getEffectiveDamage(monster) {
+    return this.damageOverride || this.getDamage(monster) || 0; // TODO if no override, calculate it properly
+  }
 }
 
 // TODO turn all these js getters into vuex getters. They're better because they cache values.

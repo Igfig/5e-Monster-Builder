@@ -2,8 +2,8 @@
   <article class="attack-builder"><form> <!--XXX not sure we need both of these, but they seem semantic.-->
     <BuilderInput v-model="value.name" name="name" label="Name"/>
     <br />
-    <BuilderNumeric v-model="value.atkOverride" name="atkOverride" label="Attack" />
-    <BuilderNumeric v-model="value.dmgOverride" name="dmgOverride" label="Damage" labelRight/>
+    <BuilderNumeric v-model="value.attackOverride" name="atkOverride" label="Attack" />
+    <BuilderNumeric v-model="value.damageOverride" name="dmgOverride" label="Damage" labelRight/>
   </form></article>
 </template>
 

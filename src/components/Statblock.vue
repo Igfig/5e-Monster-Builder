@@ -69,6 +69,17 @@
       </div>
     </dl>
     
+    <h4>Traits</h4>
+    
+    <h4>Actions</h4>
+    
+    <dl>
+      <div v-for="(attack, index) in monster.attacks" :key="index"> <!--TODO incldue other actions too-->
+        <dt>{{attack.name}}</dt> <!--TODO fallback attack name-->
+        <dd>Attack +{{attack.getAttack(monster)}}, damage +{{attack.getDamage(monster)}}</dd> <!--TODO so much-->
+      </div>
+    </dl>
+    
   </figure>
 </template>
 
@@ -98,6 +109,16 @@ $statblock-width: 350px;
 .statblock {
   width: $statblock-width; // XXX could be a little more flexible
   text-align: left;
+
+  h3 {
+    font-size: 1.5em;
+  }
+  h4 {
+    font-size: 1.25em;
+    margin-top: 5px; // XXX extremely tentative
+    border-bottom: 1px solid black; // TODO hook up color to a variable
+    line-height: 1.1em; // XXX tentative
+  }
 
   dt {
     font-weight: bold;

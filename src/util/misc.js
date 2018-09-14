@@ -1,5 +1,12 @@
 import _ from "lodash";
 
+export function diceAverage(num, size) {
+  return Math.floor(num * dieAverage(size));
+}
+export function dieAverage(size) {
+  return (1 + size) / 2.0;
+}
+
 export function callIfFunction(func, value, fallback = func) {
   if (!!func && typeof func === "function") {
     return func(value);
