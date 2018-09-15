@@ -9,7 +9,7 @@ function arrayToPath(arr) {
   return arr.join("/"); // TODO maybe skip any empty elements
 }
 
-const genericSetter = context => (state, val) => {
+export const genericSetter = context => (state, val) => {
   _.set(state, context, val);
 };
 
@@ -46,6 +46,9 @@ class KeyTree {
   toString() {
     // XXX might do valueOf too?
     return this._name;
+  }
+  size() {
+    return Object.keys(this).length;
   }
 }
 
@@ -167,6 +170,26 @@ export class Api {
   }
 }
 
+function flatten(obj, context = []) {
+  const functions = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    const newContext = [...context, key];
+    const path = newContext.join("/");
+
+    if (typeof value === "object") {
+      Object.assign(functions, flatten(value, newContext)); // XXX we may need to use _.merge instead?
+    } else if (typeof value === "function") {
+      // XXX or maybe we should skip this and just always use the value if it's not an object... idk
+      functions[path] = value;
+    } else {
+      throw Error(`tried to flatten() non-function, non-object ${value} at ${path}`);
+    }
+  }
+
+  return functions;
+}
+
 export function createStoreModule(Class, name) {
   const state = new Class();
   const keyTree = createKeyTree(state, name);
@@ -176,7 +199,10 @@ export function createStoreModule(Class, name) {
   updateFromPathList(Class.getters, keyTree, "_getter");
   updateFromPathList(Class.mutations, keyTree, "_mutation");
 
-  const getters = Class.getters;
+  //const getters = Class.getters;
+
+  const getters = flatten(Class.getters);
+
   const mutations = { ...basicMutations, ...Class.mutations }; // basicMutations are the ones automatically created to set the state variables; Class.mutations are added custom.
 
   //const api = createApi(keyTree); //, Class, state, getters, mutations);

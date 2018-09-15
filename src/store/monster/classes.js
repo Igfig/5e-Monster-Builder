@@ -135,15 +135,19 @@ export class Monster {
       const armored = state.armor.getAC(state) + state.shield.ac;
       return Math.max(natural, armored);
     },
-    speed: state => {
+    /*speed: state => {
       const speed = { ...state.speed };
       if (_.isNil(speed.land)) {
         speed.land = state.size.speed;
       }
       return speed;
-    }
+    }*/
     // "bar/gar": () => 1,
-    //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land) // TODO allow for merging when using slash form. The bar/gar bit works fine, but the speed/land overwrites speed.       ...Can we use _.merge()?
+    //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land),
+    speed: {
+      land: state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land)
+    }
+    // TODO allow for merging when using slash form. The bar/gar bit works fine, but the speed/land overwrites speed.       ...Can we use _.merge()?
   };
 
   // SPECIAL CUSTOM MUTATIONS

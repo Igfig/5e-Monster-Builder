@@ -73,12 +73,12 @@
     
     <h4>Actions</h4>
     
-    <dl>
-      <div v-for="(attack, index) in monster.attacks" :key="index"> <!--TODO incldue other actions too-->
-        <dt>{{attack.name}}</dt> <!--TODO fallback attack name-->
-        <dd>Attack +{{attack.getAttack(monster)}}, damage {{attack.getDamageExpression(monster)}}</dd> <!--TODO so much-->
+    <!--<dl>
+      <div v-for="(attack, index) in monster.attacks" :key="index"> &lt;!&ndash;TODO incldue other actions too&ndash;&gt;
+        <dt>{{attack.name}}</dt> &lt;!&ndash;TODO fallback attack name&ndash;&gt;
+        <dd>Attack +{{attack.getAttack(monster)}}, damage {{attack.getDamageExpression(monster)}}</dd> &lt;!&ndash;TODO so much&ndash;&gt;
       </div>
-    </dl>
+    </dl>-->
     
   </figure>
 </template>
