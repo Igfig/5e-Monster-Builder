@@ -143,7 +143,7 @@ export class Monster {
       return speed;
     }
     // "bar/gar": () => 1,
-    //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land) // TODO allow for merging when using slash form. The bar/gar bit works fine, but the speed/land overwrites speed.
+    //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land) // TODO allow for merging when using slash form. The bar/gar bit works fine, but the speed/land overwrites speed.       ...Can we use _.merge()?
   };
 
   // SPECIAL CUSTOM MUTATIONS

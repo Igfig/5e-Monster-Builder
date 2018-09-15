@@ -99,28 +99,58 @@ function updateFromPathList(obj, tree, property) {
   }
 }
 
-function createApi(keyTree) {
-  class Api {}
-  const api = new Api();
+export class Api {
+  constructor(store, keyTree) {
+    //}
 
-  console.log(keyTree);
+    this.getter.bind(store);
+    this.setter.bind(store);
 
-  const paths = Object.values(keyTree).map(value => value._name);
-  console.log("paths", paths);
+    //createApi(store, keyTree) {
+    //const api = new Api();
 
-  const mapped = mapState(paths);
-  console.log("map", mapped);
+    //console.log(keyTree);
 
-  for (const key in keyTree) {
-    const node = keyTree[key];
+    //const paths = Object.values(keyTree).map(value => value._name);
+    //console.log("paths", paths);
+
+    //const mapped = mapState(paths);
+    //console.log("map", mapped);
+
+    this.walk(store, keyTree);
+
+    // /return api;
+
+    //console.log("api", this);
+  }
+
+  walk(store, keyTree) {
+    this.createProperty(keyTree);
+
+    for (const key in keyTree) {
+      this.walk(store, keyTree[key]);
+
+      //const subApi = new Api(store, keyTree[key]);
+      //const subApi = this.createApi(store, keyTree[key]);
+      //console.log("subapi", subApi);
+
+      //Object.assign(this, subApi);
+
+      //createProperty(api, keyTree[key]);
+    }
+  }
+
+  createProperty(node) {
     const path = node.toString();
     //console.log(key, keyTree[key], path, mapState([path]));
-    const get = (node._getter ? mapGetters([path]) : mapState([path]))[path];
-    const set = mapMutations([path])[path];
+    const get = this.getter(node, path);
+    const set = this.setter(path);
+
+    //const a = this;
 
     //console.log(key, get, set);
 
-    Object.defineProperty(api, node._name, {
+    Object.defineProperty(this, node._name, {
       readable: true,
       enumerable: true,
       get,
@@ -128,7 +158,13 @@ function createApi(keyTree) {
     });
   }
 
-  return api;
+  setter(path) {
+    return mapMutations([path])[path];
+  }
+
+  getter(node, path) {
+    return (node._getter ? mapGetters([path]) : mapState([path]))[path];
+  }
 }
 
 export function createStoreModule(Class, name) {
@@ -143,9 +179,9 @@ export function createStoreModule(Class, name) {
   const getters = Class.getters;
   const mutations = { ...basicMutations, ...Class.mutations }; // basicMutations are the ones automatically created to set the state variables; Class.mutations are added custom.
 
-  const api = createApi(keyTree, Class, state, getters, mutations);
+  //const api = createApi(keyTree); //, Class, state, getters, mutations);
 
-  console.log("api", api);
+  //console.log("api", api);
 
   return {
     module: {
@@ -154,8 +190,8 @@ export function createStoreModule(Class, name) {
       mutations,
       getters
     },
-    keys: { [name]: keyTree },
-    api // TODO not sure if api is the best name
+    keys: { [name]: keyTree } // XXX umm maybe we can do this better too. Unless we're going to merge them or something
+    //api // TODO not sure if api is the best name
   };
 }
 
