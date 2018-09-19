@@ -168,13 +168,14 @@
           label="Burrow"/>
       </div>
     </fieldset>
-    <button type="button" @click="bork">aaaaa</button>
+    
   </form>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
 import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, SUBTYPES, TYPES } from "../constants";
+import store from "../store";
 import { keys, api } from "../store/monster/index";
 import { formatBonus, mapVuexMap } from "../util";
 import BuilderInput from "./form/BuilderInput";
@@ -185,6 +186,9 @@ import BuilderLabel from "./form/BuilderLabel";
 import BuilderNumeric from "./form/BuilderNumeric";
 import BuilderCheckbox from "./form/BuilderCheckbox";
 import BuilderCheckboxes from "./form/BuilderCheckboxes";
+import { MONSTER } from "../store/keys";
+
+console.log("smon", store.state.monster);
 
 export default {
   name: "Stats",
@@ -211,20 +215,22 @@ export default {
     };
   },
   computed: {
-    ...mapVuexMap(mapState, keys.monster)
+    ...mapState([MONSTER])
+    //...mapVuexMap(mapState, keys.monster)
   },
   watch: {
     landSpeed() {
-      this[keys.monster.speed.land](this.landSpeed);
+      //this[keys.monster.speed.land](this.landSpeed);
     }
   },
   methods: {
     formatBonus,
     bork() {
-      console.log("bork", keys.monster.name, api);
-      api[keys.monster.name] = "foo";
-    },
-    ...mapVuexMap(mapMutations, keys.monster.speed.land) // TODO hook up all the controls to mutations properly
+      console.log("bork", this);
+      // console.log("bork", keys.monster.name, api);
+      //api[keys.monster.name] = "foo";
+    }
+    //...mapVuexMap(mapMutations, keys.monster.speed.land) // TODO hook up all the controls to mutations properly
   }
 };
 </script>

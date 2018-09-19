@@ -8,7 +8,6 @@ import { DEFAULT_INFO_DISPLAY } from "../constants";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  //strict: true,
   modules: {
     monster
   },

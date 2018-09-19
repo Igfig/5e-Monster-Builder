@@ -12,13 +12,18 @@ import { diceAverage, formatBonus } from "../../util";
 
 class AbilityScore {
   constructor(name, score = 10) {
+    this.name = name; // XXX if we want to remove this we'll have to change some indexing stuff on the statblock
     this.score = score;
   }
 
   get mod() {
-    return Math.floor((this.score - 10) / 2);
-    // TODO cache the value if it ends up impacting performance
+    // FIXME this really needs to be a proper getter, not this get() thing
+    return AbilityScore.getters.mod(this);
   }
+
+  static getters = {
+    mod: state => Math.floor((state.score - 10) / 2)
+  };
 
   // valueOf() { return this.score; } // XXX this might be nice but it's also a bit dangerous
 }
@@ -84,9 +89,6 @@ export class Monster {
   alignment = ALIGNMENTS.UNALIGNED;
 
   cr = 0; // TODO calculate
-  get tier() {
-    return _.sortedIndex(TIER_THRESHOLDS, this.cr);
-  }
 
   get proficiency() {
     return Math.max(2, Math.ceil(this.cr / 4) + 1);
@@ -101,11 +103,6 @@ export class Monster {
     const baseHpPerHd = this.hasMaxHp ? this.size.hd : (this.size.hd + 1) / 2;
     return Math.max(1, baseHpPerHd + this.abilities.CON.mod) * hpMultiplier;
   };
-
-  get hp() {
-    // TODO this should be a getter, or at least cached somehow
-    return Math.max(1, Math.floor(this.hd * this.hpPerHd()));
-  }
 
   naturalAC = 10;
   armor = ARMOR.NONE;
@@ -130,11 +127,12 @@ export class Monster {
   // note that these must be static
 
   static getters = {
-    ac: state => {
-      const natural = state.naturalAC + state.abilities.DEX.mod + state.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
-      const armored = state.armor.getAC(state) + state.shield.ac;
+    ac: monster => {
+      const natural = monster.naturalAC + monster.abilities.DEX.mod + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
+      const armored = monster.armor.getAC(monster) + monster.shield.ac;
       return Math.max(natural, armored);
     },
+    hp: monster => Math.max(1, Math.floor(monster.hd * monster.hpPerHd())),
     /*speed: state => {
       const speed = { ...state.speed };
       if (_.isNil(speed.land)) {
@@ -144,9 +142,10 @@ export class Monster {
     }*/
     // "bar/gar": () => 1,
     //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land),
-    speed: {
-      land: state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land)
-    }
+    tier: monster => _.sortedIndex(TIER_THRESHOLDS, monster.cr),
+    speed: monster => ({
+      land: _.isNil(monster.speed.land) ? monster.size.speed : monster.speed.land
+    })
     // TODO allow for merging when using slash form. The bar/gar bit works fine, but the speed/land overwrites speed.       ...Can we use _.merge()?
   };
 

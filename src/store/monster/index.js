@@ -1,9 +1,24 @@
 import { Monster } from "./classes";
-import { MONSTER } from "../keys";
-import { createStoreModule } from "../../util";
 
-export const { module, keys, api } = createStoreModule(Monster, MONSTER);
-// FIXME there's kind of a problem with this: we don't actually want to use this structure in our final design, do we? We just want to do a mapState, a mapGetters, and a mapMutations and then merge them together into one object. Right? And that would want three separate lists.                               Hm although then we do run into name collisions.                                                          Ugh we probably could put a nested object into component.computed though                                   fuck ok let's just come back to this later
-// XXX another option... only allow getters on leaf nodes. Does that work?
+const makeGettersFromState = module => {
+  const getters = {};
+  const entries = Object.entries(module.constructor.getters);
 
-export default module;
+  for (const [k, v] of entries) {
+    const f = v; // this is weirdly necessary because otherwise it uses the last value v takes, which here is the function 'bar'.
+    Object.defineProperty(getters, k, {
+      enumerable: true, // this is key
+      get: () => f(module)
+    });
+  }
+
+  return getters;
+};
+
+const monster = {
+  namespaced: false, // this is key
+  state: new Monster(),
+  getters: { monster: makeGettersFromState } //,
+  //mutations: { monster: makeMutationsFromState }
+};
+export default monster;

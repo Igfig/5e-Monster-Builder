@@ -14,15 +14,17 @@ import { mapState, mapMutations } from "vuex";
 import AttackBuilder from "./AttackBuilder";
 import { keys } from "../store/monster/index";
 import { mapVuexMap } from "../util";
+import { MONSTER } from "../store/keys";
 
 export default {
   name: "Attacks",
   components: { AttackBuilder },
   computed: {
-    ...mapVuexMap(mapState, keys.monster)
+    //...mapVuexMap(mapState, keys.monster)
+    ...mapState([MONSTER])
   },
   methods: {
-    ...mapVuexMap(mapMutations, keys.monster.attacks.add),
+    // ...mapVuexMap(mapMutations, keys.monster.attacks.add),
     addAttack() {
       this[keys.monster.attacks.add]();
     }
