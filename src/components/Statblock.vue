@@ -1,12 +1,15 @@
 <template>
   <figure class="statblock"> <!--XXX not 100% sure that this is a figure... could be an article, or an article in a figure-->
-    <h3 class="monster-name">{{ monster.name | capitalize }}<span v-if="!monster.name">New Monster</span>
-    </h3>
-
-    <p>{{ monster.size.label | capitalize }} {{ getLabel(monster.type) }}<span v-if="!!monster.subtypes">
-      ({{ getLabel(monster.subtypes) }})</span>, <!--FIXME should really support multiple subtypes-->{{ monster.alignment.text | lowercase }}
-    </p>
-
+    
+    <header>
+      <h3 class="monster-name">{{ monster.name | capitalize }}<span v-if="!monster.name">New Monster</span>
+      </h3>
+  
+      <p>{{ monster.size.label | capitalize }} {{ getLabel(monster.type) }}<span v-if="!!monster.subtypes">
+        ({{ getLabel(monster.subtypes) }})</span>, <!--FIXME should really support multiple subtypes-->{{ monster.alignment.text | lowercase }}
+      </p>
+    </header>
+    
     <hr>
 
     <dl>
@@ -69,7 +72,9 @@
       </div>
     </dl>
     
-    <h4>Traits</h4>
+    <hr>
+    
+    <h4 :style="{display: 'none'}">Traits</h4> <!--TODO tidier way to hide-->
     
     <h4>Actions</h4>
     
@@ -110,14 +115,37 @@ $statblock-width: 350px;
   width: $statblock-width; // XXX could be a little more flexible
   text-align: left;
 
+  p,
+  dl {
+    margin: 0.5em 0 0.3em; // XXX extremely tentative
+  }
+
+  header p {
+    margin-top: 0;
+    /*font-size: 0.9em;
+    font-style: italic;*/ // XXX these make it more accurate to the books, but not sure if I prefer that
+  }
+
   h3 {
     font-size: 1.5em;
+    font-variant: small-caps;
   }
   h4 {
     font-size: 1.25em;
-    margin-top: 5px; // XXX extremely tentative
+    margin-top: 15px; // XXX extremely tentative
     border-bottom: 1px solid black; // TODO hook up color to a variable
-    line-height: 1.1em; // XXX tentative
+    line-height: 1em; // XXX tentative
+    font-variant: small-caps;
+  }
+
+  hr {
+    // simpler version, might go back to this
+    //border: 1px solid black;
+
+    // triangly version
+    border: 1px solid transparent;
+    border-right: 0 transparent;
+    border-left: $statblock-width solid black;
   }
 
   dt {
