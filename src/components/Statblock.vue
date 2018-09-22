@@ -1,5 +1,7 @@
 <template>
   <figure class="statblock"> <!--XXX not 100% sure that this is a figure... could be an article, or an article in a figure-->
+  
+    <!--TODO maybe clicking on any figure or block switches to the appropriate tab in the builder and focuses the associated input? Though that might get awkward when we're just displaying statblocks outside the builder... perhaps we can hang it all on a top-level event that only looks at element ids or something-->
     
     <header>
       <h3 class="monster-name">{{ monster.name | capitalize }}<span v-if="!monster.name">New Monster</span>
@@ -27,16 +29,14 @@
 
         <div>
         <dt>Speed</dt>
-        <dd>{{ monster.speed.land }} ft.
-          <span v-if="monster.speed.burrow">, burrow {{ monster.speed.burrow }}
-            ft.</span><span v-if="monster.speed.climb">, climb {{ monster.speed.climb }}
-              ft.</span><span v-if="monster.speed.fly">,fly {{ monster.speed.fly }}
-                ft.<span v-if="monster.canHover">
-                  (hover)</span></span><span v-if="monster.speed.swim">, swim {{ monster.speed.swim }} ft.</span>
+        <dd>{{ monster.speed.land }} ft.<span v-if="monster.speed.burrow">,
+          burrow {{ monster.speed.burrow }} ft.</span><span v-if="monster.speed.climb">,
+          climb {{ monster.speed.climb }} ft.</span><span v-if="monster.speed.fly">,
+          fly {{ monster.speed.fly }} ft.<span
+            v-if="monster.canHover">(hover)</span></span><span v-if="monster.speed.swim">,
+          swim {{ monster.speed.swim }} ft.</span>
         </dd>
       </div>
-
-      <!--XXX idea for improved block: line for senses? Including passives-->
     </dl>
 
     <hr>
@@ -44,8 +44,8 @@
     <dl class="abilities">
       <template 
         v-for="ability in monster.abilities">
-        <dt :key="ability.name">{{ ability.name | uppercase }}</dt>
-        <dd :key="ability.name">{{ ability.score }} ({{ formatBonus(ability.mod) }})</dd>
+        <dt :key="`${ability.name}-name`">{{ ability.name | uppercase }}</dt>
+        <dd :key="`${ability.name}}-score`">{{ ability.score }} ({{ formatBonus(ability.mod) }})</dd>
       </template>
     </dl>
 
@@ -66,6 +66,36 @@
         </dd>
       </div>
 
+      <div>
+        <dt>Skills</dt>
+        <dd></dd>
+      </div>
+
+      <div>
+        <dt>Damage Resistances</dt>
+        <dd></dd>
+      </div>
+
+      <div>
+        <dt>Damage Immunities</dt>
+        <dd></dd>
+      </div>
+
+      <div>
+        <dt>Condition Immunities</dt>
+        <dd></dd>
+      </div>
+
+      <div>
+        <dt>Senses</dt>
+        <dd></dd>
+      </div>
+      
+      <div>
+        <dt>Languages</dt>
+        <dd></dd>
+      </div>
+      
       <div>
         <dt>Challenge</dt>
         <dd>{{ monster.cr }}</dd>
@@ -108,6 +138,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
 $statblock-width: 350px;
 
