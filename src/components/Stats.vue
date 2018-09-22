@@ -127,7 +127,7 @@
       <legend>Speed</legend>
       <div class="speed form-no_control_margins"> <!--We have this separate div because for some reason fieldset doesn't work right with grids. It just displays everything in one column.-->
         <builder-numeric
-          v-model="landSpeed"
+          v-model="monster.speed.land"
           :placeholder="monster.size.speed"
           :min="0"
           :step="5"
@@ -173,11 +173,11 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
 import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, SUBTYPES, TYPES } from "../constants";
 import store from "../store";
-import { keys, api } from "../store/monster/index";
-import { formatBonus, mapVuexMap } from "../util";
+//import { keys, api } from "../store/monster/index";
+import { formatBonus } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderDatalist from "./form/BuilderDatalist";
 import BuilderSelect from "./form/BuilderSelect";
@@ -188,7 +188,7 @@ import BuilderCheckbox from "./form/BuilderCheckbox";
 import BuilderCheckboxes from "./form/BuilderCheckboxes";
 import { MONSTER } from "../store/keys";
 
-console.log("smon", store.state.monster);
+console.log("monster store", store.state.monster);
 
 export default {
   name: "Stats",
@@ -210,18 +210,12 @@ export default {
       ALIGNMENTS,
       ABILITIES,
       ARMOR,
-      SHIELDS,
-      landSpeed: undefined
+      SHIELDS
     };
   },
   computed: {
     ...mapState([MONSTER])
     //...mapVuexMap(mapState, keys.monster)
-  },
-  watch: {
-    landSpeed() {
-      //this[keys.monster.speed.land](this.landSpeed);
-    }
   },
   methods: {
     formatBonus,

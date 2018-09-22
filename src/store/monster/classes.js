@@ -76,9 +76,6 @@ export class Attack {
   }
 }
 
-// TODO turn all these js getters into vuex getters. They're better because they cache values.
-// also FIXME right now the get()ed properties don't show up in the statblock, because we use Object.entries() to get the properties list, and I guess get()s don't show up on that.
-
 export class Monster {
   name = "";
   isProperName = false;
@@ -88,21 +85,9 @@ export class Monster {
   subtypes = null;
   alignment = ALIGNMENTS.UNALIGNED;
 
-  cr = 0; // TODO calculate
-
-  get proficiency() {
-    return Math.max(2, Math.ceil(this.cr / 4) + 1);
-  }
-
   hd = 1;
   hasMaxHp = false;
   isInjured = false;
-  hpPerHd = () => {
-    // TODO this should be a getter, or at least cached somehow
-    const hpMultiplier = this.isInjured ? 0.5 : 1;
-    const baseHpPerHd = this.hasMaxHp ? this.size.hd : (this.size.hd + 1) / 2;
-    return Math.max(1, baseHpPerHd + this.abilities.CON.mod) * hpMultiplier;
-  };
 
   naturalAC = 10;
   armor = ARMOR.NONE;
@@ -132,7 +117,12 @@ export class Monster {
       const armored = monster.armor.getAC(monster) + monster.shield.ac;
       return Math.max(natural, armored);
     },
-    hp: monster => Math.max(1, Math.floor(monster.hd * monster.hpPerHd())),
+    hpPerHd: monster => {
+      const hpMultiplier = monster.isInjured ? 0.5 : 1;
+      const baseHpPerHd = monster.hasMaxHp ? monster.size.hd : (monster.size.hd + 1) / 2;
+      return Math.max(1, baseHpPerHd + monster.abilities.CON.mod) * hpMultiplier;
+    },
+    hp: (monster, getters) => Math.max(1, Math.floor(monster.hd * getters.monster.hpPerHd)),
     /*speed: state => {
       const speed = { ...state.speed };
       if (_.isNil(speed.land)) {
@@ -142,11 +132,13 @@ export class Monster {
     }*/
     // "bar/gar": () => 1,
     //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land),
-    tier: monster => _.sortedIndex(TIER_THRESHOLDS, monster.cr),
+    cr: () => 0, // TODO calc
+    proficiency: (monster, getters) => Math.max(2, Math.ceil(getters.monster.cr / 4) + 1),
+    tier: (monster, getters) => _.sortedIndex(TIER_THRESHOLDS, getters.monster.cr),
     speed: monster => ({
       land: _.isNil(monster.speed.land) ? monster.size.speed : monster.speed.land
     })
-    // TODO allow for merging when using slash form. The bar/gar bit works fine, but the speed/land overwrites speed.       ...Can we use _.merge()?
+    // TODO allow for merging when using slash form. The bar/gar bit works fine, but the speed/land overwrites speed.       ...Can we use _.merge()?         This might not be needed any more now that we have nested form
   };
 
   // SPECIAL CUSTOM MUTATIONS
