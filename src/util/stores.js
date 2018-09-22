@@ -1,13 +1,6 @@
 import _ from "lodash";
-import { mapState, mapGetters, mapMutations } from "vuex";
-
-// TODO move these two to another file maybe
-function pathToArray(path) {
-  return path.split("/");
-}
-function arrayToPath(arr) {
-  return arr.join("/"); // TODO maybe skip any empty elements
-}
+import { mapGetters, mapMutations, mapState } from "vuex";
+import { arrayToPath, pathToArray } from "./paths";
 
 export const genericSetter = context => (state, val) => {
   _.set(state, context, val);
