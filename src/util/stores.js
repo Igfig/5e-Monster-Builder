@@ -6,32 +6,38 @@ export const genericSetter = context => (state, val) => {
   _.set(state, context, val);
 };
 
+const KEY_TREE_PROPERTY_OPTIONS = {
+  value: false,
+  writable: true,
+  enumerable: false
+};
+
 // XXX I must admit this is a little finicky. If you're not careful, you'll find yourself dealing with objects when you expected strings.
 // technically this is a node in a KeyTree, but whatever the concepts are interchangeable
 class KeyTree {
   constructor(...context) {
     Object.defineProperties(this, {
       _name: {
+        ...KEY_TREE_PROPERTY_OPTIONS,
         value: arrayToPath(context),
-        writable: false,
-        enumerable: false
+        writable: false
+      },
+      _context: {
+        // XXX may end up using this instead of _name completely
+        ...KEY_TREE_PROPERTY_OPTIONS,
+        value: context,
+        writable: false
       },
       _state: {
         // there might be some getters or mutations that don't actually correspond to state objects
-        value: false,
-        writable: true,
-        enumerable: false
+        ...KEY_TREE_PROPERTY_OPTIONS
       },
       _getter: {
-        value: false,
-        writable: true,
-        enumerable: false
+        ...KEY_TREE_PROPERTY_OPTIONS
       },
       _mutation: {
         // whether this node has a *custom* mutation. (All nodes have at least a default notation)
-        value: false,
-        writable: true,
-        enumerable: false
+        ...KEY_TREE_PROPERTY_OPTIONS
       }
     });
   }
@@ -45,7 +51,7 @@ class KeyTree {
   }
 }
 
-function createKeyTree(obj, ...context) {
+export function createKeyTree(obj, ...context) {
   const tree = new KeyTree(...context);
   const entries = Object.entries(obj);
 
@@ -65,7 +71,7 @@ function createKeyTree(obj, ...context) {
 }
 
 // We don't create basic getters because every getter is a special case. (If it weren't, we could just look at the state directly.)
-function collectBasicMutations(keyTree, root, ...context) {
+export function collectBasicMutations(keyTree, root, ...context) {
   const mutations = {};
   const entries = Object.entries(keyTree);
 
