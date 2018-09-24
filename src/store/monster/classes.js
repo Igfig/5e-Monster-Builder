@@ -144,9 +144,15 @@ export class Monster {
   // SPECIAL CUSTOM MUTATIONS
   // note that these must be static
   static mutations = {
-    "attacks/add": state => {
+    /*"attacks/add": state => {
       state.attacks.push(new Attack());
       return state;
+    },*/
+    attacks: {
+      add: state => {
+        state.attacks.push(new Attack());
+        return state;
+      }
     }
   };
 }

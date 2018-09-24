@@ -193,10 +193,16 @@ export function createStoreModule(Class, name) {
   const state = new Class();
   const keyTree = createKeyTree(state, name);
 
+  console.log("keyTree", keyTree);
+
   const basicMutations = collectBasicMutations(keyTree, name); // have to do this before we add the getters and custom mutations
+
+  console.log("mutations", basicMutations);
 
   updateFromPathList(Class.getters, keyTree, "_getter");
   updateFromPathList(Class.mutations, keyTree, "_mutation");
+
+  console.log("keyTree2", keyTree);
 
   //const getters = Class.getters;
 
@@ -218,6 +224,88 @@ export function createStoreModule(Class, name) {
     keys: { [name]: keyTree } // XXX umm maybe we can do this better too. Unless we're going to merge them or something
     //api // TODO not sure if api is the best name
   };
+}
+
+const foo = (Class, state, name, context = []) => store => {
+  const compiled = {};
+
+  //const keys = new Set([...Object.keys(state), ...Object.keys(getters),
+  // ...Object.keys(mutations)]);
+  const keys = new Set([...Object.keys(state)]); // so we can go through the keys of all three
+  // objects at once
+  console.log("keys", keys);
+
+  for (const key of keys) {
+    // const hasState = state.hasOwnProperty(key);
+    // const hasGetter = getters.hasOwnProperty(key);
+    // const hasMutation = mutations.hasOwnProperty(key);
+
+    const value = state[key];
+    const newContext = [...context, key];
+
+    if (
+      typeof value === "object" &&
+      !_.isNil(value) &&
+      !Array.isArray(value) && // TODO maybe add special case for adding to array?
+      !Object.isFrozen(value)
+    ) {
+      console.log("ok", context, key, value, compiled);
+      //debugger;
+      compiled[key] = foo(Class, value, name, newContext)(store);
+    } else {
+      const basicGetter = () => {
+        console.log("bget", newContext, store);
+        return _.get(store.state[name], newContext);
+      };
+      const customGetter = () => {
+        console.log("cget", newContext, store);
+        return _.get(store.getters[name], newContext);
+      };
+      const mutationGetter = () => {
+        console.log("mget", newContext, store);
+        return value => store.commit(name, { value, path: newContext });
+      };
+
+      //console.log("class", state, Object.getPrototypeOf(state).mutations);
+      console.log("class", state, Class.mutations, store, newContext);
+      /*const getter = _.has(Class.mutations, newContext)
+        ? mutationGetter
+        : _.has(Class.getters, newContext)
+          ? customGetter
+          : basicGetter;*/
+
+      const options = { enumerable: true };
+
+      if (_.has(Class.mutations, newContext)) {
+        options.get = mutationGetter;
+      } else if (_.has(Class.getters, newContext)) {
+        options.get = customGetter;
+      } else {
+        options.get = basicGetter;
+      }
+
+      if (_.has(store.state[name], newContext)) {
+        console.log("setter", name, newContext);
+        options.set = value => {
+          console.log("set", newContext, value);
+          store.commit(name, { value, path: newContext });
+        };
+      }
+
+      Object.defineProperty(compiled, key, options);
+    }
+  }
+  return compiled;
+};
+
+export function createStoreInterface(Class, name) {
+  // TODO actually I think mapStore would be a cute name for this, or for the function it returns if that's a thing we end up needing
+  // XXX If we use it like mapState we might be able to pull from this.$store instead of passing the store in explicitly. And perhaps we can pull the class from an Object.prototype call instead of specifying it explicitly.
+  const state = new Class();
+  //const getters = Class.getters;
+  //const mutations = Class.mutations;
+  //const context = [name];
+  return foo(Class, state, name, []);
 }
 
 export function mapVuexMap(vuexMap, ...names) {
