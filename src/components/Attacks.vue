@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
 import AttackBuilder from "./AttackBuilder";
 import { keys } from "../store/monster/index";
-import { mapVuexMap } from "../util";
+//import { mapVuexMap } from "../util";
 import { MONSTER } from "../store/keys";
 
 export default {
