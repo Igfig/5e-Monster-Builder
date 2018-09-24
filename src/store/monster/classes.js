@@ -106,6 +106,10 @@ export class Monster {
   };
   canHover = false;
 
+  butt = {
+    poop: 100
+  };
+
   attacks = [new Attack()];
 
   // GETTERS
@@ -146,12 +150,18 @@ export class Monster {
   static mutations = {
     /*"attacks/add": state => {
       state.attacks.push(new Attack());
-      return state;
     },*/
-    attacks: {
+    /*attacks: {
       add: state => {
         state.attacks.push(new Attack());
-        return state;
+      }
+    }*/
+    addAttack: state => {
+      state.attacks.push(new Attack());
+    },
+    butt: {
+      fart: state => {
+        state.butt.poop = 1000;
       }
     }
   };

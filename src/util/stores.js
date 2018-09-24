@@ -226,6 +226,67 @@ export function createStoreModule(Class, name) {
   };
 }
 
+function canGoDeeper(value) {
+  return (
+    typeof value === "object" &&
+    !_.isNil(value) &&
+    !Array.isArray(value) && // TODO add special case for adding to array
+    !Object.isFrozen(value)
+  );
+}
+
+const fwalk = (compiled, source, get, set, context = []) => {
+  const entries = Object.entries(source);
+
+  for (const [key, value] of entries) {
+    const newContext = [...context, key];
+
+    if (canGoDeeper(value)) {
+      compiled[key] = fwalk(compiled[key] || {}, value, get, set, newContext);
+    } else {
+      const options = {
+        configurable: true,
+        enumerable: true,
+        get: get(newContext)
+      };
+
+      const setInContext = set(newContext);
+      if (setInContext) {
+        options.set = setInContext;
+      } // if a setter shouldn't be assigned at all, the set function should return something falsy
+
+      Object.defineProperty(compiled, key, options);
+    }
+  }
+
+  return compiled;
+};
+
+const foo2 = (Class, name) => store => {
+  console.log("fs", store, Class.mutations);
+
+  const basicGetter = context => () => _.get(store.state[name], context);
+  const basicSetter = context => value => store.commit(name, { value, path: context });
+
+  const customGetter = context => () => _.get(store.getters[name], context);
+  const conditionalBasicSetter = context =>
+    _.has(store.state[name], context)
+      ? value => {
+          store.commit(name, { value, path: context });
+        }
+      : false;
+
+  const mutationGetter = context => () => value => store.commit(name, { value, path: context });
+
+  const fromState = fwalk({}, store.state[name], basicGetter, basicSetter);
+  //return fromState;
+  console.log("fromState", { ...fromState });
+  const fromGetters = fwalk(fromState, store.getters[name], customGetter, conditionalBasicSetter);
+  console.log("fromGetters", { ...fromGetters });
+  const fromMutations = fwalk(fromGetters, Class.mutations, mutationGetter, () => false);
+  return fromMutations;
+};
+
 const foo = (Class, name, context = []) => store => {
   const compiled = {};
 
@@ -328,7 +389,8 @@ export function createStoreInterface(Class, name) {
   //const getters = Class.getters;
   //const mutations = Class.mutations;
   //const context = [name];
-  return foo(Class, name, []);
+  //return foo(Class, name, []);
+  return foo2(Class, name);
 }
 
 export function mapVuexMap(vuexMap, ...names) {

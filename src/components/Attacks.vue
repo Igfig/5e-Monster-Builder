@@ -26,7 +26,7 @@ export default {
   methods: {
     // ...mapVuexMap(mapMutations, keys.monster.attacks.add),
     addAttack() {
-      this[keys.monster.attacks.add]();
+      //this[keys.monster.attacks.add](); // XXX maybe
     }
   }
 };

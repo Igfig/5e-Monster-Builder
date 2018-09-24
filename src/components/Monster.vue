@@ -24,6 +24,7 @@ console.log("si", si);
 
 si.name = "burt";
 si.hd = 3;
+si.butt.fart();
 //si.attacks.add();
 console.log("type", si.type);
 
