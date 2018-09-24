@@ -24,7 +24,8 @@ console.log("si", si);
 
 si.name = "burt";
 si.hd = 3;
-console.log("size", si.type);
+//si.attacks.add();
+console.log("type", si.type);
 
 export default {
   name: "Monster",

@@ -226,13 +226,34 @@ export function createStoreModule(Class, name) {
   };
 }
 
-const foo = (Class, state, name, context = []) => store => {
+const foo = (Class, name, context = []) => store => {
   const compiled = {};
 
-  //const keys = new Set([...Object.keys(state), ...Object.keys(getters),
-  // ...Object.keys(mutations)]);
-  const keys = new Set([...Object.keys(state)]); // so we can go through the keys of all three
-  // objects at once
+  let { state, getters } = store;
+  const { mutations } = Class;
+
+  state = state[name];
+  getters = getters[name];
+
+  const flattened = !_.isEmpty(context)
+    ? {
+        state: _.get(state, context),
+        getters: _.get(getters, context),
+        mutations: _.get(mutations, context)
+      }
+    : { state, getters, mutations };
+
+  console.log("foostore", store);
+  console.log("foobase", { state, getters, mutations });
+  console.log("foocur", flattened, context);
+
+  const keys = new Set([
+    ...Object.keys(flattened.state || {}),
+    ...Object.keys(flattened.getters || {}),
+    ...Object.keys(flattened.mutations || {})
+  ]);
+  //const keys = new Set([...Object.keys(state), ...Object.keys(getters), ...Object.keys(mutations)]); // so we can go through the keys of all three objects at once
+  //const keys = new Set([...Object.keys(state)]);
   console.log("keys", keys);
 
   for (const key of keys) {
@@ -240,8 +261,9 @@ const foo = (Class, state, name, context = []) => store => {
     // const hasGetter = getters.hasOwnProperty(key);
     // const hasMutation = mutations.hasOwnProperty(key);
 
-    const value = state[key];
     const newContext = [...context, key];
+
+    const value = state[key]; // FIXME no we should be getting from everything not just the state
 
     if (
       typeof value === "object" &&
@@ -251,7 +273,7 @@ const foo = (Class, state, name, context = []) => store => {
     ) {
       console.log("ok", context, key, value, compiled);
       //debugger;
-      compiled[key] = foo(Class, value, name, newContext)(store);
+      compiled[key] = foo(Class, name, newContext)(store);
     } else {
       const basicGetter = () => {
         console.log("bget", newContext, store);
@@ -276,6 +298,7 @@ const foo = (Class, state, name, context = []) => store => {
 
       const options = { enumerable: true };
 
+      // TODO this might all be a lot easier if we just make the properties configurable and just build them on the same object in the state -> getter -> mutation order. Like we did in createStoreModule
       if (_.has(Class.mutations, newContext)) {
         options.get = mutationGetter;
       } else if (_.has(Class.getters, newContext)) {
@@ -301,11 +324,11 @@ const foo = (Class, state, name, context = []) => store => {
 export function createStoreInterface(Class, name) {
   // TODO actually I think mapStore would be a cute name for this, or for the function it returns if that's a thing we end up needing
   // XXX If we use it like mapState we might be able to pull from this.$store instead of passing the store in explicitly. And perhaps we can pull the class from an Object.prototype call instead of specifying it explicitly.
-  const state = new Class();
+  //const state = new Class();
   //const getters = Class.getters;
   //const mutations = Class.mutations;
   //const context = [name];
-  return foo(Class, state, name, []);
+  return foo(Class, name, []);
 }
 
 export function mapVuexMap(vuexMap, ...names) {
