@@ -173,11 +173,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, SUBTYPES, TYPES } from "../constants";
 import store from "../store";
-//import { keys, api } from "../store/monster/index";
-import { formatBonus } from "../util";
+import { formatBonus, mapStore } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderDatalist from "./form/BuilderDatalist";
 import BuilderSelect from "./form/BuilderSelect";
@@ -187,8 +185,9 @@ import BuilderNumeric from "./form/BuilderNumeric";
 import BuilderCheckbox from "./form/BuilderCheckbox";
 import BuilderCheckboxes from "./form/BuilderCheckboxes";
 import { MONSTER } from "../store/keys";
+import { Monster } from "../store/monster/classes";
 
-console.log("monster store", store.state.monster);
+let si = mapStore(Monster, MONSTER)(store);
 
 export default {
   name: "Stats",
@@ -213,18 +212,15 @@ export default {
       SHIELDS
     };
   },
-  computed: {
-    ...mapState([MONSTER])
-    //...mapVuexMap(mapState, keys.monster)
-  },
+  computed:
+    // si,
+    {
+      monster() {
+        return si;
+      }
+    },
   methods: {
-    formatBonus,
-    bork() {
-      console.log("bork", this);
-      // console.log("bork", keys.monster.name, api);
-      //api[keys.monster.name] = "foo";
-    }
-    //...mapVuexMap(mapMutations, keys.monster.speed.land) // TODO hook up all the controls to mutations properly
+    formatBonus
   }
 };
 </script>

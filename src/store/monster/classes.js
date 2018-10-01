@@ -16,13 +16,13 @@ class AbilityScore {
     this.score = score;
   }
 
-  get mod() {
+  /*get mod() {
     // FIXME this really needs to be a proper getter, not this get() thing
     return AbilityScore.getters.mod(this);
-  }
+  }*/
 
   static getters = {
-    mod: state => Math.floor((state.score - 10) / 2)
+    mod: ability => Math.floor((ability.score - 10) / 2)
   };
 
   // valueOf() { return this.score; } // XXX this might be nice but it's also a bit dangerous
@@ -116,33 +116,36 @@ export class Monster {
   // note that these must be static
 
   static getters = {
-    ac: monster => {
-      const natural = monster.naturalAC + monster.abilities.DEX.mod + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
-      const armored = monster.armor.getAC(monster) + monster.shield.ac;
+    ac: (monster, getters) => {
+      const natural = monster.naturalAC + getters.monster.abilities.DEX.mod + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
+      const armored = monster.armor.getAC(getters.monster) + monster.shield.ac; // TODO ugh I hate having to pass in getters.monster, surely there must be a better way to do this
       return Math.max(natural, armored);
     },
-    hpPerHd: monster => {
+
+    hpPerHd: (monster, getters) => {
       const hpMultiplier = monster.isInjured ? 0.5 : 1;
       const baseHpPerHd = monster.hasMaxHp ? monster.size.hd : (monster.size.hd + 1) / 2;
-      return Math.max(1, baseHpPerHd + monster.abilities.CON.mod) * hpMultiplier;
+      return Math.max(1, baseHpPerHd + getters.monster.abilities.CON.mod) * hpMultiplier;
     },
     hp: (monster, getters) => Math.max(1, Math.floor(monster.hd * getters.monster.hpPerHd)),
-    /*speed: state => {
-      const speed = { ...state.speed };
-      if (_.isNil(speed.land)) {
-        speed.land = state.size.speed;
-      }
-      return speed;
-    }*/
-    // "bar/gar": () => 1,
-    //"speed/land": state => (_.isNil(state.speed.land) ? state.size.speed : state.speed.land),
+
+    abilities: monster => {
+      // XXX hmm this is a little inefficient isn't it. There's got to be a better way. Like, construct an object once ahead of time instead of rebuilding it every call
+      /*return _.mapValues(monster.abilities, ability => ({
+        mod: AbilityScore.getters.mod(ability)
+      }));*/
+
+      return _.mapValues(monster.abilities, ability =>
+        _.mapValues(AbilityScore.getters, getter => getter(ability))
+      );
+    },
+
     cr: () => 0, // TODO calc
     proficiency: (monster, getters) => Math.max(2, Math.ceil(getters.monster.cr / 4) + 1),
     tier: (monster, getters) => _.sortedIndex(TIER_THRESHOLDS, getters.monster.cr),
     speed: monster => ({
       land: _.isNil(monster.speed.land) ? monster.size.speed : monster.speed.land
     })
-    // TODO allow for merging when using slash form. The bar/gar bit works fine, but the speed/land overwrites speed.       ...Can we use _.merge()?         This might not be needed any more now that we have nested form
   };
 
   // SPECIAL CUSTOM MUTATIONS

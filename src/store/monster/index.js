@@ -1,11 +1,7 @@
 import _ from "lodash";
 import { Monster } from "./classes";
-//import { createStoreModule } from "../../util";
-//import { MONSTER } from "../keys";
 
 const makeGettersFromClass = (module, moduleGetters) => {
-  console.log("mgfs", monster, moduleGetters);
-
   const getters = {};
   const entries = Object.entries(module.constructor.getters);
 
@@ -22,30 +18,22 @@ const makeGettersFromClass = (module, moduleGetters) => {
 
 const state = new Monster();
 
-//createStoreModule(Monster, MONSTER);
-
 const monster = {
   namespaced: false, // this is key
   state,
+  modules: {},
   getters: { monster: makeGettersFromClass },
   mutations: {
     monster: (monster, payload) => {
       const { value, path } = payload;
       const customMutation = _.get(Monster.mutations, path);
-      console.log("payload", monster, Monster.mutations, payload, customMutation);
 
       if (customMutation) {
         customMutation(monster, value);
       } else {
         _.set(monster, path, value);
       }
-    },
-
-    poop: (monster, val) => {
-      console.log("poop", monster, val);
-      return (monster.name = `${val} poop`);
     }
   }
-  //mutations: { monster: makeMutationsFromState }
 };
 export default monster;

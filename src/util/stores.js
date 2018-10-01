@@ -1,20 +1,20 @@
 import _ from "lodash";
-import { mapGetters, mapMutations, mapState } from "vuex";
-import { arrayToPath, pathToArray } from "./paths";
+// import { mapGetters, mapMutations, mapState } from "vuex";
+// import { arrayToPath, pathToArray } from "./paths";
 
-export const genericSetter = context => (state, val) => {
+/*export const genericSetter = context => (state, val) => {
   _.set(state, context, val);
-};
+};*/
 
-const KEY_TREE_PROPERTY_OPTIONS = {
+/*const KEY_TREE_PROPERTY_OPTIONS = {
   value: false,
   writable: true,
   enumerable: false
-};
+};*/
 
 // XXX I must admit this is a little finicky. If you're not careful, you'll find yourself dealing with objects when you expected strings.
 // technically this is a node in a KeyTree, but whatever the concepts are interchangeable
-class KeyTree {
+/*class KeyTree {
   constructor(...context) {
     Object.defineProperties(this, {
       _name: {
@@ -49,9 +49,9 @@ class KeyTree {
   size() {
     return Object.keys(this).length;
   }
-}
+}*/
 
-export function createKeyTree(obj, ...context) {
+/*export function createKeyTree(obj, ...context) {
   const tree = new KeyTree(...context);
   const entries = Object.entries(obj);
 
@@ -68,10 +68,10 @@ export function createKeyTree(obj, ...context) {
   }
 
   return tree;
-}
+}*/
 
 // We don't create basic getters because every getter is a special case. (If it weren't, we could just look at the state directly.)
-export function collectBasicMutations(keyTree, root, ...context) {
+/*export function collectBasicMutations(keyTree, root, ...context) {
   const mutations = {};
   const entries = Object.entries(keyTree);
 
@@ -86,9 +86,9 @@ export function collectBasicMutations(keyTree, root, ...context) {
   }
 
   return mutations;
-}
+}*/
 
-function updateFromPathList(obj, tree, property) {
+/*function updateFromPathList(obj, tree, property) {
   const keys = Object.keys(obj);
 
   for (const key of keys) {
@@ -99,31 +99,17 @@ function updateFromPathList(obj, tree, property) {
       (objValue, key, parent) => objValue || new KeyTree(parent, key) // TODO comment properly
     );
   }
-}
+}*/
 
-export class Api {
+/*export class Api {
   constructor(store, keyTree) {
-    //}
 
     this.getter.bind(store);
     this.setter.bind(store);
 
-    //createApi(store, keyTree) {
-    //const api = new Api();
-
-    //console.log(keyTree);
-
-    //const paths = Object.values(keyTree).map(value => value._name);
-    //console.log("paths", paths);
-
-    //const mapped = mapState(paths);
-    //console.log("map", mapped);
 
     this.walk(store, keyTree);
 
-    // /return api;
-
-    //console.log("api", this);
   }
 
   walk(store, keyTree) {
@@ -132,25 +118,13 @@ export class Api {
     for (const key in keyTree) {
       this.walk(store, keyTree[key]);
 
-      //const subApi = new Api(store, keyTree[key]);
-      //const subApi = this.createApi(store, keyTree[key]);
-      //console.log("subapi", subApi);
-
-      //Object.assign(this, subApi);
-
-      //createProperty(api, keyTree[key]);
     }
   }
 
   createProperty(node) {
     const path = node.toString();
-    //console.log(key, keyTree[key], path, mapState([path]));
     const get = this.getter(node, path);
     const set = this.setter(path);
-
-    //const a = this;
-
-    //console.log(key, get, set);
 
     Object.defineProperty(this, node._name, {
       readable: true,
@@ -167,9 +141,9 @@ export class Api {
   getter(node, path) {
     return (node._getter ? mapGetters([path]) : mapState([path]))[path];
   }
-}
+}*/
 
-function flatten(obj, context = []) {
+/*function flatten(obj, context = []) {
   const functions = {};
 
   for (const [key, value] of Object.entries(obj)) {
@@ -187,9 +161,9 @@ function flatten(obj, context = []) {
   }
 
   return functions;
-}
+}*/
 
-export function createStoreModule(Class, name) {
+/*export function createStoreModule(Class, name) {
   const state = new Class();
   const keyTree = createKeyTree(state, name);
 
@@ -224,70 +198,9 @@ export function createStoreModule(Class, name) {
     keys: { [name]: keyTree } // XXX umm maybe we can do this better too. Unless we're going to merge them or something
     //api // TODO not sure if api is the best name
   };
-}
+}*/
 
-function canGoDeeper(value) {
-  return (
-    typeof value === "object" &&
-    !_.isNil(value) &&
-    !Array.isArray(value) && // TODO add special case for adding to array
-    !Object.isFrozen(value)
-  );
-}
-
-const fwalk = (compiled, source, get, set, context = []) => {
-  const entries = Object.entries(source);
-
-  for (const [key, value] of entries) {
-    const newContext = [...context, key];
-
-    if (canGoDeeper(value)) {
-      compiled[key] = fwalk(compiled[key] || {}, value, get, set, newContext);
-    } else {
-      const options = {
-        configurable: true,
-        enumerable: true,
-        get: get(newContext)
-      };
-
-      const setInContext = set(newContext);
-      if (setInContext) {
-        options.set = setInContext;
-      } // if a setter shouldn't be assigned at all, the set function should return something falsy
-
-      Object.defineProperty(compiled, key, options);
-    }
-  }
-
-  return compiled;
-};
-
-const foo2 = (Class, name) => store => {
-  console.log("fs", store, Class.mutations);
-
-  const basicGetter = context => () => _.get(store.state[name], context);
-  const basicSetter = context => value => store.commit(name, { value, path: context });
-
-  const customGetter = context => () => _.get(store.getters[name], context);
-  const conditionalBasicSetter = context =>
-    _.has(store.state[name], context)
-      ? value => {
-          store.commit(name, { value, path: context });
-        }
-      : false;
-
-  const mutationGetter = context => () => value => store.commit(name, { value, path: context });
-
-  const fromState = fwalk({}, store.state[name], basicGetter, basicSetter);
-  //return fromState;
-  console.log("fromState", { ...fromState });
-  const fromGetters = fwalk(fromState, store.getters[name], customGetter, conditionalBasicSetter);
-  console.log("fromGetters", { ...fromGetters });
-  const fromMutations = fwalk(fromGetters, Class.mutations, mutationGetter, () => false);
-  return fromMutations;
-};
-
-const foo = (Class, name, context = []) => store => {
+/*const foo = (Class, name, context = []) => store => {
   const compiled = {};
 
   let { state, getters } = store;
@@ -351,11 +264,11 @@ const foo = (Class, name, context = []) => store => {
 
       //console.log("class", state, Object.getPrototypeOf(state).mutations);
       console.log("class", state, Class.mutations, store, newContext);
-      /*const getter = _.has(Class.mutations, newContext)
-        ? mutationGetter
-        : _.has(Class.getters, newContext)
-          ? customGetter
-          : basicGetter;*/
+      /!*const getter = _.has(Class.mutations, newContext)
+       ? mutationGetter
+       : _.has(Class.getters, newContext)
+       ? customGetter
+       : basicGetter;*!/
 
       const options = { enumerable: true };
 
@@ -380,18 +293,68 @@ const foo = (Class, name, context = []) => store => {
     }
   }
   return compiled;
+};*/
+
+function canGoDeeper(value) {
+  return (
+    typeof value === "object" &&
+    !_.isNil(value) &&
+    !Array.isArray(value) && // TODO add special case for adding to array
+    !Object.isFrozen(value)
+  );
+}
+
+const fwalk = (compiled, source, get, set, context = []) => {
+  const entries = Object.entries(source);
+
+  for (const [key, value] of entries) {
+    const newContext = [...context, key];
+
+    if (canGoDeeper(value)) {
+      compiled[key] = fwalk(compiled[key] || {}, value, get, set, newContext);
+    } else {
+      const options = {
+        configurable: true,
+        enumerable: true,
+        get: get(newContext)
+      };
+
+      const setInContext = set(newContext);
+      if (setInContext) {
+        options.set = setInContext;
+      } // if a setter shouldn't be assigned at all, the set function should return something falsy
+
+      Object.defineProperty(compiled, key, options);
+    }
+  }
+
+  return compiled;
 };
 
-export function createStoreInterface(Class, name) {
-  // TODO actually I think mapStore would be a cute name for this, or for the function it returns if that's a thing we end up needing
+export const mapStore = (Class, name) => store => {
   // XXX If we use it like mapState we might be able to pull from this.$store instead of passing the store in explicitly. And perhaps we can pull the class from an Object.prototype call instead of specifying it explicitly.
-  //const state = new Class();
-  //const getters = Class.getters;
-  //const mutations = Class.mutations;
-  //const context = [name];
-  //return foo(Class, name, []);
-  return foo2(Class, name);
-}
+
+  const basicGetter = context => () => _.get(store.state[name], context);
+  const basicSetter = context => value => store.commit(name, { value, path: context });
+
+  const customGetter = context => () => _.get(store.getters[name], context);
+  const conditionalBasicSetter = context =>
+    _.has(store.state[name], context)
+      ? value => {
+          store.commit(name, { value, path: context });
+        }
+      : false;
+
+  const mutationGetter = context => () => value => store.commit(name, { value, path: context });
+
+  const fromState = fwalk({}, store.state[name], basicGetter, basicSetter);
+  //return fromState;
+  //console.log("fromState", { ...fromState });
+  const fromGetters = fwalk(fromState, store.getters[name], customGetter, conditionalBasicSetter);
+  //console.log("fromGetters", { ...fromGetters });
+  const fromMutations = fwalk(fromGetters, Class.mutations, mutationGetter, () => false); // XXX what was this always-false function for again?
+  return fromMutations;
+};
 
 export function mapVuexMap(vuexMap, ...names) {
   return vuexMap(names.map(name => name.toString())); // toString because they're probably not stored as strings, if they're from a KeyTree or something

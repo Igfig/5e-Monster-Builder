@@ -10,21 +10,23 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import AttackBuilder from "./AttackBuilder";
-import { keys } from "../store/monster/index";
-//import { mapVuexMap } from "../util";
 import { MONSTER } from "../store/keys";
+import { mapStore } from "../util";
+import { Monster } from "../store/monster/classes";
+import store from "../store";
+
+const si = mapStore(Monster, MONSTER)(store);
 
 export default {
   name: "Attacks",
   components: { AttackBuilder },
   computed: {
-    //...mapVuexMap(mapState, keys.monster)
-    ...mapState([MONSTER])
+    monster() {
+      return si;
+    }
   },
   methods: {
-    // ...mapVuexMap(mapMutations, keys.monster.attacks.add),
     addAttack() {
       //this[keys.monster.attacks.add](); // XXX maybe
     }
