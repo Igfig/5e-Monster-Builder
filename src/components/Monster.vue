@@ -17,30 +17,27 @@ import { Monster } from "../store/monster/classes";
 import { MONSTER } from "../store/keys";
 import { mapStore } from "../util";
 
-const si = mapStore(Monster, MONSTER)(store);
-
 export default {
   name: "Monster",
   components: { Statblock },
-  computed:
-    // si,
-    {
+  computed: mapStore(Monster, MONSTER)(store)
+  /*{
       monster() {
         return si;
 
         // TODO maybe some kind of function that builds this structure?
         //return _.merge({}, store.state.monster, store.getters.monster);
         // FIXME also wait are we running a full merge every time we read the value of monster? That's actually terrible now that I think about it.
-        /* XXX But of course if we do it outside, then the object doesn't update.
+        /!* XXX But of course if we do it outside, then the object doesn't update.
          We could have an object that each of its leaves is a getter that pulls from store... isn't that what we were doing originally?
               (That does have the issue that it doesn't update if you add a new property to the store, instead of just updating an existing one... hmm)
          We could keep the two trees separate within an object, and each time we try to pull from the object we do _.get(getters, path, val, _.get(state, path, val)) so as to always get the correct value? That'd make getting a bit slower, but updating much faster. Of course, we do a lot more getting than updating. Hmm
          Mutations might be easier than we think to add though... after all, the getters are also only top level.
          
          You know what though, we should probably leave this as it is for now. (The state/getters, I mean; mutations still need to be added properly.) Because this does work really well, and it hasn't impacted performance yet. When it does, we can revisit.
-         */
+         *!/
       }
-    }
+    }*/
 };
 </script>
 

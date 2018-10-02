@@ -187,8 +187,6 @@ import BuilderCheckboxes from "./form/BuilderCheckboxes";
 import { MONSTER } from "../store/keys";
 import { Monster } from "../store/monster/classes";
 
-let si = mapStore(Monster, MONSTER)(store);
-
 export default {
   name: "Stats",
   components: {
@@ -212,13 +210,12 @@ export default {
       SHIELDS
     };
   },
-  computed:
-    // si,
-    {
+  computed: mapStore(Monster, MONSTER)(store),
+  /*{
       monster() {
         return si;
       }
-    },
+    },*/
   methods: {
     formatBonus
   }

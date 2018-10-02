@@ -332,6 +332,8 @@ const fwalk = (compiled, source, get, set, context = []) => {
 };
 
 export const mapStore = (Class, name) => store => {
+  console.log("mapstore this", this);
+  //store = this.$store;
   // XXX If we use it like mapState we might be able to pull from this.$store instead of passing the store in explicitly. And perhaps we can pull the class from an Object.prototype call instead of specifying it explicitly.
 
   const basicGetter = context => () => _.get(store.state[name], context);
@@ -353,7 +355,13 @@ export const mapStore = (Class, name) => store => {
   const fromGetters = fwalk(fromState, store.getters[name], customGetter, conditionalBasicSetter);
   //console.log("fromGetters", { ...fromGetters });
   const fromMutations = fwalk(fromGetters, Class.mutations, mutationGetter, () => false); // XXX what was this always-false function for again?
-  return fromMutations;
+
+  return {
+    [name]: function() {
+      console.log("mapstore this2", this);
+      return fromMutations;
+    }
+  };
 };
 
 export function mapVuexMap(vuexMap, ...names) {
