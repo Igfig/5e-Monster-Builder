@@ -350,10 +350,9 @@ function buildAccessors(store, name) {
   return { basicGetter, basicSetter, customGetter, conditionalBasicSetter, mutationGetter };
 }
 
-export function mapStore(name, store) {
-  /*return {
-    [name]: function() {
-      const store = this.$store;*/ // XXX I would love to be able to do this, but if we do then this entire function gets recalculated whenever we change a value on the form. With the current way, it only gets run once pe component, at the beginning.
+function buildMappedStore(store, name) {
+  const module = store.state[name];
+  const Class = module.constructor;
 
   const {
     basicGetter,
@@ -363,16 +362,20 @@ export function mapStore(name, store) {
     mutationGetter
   } = buildAccessors(store, name);
 
-  const module = store.state[name];
-  const Class = module.constructor;
-
   const fromState = fwalk({}, module, basicGetter, basicSetter);
   const fromGetters = fwalk(fromState, store.getters[name], customGetter, conditionalBasicSetter);
-  const fromMutations = fwalk(fromGetters, Class.mutations, mutationGetter, () => false); // XXX what was this always-false function for again?
+  return fwalk(fromGetters, Class.mutations, mutationGetter, () => false); // XXX what was this always-false function for again?
+}
+
+export function mapStore(name) {
+  let mappedStore = undefined;
 
   return {
     [name]: function() {
-      return fromMutations;
+      // cache the mapped store
+      mappedStore = mappedStore || buildMappedStore(this.$store, name); // 'this' refers to the vue component that called this function
+
+      return mappedStore;
     }
   };
 }

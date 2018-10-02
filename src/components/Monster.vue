@@ -12,14 +12,13 @@
 
 <script>
 import Statblock from "./Statblock";
-import store from "../store";
 import { MONSTER } from "../store/keys";
 import { mapStore } from "../util";
 
 export default {
   name: "Monster",
   components: { Statblock },
-  computed: mapStore(MONSTER, store)
+  computed: mapStore(MONSTER)
 };
 </script>
 

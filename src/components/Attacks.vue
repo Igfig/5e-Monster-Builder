@@ -13,12 +13,11 @@
 import AttackBuilder from "./AttackBuilder";
 import { MONSTER } from "../store/keys";
 import { mapStore } from "../util";
-import store from "../store";
 
 export default {
   name: "Attacks",
   components: { AttackBuilder },
-  computed: mapStore(MONSTER, store),
+  computed: mapStore(MONSTER),
   methods: {
     addAttack() {
       //this[keys.monster.attacks.add](); // XXX maybe

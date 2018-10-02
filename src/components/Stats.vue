@@ -174,7 +174,6 @@
 
 <script>
 import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, SUBTYPES, TYPES } from "../constants";
-import store from "../store";
 import { formatBonus, mapStore } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderDatalist from "./form/BuilderDatalist";
@@ -209,7 +208,7 @@ export default {
       SHIELDS
     };
   },
-  computed: mapStore(MONSTER, store),
+  computed: mapStore(MONSTER),
   methods: {
     formatBonus
   }
