@@ -185,7 +185,6 @@ import BuilderNumeric from "./form/BuilderNumeric";
 import BuilderCheckbox from "./form/BuilderCheckbox";
 import BuilderCheckboxes from "./form/BuilderCheckboxes";
 import { MONSTER } from "../store/keys";
-import { Monster } from "../store/monster/classes";
 
 export default {
   name: "Stats",
@@ -210,12 +209,7 @@ export default {
       SHIELDS
     };
   },
-  computed: mapStore(Monster, MONSTER)(store),
-  /*{
-      monster() {
-        return si;
-      }
-    },*/
+  computed: mapStore(MONSTER, store),
   methods: {
     formatBonus
   }

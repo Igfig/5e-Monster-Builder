@@ -331,17 +331,15 @@ const fwalk = (compiled, source, get, set, context = []) => {
   return compiled;
 };
 
-export const mapStore = (Class, name) => store => {
-  console.log("mapstore this", this);
-  //store = this.$store;
-  // XXX If we use it like mapState we might be able to pull from this.$store instead of passing the store in explicitly. And perhaps we can pull the class from an Object.prototype call instead of specifying it explicitly.
+function buildAccessors(store, name) {
+  const module = store.state[name];
 
-  const basicGetter = context => () => _.get(store.state[name], context);
+  const basicGetter = context => () => _.get(module, context);
   const basicSetter = context => value => store.commit(name, { value, path: context });
 
   const customGetter = context => () => _.get(store.getters[name], context);
   const conditionalBasicSetter = context =>
-    _.has(store.state[name], context)
+    _.has(module, context)
       ? value => {
           store.commit(name, { value, path: context });
         }
@@ -349,20 +347,35 @@ export const mapStore = (Class, name) => store => {
 
   const mutationGetter = context => () => value => store.commit(name, { value, path: context });
 
-  const fromState = fwalk({}, store.state[name], basicGetter, basicSetter);
-  //return fromState;
-  //console.log("fromState", { ...fromState });
+  return { basicGetter, basicSetter, customGetter, conditionalBasicSetter, mutationGetter };
+}
+
+export function mapStore(name, store) {
+  /*return {
+    [name]: function() {
+      const store = this.$store;*/ // XXX I would love to be able to do this, but if we do then this entire function gets recalculated whenever we change a value on the form. With the current way, it only gets run once pe component, at the beginning.
+
+  const {
+    basicGetter,
+    basicSetter,
+    customGetter,
+    conditionalBasicSetter,
+    mutationGetter
+  } = buildAccessors(store, name);
+
+  const module = store.state[name];
+  const Class = module.constructor;
+
+  const fromState = fwalk({}, module, basicGetter, basicSetter);
   const fromGetters = fwalk(fromState, store.getters[name], customGetter, conditionalBasicSetter);
-  //console.log("fromGetters", { ...fromGetters });
   const fromMutations = fwalk(fromGetters, Class.mutations, mutationGetter, () => false); // XXX what was this always-false function for again?
 
   return {
     [name]: function() {
-      console.log("mapstore this2", this);
       return fromMutations;
     }
   };
-};
+}
 
 export function mapVuexMap(vuexMap, ...names) {
   return vuexMap(names.map(name => name.toString())); // toString because they're probably not stored as strings, if they're from a KeyTree or something
