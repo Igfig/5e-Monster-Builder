@@ -13,14 +13,8 @@ import { diceAverage, formatBonus } from "../../util";
 class AbilityScore {
   constructor(ability, score = 10) {
     this.ability = ability;
-    this.name = ability.label; // XXX if we want to remove this we'll have to change some indexing stuff on the statblock
     this.score = score;
   }
-
-  /*get mod() {
-    // FIXME this really needs to be a proper getter, not this get() thing
-    return AbilityScore.getters.mod(this);
-  }*/
 
   static getters = {
     mod: ability => Math.floor((ability.score - 10) / 2)
@@ -118,9 +112,28 @@ export class Monster {
 
   static getters = {
     ac: (monster, getters) => {
-      const natural = monster.naturalAC + getters.monster.abilityScores.DEX.mod + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
+      const natural = getters.monster.totalNaturalAC + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
       const armored = monster.armor.getAC(getters.monster) + monster.shield.ac; // TODO ugh I hate having to pass in getters.monster, surely there must be a better way to do this
       return Math.max(natural, armored);
+    },
+    totalNaturalAC: (monster, getters) => monster.naturalAC + getters.monster.abilityScores.DEX.mod,
+    acText: (monster, getters) => {
+      const acSources = [];
+
+      if (monster.naturalAC > 10 || monster.armor !== ARMOR.NONE) {
+        const base =
+          getters.monster.totalNaturalAC > monster.armor.getAC(getters.monster)
+            ? "natural armor"
+            : monster.armor.text;
+
+        acSources.push(base);
+      }
+
+      if (monster.shield !== SHIELDS.NONE) {
+        acSources.push(monster.shield.label.toLowerCase());
+      }
+
+      return acSources.join(", ");
     },
 
     hpPerHd: (monster, getters) => {
@@ -131,7 +144,7 @@ export class Monster {
     hp: (monster, getters) => Math.max(1, Math.floor(monster.hd * getters.monster.hpPerHd)),
 
     abilityScores: monster => {
-      // XXX hmm this is a little inefficient isn't it. There's got to be a better way. Like, construct an object once ahead of time instead of rebuilding it every call
+      // XXX hmm this is a little inefficient isn't it. There's got to be a better way. Like, construct an object once ahead of time instead of rebuilding it every call. Can we cache it perhaps?
       /*return _.mapValues(monster.abilityScores, ability => ({
         mod: AbilityScore.getters.mod(ability)
       }));*/

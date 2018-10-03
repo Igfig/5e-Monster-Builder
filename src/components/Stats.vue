@@ -114,7 +114,7 @@
         v-model="monster.armor"
         :options="ARMOR"
         name="armor"
-        label="Armor"/> <!--TODO something with optgroups-->
+        label="Armor"/> <!--TODO something with optgroups--> <!--TODO some way to handle those cases where unarmored defense actually permits some degree of armour. Like the swashbuckler's Suave Defense.-->
       <builder-select
         v-model="monster.shield"
         :options="SHIELDS"
