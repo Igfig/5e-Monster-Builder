@@ -52,15 +52,15 @@
 
         <ul class="form-no_control_margins">
           <li
-            v-for="(ability, index) in ABILITIES"
-            :key="index">
+            v-for="abilityScore in monster.abilityScores"
+            :key="abilityScore.ability.id">
             <builder-numeric
-              :name="ability.label | lowercase"
-              :label="ability.label"
-              v-model="monster.abilities[index].score"
+              :name="abilityScore.ability.label | lowercase"
+              :label="abilityScore.ability.label"
+              v-model="abilityScore.score"
               :min="1"
               :max="30" />
-            <output>{{ formatBonus(monster.abilities[index].mod) }}</output>
+            <output>{{ formatBonus(abilityScore.mod) }}</output>
           </li> <!--FIXME updating Con when we have an hp target doesn't change our number of HD -->
         </ul>
 

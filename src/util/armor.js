@@ -24,7 +24,7 @@ export class LightArmor extends Armor {
 
   getAC(monster) {
     //debugger;
-    return this.baseAC + monster.abilities.DEX.mod;
+    return this.baseAC + monster.abilityScores.DEX.mod;
   }
 }
 
@@ -34,7 +34,7 @@ export class MedArmor extends Armor {
   }
 
   getAC(monster) {
-    return this.baseAC + Math.min(2, monster.abilities.DEX.mod);
+    return this.baseAC + Math.min(2, monster.abilityScores.DEX.mod);
   }
 }
 
@@ -52,6 +52,6 @@ export class UnarmoredDefense extends Armor {
   }
 
   getAC(monster) {
-    return this.baseAC + monster.abilities.DEX.mod + monster.abilities[this.ability.id].mod;
+    return this.baseAC + monster.abilityScores.DEX.mod + monster.abilityScores[this.ability.id].mod;
   }
 }

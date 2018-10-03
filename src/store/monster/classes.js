@@ -11,8 +11,9 @@ import _ from "lodash";
 import { diceAverage, formatBonus } from "../../util";
 
 class AbilityScore {
-  constructor(name, score = 10) {
-    this.name = name; // XXX if we want to remove this we'll have to change some indexing stuff on the statblock
+  constructor(ability, score = 10) {
+    this.ability = ability;
+    this.name = ability.label; // XXX if we want to remove this we'll have to change some indexing stuff on the statblock
     this.score = score;
   }
 
@@ -47,13 +48,13 @@ export class Attack {
       return 0;
     }
     if (_.includes([ABILITIES.STR, ABILITIES.DEX], this.ability)) {
-      return monster.abilities[this.ability.id].mod;
+      return monster.abilityScores[this.ability.id].mod;
     }
     return 0;
   }
 
   getAttack(monster) {
-    return /*monster.proficiency +*/ monster.abilities[this.ability.id].mod; // FIXME monster.proficiency is not properly accessible
+    return monster.proficiency + monster.abilityScores[this.ability.id].mod;
   }
   getDamageExpression(monster) {
     // TODO a lot more
@@ -93,7 +94,7 @@ export class Monster {
   armor = ARMOR.NONE;
   shield = SHIELDS.NONE;
 
-  abilities = _.mapValues(ABILITIES, ability => new AbilityScore(ability.label));
+  abilityScores = _.mapValues(ABILITIES, ability => new AbilityScore(ability));
   saves = [];
 
   // accessed via getters
@@ -117,7 +118,7 @@ export class Monster {
 
   static getters = {
     ac: (monster, getters) => {
-      const natural = monster.naturalAC + getters.monster.abilities.DEX.mod + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
+      const natural = monster.naturalAC + getters.monster.abilityScores.DEX.mod + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
       const armored = monster.armor.getAC(getters.monster) + monster.shield.ac; // TODO ugh I hate having to pass in getters.monster, surely there must be a better way to do this
       return Math.max(natural, armored);
     },
@@ -125,17 +126,17 @@ export class Monster {
     hpPerHd: (monster, getters) => {
       const hpMultiplier = monster.isInjured ? 0.5 : 1;
       const baseHpPerHd = monster.hasMaxHp ? monster.size.hd : (monster.size.hd + 1) / 2;
-      return Math.max(1, baseHpPerHd + getters.monster.abilities.CON.mod) * hpMultiplier;
+      return Math.max(1, baseHpPerHd + getters.monster.abilityScores.CON.mod) * hpMultiplier;
     },
     hp: (monster, getters) => Math.max(1, Math.floor(monster.hd * getters.monster.hpPerHd)),
 
-    abilities: monster => {
+    abilityScores: monster => {
       // XXX hmm this is a little inefficient isn't it. There's got to be a better way. Like, construct an object once ahead of time instead of rebuilding it every call
-      /*return _.mapValues(monster.abilities, ability => ({
+      /*return _.mapValues(monster.abilityScores, ability => ({
         mod: AbilityScore.getters.mod(ability)
       }));*/
 
-      return _.mapValues(monster.abilities, ability =>
+      return _.mapValues(monster.abilityScores, ability =>
         _.mapValues(AbilityScore.getters, getter => getter(ability))
       );
     },

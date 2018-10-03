@@ -23,7 +23,7 @@
 
       <div>
         <dt>Hit Points</dt>
-        <dd>{{ monster.hp }} ({{ monster.hd }}d{{ monster.size.hd }}<span v-if="monster.abilities.CON.mod !== 0">{{ formatBonus(monster.hd * monster.abilities.CON.mod) }}</span>)
+        <dd>{{ monster.hp }} ({{ monster.hd }}d{{ monster.size.hd }}<span v-if="monster.abilityScores.CON.mod !== 0">{{ formatBonus(monster.hd * monster.abilityScores.CON.mod) }}</span>)
         </dd>
       </div>
 
@@ -43,9 +43,9 @@
 
     <dl class="abilities">
       <template 
-        v-for="ability in monster.abilities">
-        <dt :key="`${ability.name}-name`">{{ ability.name | uppercase }}</dt>
-        <dd :key="`${ability.name}}-score`">{{ ability.score }} ({{ formatBonus(ability.mod) }})</dd>
+        v-for="abilityScore in monster.abilityScores">
+        <dt :key="`${abilityScore.ability.id}-name`">{{ abilityScore.label | uppercase }}</dt>
+        <dd :key="`${abilityScore.ability.id}}-score`">{{ abilityScore.score }} ({{ formatBonus(abilityScore.mod) }})</dd>
       </template>
     </dl>
 
@@ -56,11 +56,11 @@
         <dt>Saving Throws</dt>
         <dd>
           <span
-            v-for="ability in ABILITIES"
-            v-if="monster.saves.includes(ability.id)"
-            :key="ability.name">
-            {{ ability.text | capitalize }}
-            {{ formatBonus(monster.abilities[ability.id].mod + monster.proficiency) }}<span class="list-separator">,</span>
+            v-for="abilityScore in monster.abilityScores"
+            v-if="monster.saves.includes(abilityScore.ability.id)"
+            :key="abilityScore.ability.id">
+            {{ abilityScore.ability.text | capitalize }}
+            {{ formatBonus(abilityScore.mod + monster.proficiency) }}<span class="list-separator">,</span>
           </span>
           <!--TODO comma separate-->
         </dd>
@@ -120,17 +120,11 @@
 
 <script>
 import { formatBonus, getLabel } from "../util";
-import { ABILITIES } from "../constants";
 
 export default {
   name: "Statblock",
   props: {
     monster: { type: Object, required: true }
-  },
-  data() {
-    return {
-      ABILITIES
-    };
   },
   methods: {
     formatBonus,
@@ -195,7 +189,7 @@ $statblock-width: 350px;
     > * {
       display: inline;
     }
-  } // TODO need to deal with abilities containing multiple paragraphs
+  } // TODO need to deal with abilityScores containing multiple paragraphs
 
   .abilities {
     // TODO alternate styles for gridless browsers
