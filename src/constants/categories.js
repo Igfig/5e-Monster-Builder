@@ -1,6 +1,7 @@
 //import { OrderedDict, compare } from "../util"; // TODO get this to work
 import { max, min } from "../util/misc";
-import { OrderedDict, compare } from "../classes/ordered_dict";
+import { compare, OrderedDict } from "../classes/ordered_dict";
+import { ArmorWeight } from "../classes/armor";
 
 // FIXME currently if you want to import from util/index, you have to do it this way which is dumb.
 /*import d from "../util";
@@ -136,19 +137,6 @@ export const ALIGNMENTS = new OrderedDict(
   },
   compare("order")
 );
-
-class ArmorWeight {
-  constructor(order, label = "") {
-    this.order = order;
-    this.label = label;
-  }
-  valueOf() {
-    return this.order;
-  }
-  toString() {
-    return this.label;
-  }
-}
 
 export const ARMOR_WEIGHTS = new OrderedDict(
   {

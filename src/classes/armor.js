@@ -70,3 +70,17 @@ export class HeavyArmor extends Armor {
     return this.ac + monster.abilityScores.DEX.mod + monster.abilityScores[this.ability.id].mod;
   }
 }*/
+export class ArmorWeight {
+  constructor(order, label = "") {
+    this.order = order;
+    this.label = label;
+  }
+
+  valueOf() {
+    return this.order;
+  }
+
+  toString() {
+    return this.label;
+  }
+}
