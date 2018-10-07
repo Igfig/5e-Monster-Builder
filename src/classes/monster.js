@@ -7,11 +7,18 @@ class AbilityScore {
   constructor(ability, score = 10) {
     this.ability = ability;
     this.score = score;
+
+    Object.defineProperty(this, "mod", {
+      enumerable: true,
+      get: () => Math.floor((this.score - 10) / 2)
+      // it's actually more efficient to use this getter than a proper Vue getter, or at least it is in my current implementation; the Vue getter updates the entire Monster object, and then each of the ability scores six times.
+      // TODO smarter implementation so that a getter could actually work
+    });
   }
 
-  static getters = {
-    mod: ability => Math.floor((ability.score - 10) / 2)
-  };
+  /*static getters = {
+    mod: abilityScore => Math.floor((abilityScore.score - 10) / 2)
+  };*/
 
   // valueOf() { return this.score; } // XXX this might be nice but it's also a bit dangerous
 }
@@ -56,17 +63,15 @@ export class Monster {
   // note that these must be static
 
   static getters = {
-    ac: (monster, getters) => {
-      return monster.armor.acWithDex(getters.monster) + monster.shield.ac;
+    ac: monster => {
+      return monster.armor.acWithDex(monster) + monster.shield.ac;
     },
-    naturalAC: monster => monster.naturalAC, // XXX this is a bit ugly to have
     acText: monster => {
       const acSources = [];
 
-      if (monster.armor !== ARMOR.NONE) {
+      if (monster.armor !== ARMOR.NONE || monster.naturalAC > 10) {
+        // if our natural AC is 10 (i.e. no natural armor), then don't display the text
         acSources.push(monster.armor.text);
-      } else if (monster.naturalAC > 10) {
-        acSources.push("natural armor"); // XXX or put this on natural armor proper?
       }
 
       if (monster.shield !== SHIELDS.NONE) {
@@ -76,19 +81,12 @@ export class Monster {
       return acSources.join(", ");
     },
 
-    hpPerHd: (monster, getters) => {
+    hpPerHd: monster => {
       const hpMultiplier = monster.isInjured ? 0.5 : 1;
       const baseHpPerHd = monster.hasMaxHp ? monster.size.hd : (monster.size.hd + 1) / 2;
-      return Math.max(1, baseHpPerHd + getters.monster.abilityScores.CON.mod) * hpMultiplier;
+      return Math.max(1, baseHpPerHd + monster.abilityScores.CON.mod) * hpMultiplier;
     },
     hp: (monster, getters) => Math.max(1, Math.floor(monster.hd * getters.monster.hpPerHd)),
-
-    abilityScores: monster => {
-      // XXX hmm this is a little inefficient isn't it. There's got to be a better way. Like, construct an object once ahead of time instead of rebuilding it every call. Can we cache it perhaps?
-      return _.mapValues(monster.abilityScores, ability =>
-        _.mapValues(AbilityScore.getters, getter => getter(ability))
-      );
-    },
 
     cr: () => 0, // TODO calc
     proficiency: (monster, getters) => Math.max(2, Math.ceil(getters.monster.cr / 4) + 1),
