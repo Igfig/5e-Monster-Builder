@@ -3,14 +3,12 @@ import { ABILITIES } from "./stats";
 import { HeavyArmor, LightArmor, MedArmor, UnarmoredDefense } from "../util/armor";
 import { Ordered, compare } from "../util/ordered_dict";
 
-const unarmoredKey = id => `UNARMORED_${id}`;
+const unarmoredKey = ability => `UNARMORED_${ability.id}`;
 
-const unarmoredDefenses = objectFromKeys(
-  ABILITIES,
-  unarmoredKey,
-  (id, ability) => new UnarmoredDefense(ability)
-);
-delete unarmoredDefenses[unarmoredKey(ABILITIES.DEX.id)]; // you can't have Dex-based unarmored defense. That'd be double Dex!
+const unarmoredDefenses = objectFromKeys(ABILITIES, unarmoredKey, ability => {
+  return new UnarmoredDefense(ability);
+});
+delete unarmoredDefenses[unarmoredKey(ABILITIES.DEX)]; // you can't have Dex-based unarmored defense. That'd be double Dex!
 
 export const ARMOR = new Ordered(
   {

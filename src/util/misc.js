@@ -59,10 +59,10 @@ export function propertiesToMutations(obj) {
   });
 }
 
-export function objectFromKeys(obj, keyFunc = k => k, valFunc = k => obj[k]) {
-  const properties = Array.isArray(obj) ? obj : Object.keys(obj);
-  return properties.reduce((collected, key) => {
-    collected[keyFunc(key)] = valFunc(key, obj[key]); // note that by default the second param does nothing
+export function objectFromKeys(obj, keyFunc = (v, k) => k, valFunc = v => v) {
+  const pairs = Object.entries(obj);
+  return pairs.reduce((collected, [key, value]) => {
+    collected[keyFunc(value, key)] = valFunc(value, key);
     return collected;
   }, {});
 }
