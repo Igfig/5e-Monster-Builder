@@ -145,10 +145,6 @@ export class Monster {
 
     abilityScores: monster => {
       // XXX hmm this is a little inefficient isn't it. There's got to be a better way. Like, construct an object once ahead of time instead of rebuilding it every call. Can we cache it perhaps?
-      /*return _.mapValues(monster.abilityScores, ability => ({
-        mod: AbilityScore.getters.mod(ability)
-      }));*/
-
       return _.mapValues(monster.abilityScores, ability =>
         _.mapValues(AbilityScore.getters, getter => getter(ability))
       );

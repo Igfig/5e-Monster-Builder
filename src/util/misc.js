@@ -48,6 +48,11 @@ export function max(val, of = null) {
   return other => val >= other;
 }
 
+export function scoreFor(ability) {
+  return this.monster.abilityScores[ability.id]; // 'this' being the Vue component that called this.
+  // TODO maybe be a little safer about this?
+}
+
 // TODO maybe move these into their own file?
 
 export function propertiesToGetters(obj) {

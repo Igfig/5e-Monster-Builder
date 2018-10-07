@@ -42,10 +42,9 @@
     <hr>
 
     <dl class="abilities">
-      <template 
-        v-for="abilityScore in monster.abilityScores">
-        <dt :key="`${abilityScore.ability.id}-name`">{{ abilityScore.label | uppercase }}</dt>
-        <dd :key="`${abilityScore.ability.id}}-score`">{{ abilityScore.score }} ({{ formatBonus(abilityScore.mod) }})</dd>
+      <template v-for="ability in ABILITIES">
+        <dt :key="`${ability.id}-name`">{{ ability.label | uppercase }}</dt>
+        <dd :key="`${ability.id}-score`">{{ scoreFor(ability).score }} ({{ formatBonus(scoreFor(ability).mod) }})</dd>
       </template>
     </dl>
 
@@ -56,11 +55,11 @@
         <dt>Saving Throws</dt>
         <dd>
           <span
-            v-for="abilityScore in monster.abilityScores"
-            v-if="monster.saves.includes(abilityScore.ability.id)"
-            :key="abilityScore.ability.id">
-            {{ abilityScore.ability.text | capitalize }}
-            {{ formatBonus(abilityScore.mod + monster.proficiency) }}<span class="list-separator">,</span>
+            v-for="ability in ABILITIES"
+            v-if="monster.saves.includes(ability.id)"
+            :key="ability.id">
+            {{ ability.text | capitalize }}
+            {{ formatBonus(scoreFor(ability).mod + monster.proficiency) }}<span class="list-separator">,</span>
           </span>
           <!--TODO comma separate-->
         </dd>
@@ -119,16 +118,23 @@
 </template>
 
 <script>
-import { formatBonus, getLabel } from "../util";
+import { formatBonus, getLabel, scoreFor } from "../util";
+import { ABILITIES } from "../constants";
 
 export default {
   name: "Statblock",
+  data() {
+    return {
+      ABILITIES
+    };
+  },
   props: {
     monster: { type: Object, required: true }
   },
   methods: {
     formatBonus,
-    getLabel
+    getLabel,
+    scoreFor
   }
 };
 </script>

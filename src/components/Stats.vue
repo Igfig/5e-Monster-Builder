@@ -51,17 +51,16 @@
         <legend>Ability Scores</legend>
 
         <ul class="form-no_control_margins">
-          <li
-            v-for="abilityScore in monster.abilityScores"
-            :key="abilityScore.ability.id">
+          <li v-for="ability in ABILITIES"
+              :key="ability.id">
             <builder-numeric
-              :name="abilityScore.ability.label | lowercase"
-              :label="abilityScore.ability.label"
-              v-model="abilityScore.score"
+              :name="ability.label | lowercase"
+              :label="ability.label"
+              v-model="monster.abilityScores[ability.id].score"
               :min="1"
               :max="30" />
-            <output>{{ formatBonus(abilityScore.mod) }}</output>
-          </li> <!--FIXME updating Con when we have an hp target doesn't change our number of HD -->
+            <output>{{ formatBonus(scoreFor(ability).mod) }}</output>
+          </li>
         </ul>
 
         <!--TODO add expected/actual average ability scores for your cr-->
@@ -185,7 +184,7 @@ import {
   SUBTYPES,
   TYPES
 } from "../constants";
-import { formatBonus, mapStore } from "../util";
+import { formatBonus, mapStore, scoreFor } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderRadio from "./form/BuilderRadio";
 import BuilderLabel from "./form/BuilderLabel";
@@ -225,6 +224,7 @@ export default {
   computed: mapStore(MONSTER),
   methods: {
     formatBonus,
+    scoreFor,
     weight(value) {
       console.log("props", value);
       return value.weight;
