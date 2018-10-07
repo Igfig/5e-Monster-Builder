@@ -100,15 +100,9 @@
 
     <fieldset class="ac">
       <legend>Armor Class</legend>
-      <!--TODO highlight the one of the two that's currently the best-->
-      <builder-numeric
-        v-model="monster.naturalArmor"
-        :min="10"
-        :default="10"
-        name="naturalAC"
-        label="Natural Base AC"/>
-      <br>
 
+      <!--TODO fiddle some more with styling here-->
+      
       <builder-optgroup-select
         v-model="monster.armor"
         :options="ARMOR"
@@ -116,6 +110,16 @@
         optgroup-matcher="weight"
         name="armor"
         label="Armor"/> <!--TODO some way to handle those cases where unarmored defense actually permits some degree of armour. Like the swashbuckler's Suave Defense.-->
+  
+      <builder-numeric
+        v-if="monster.armor === ARMOR.NONE"
+        v-model="monster.naturalAC"
+        :min="10"
+        :default="10"
+        name="naturalAC"
+        label="Natural AC"/>
+      <br>
+      
       <builder-select
         v-model="monster.shield"
         :options="SHIELDS"

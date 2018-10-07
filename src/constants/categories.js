@@ -152,17 +152,11 @@ class ArmorWeight {
 
 export const ARMOR_WEIGHTS = new OrderedDict(
   {
-    LIGHT: new ArmorWeight(0, "Light Armor"),
-    MEDIUM: new ArmorWeight(1, "Medium Armor"),
-    HEAVY: new ArmorWeight(2, "Heavy Armor"),
-    UNARMORED_DEFENSE: new ArmorWeight(3, "Unarmored Defense") // not calling it UNARMORED because that might confuse with the NONE armor
+    NATURAL: new ArmorWeight(0, "None"),
+    LIGHT: new ArmorWeight(1, "Light Armor"),
+    MEDIUM: new ArmorWeight(2, "Medium Armor"),
+    HEAVY: new ArmorWeight(3, "Heavy Armor")
+    //UNARMORED_DEFENSE: new ArmorWeight(3, "Unarmored Defense") // not calling it UNARMORED because that might confuse with the NONE armor
   },
   compare("order")
 );
-
-/*const a = ["L", "M", "H", "U"];
-a.LIGHT = "L";
-a.MEDIUM = "M";
-a.HEAVY = "H";
-a.UNARMORED_DEFENSE = "U";
-export const ARMOR_WEIGHTS = a;*/

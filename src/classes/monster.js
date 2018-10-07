@@ -29,7 +29,7 @@ export class Monster {
   hasMaxHp = false;
   isInjured = false;
 
-  naturalArmor = 10;
+  naturalAC = 10;
   armor = ARMOR.NONE;
   shield = SHIELDS.NONE;
 
@@ -57,22 +57,16 @@ export class Monster {
 
   static getters = {
     ac: (monster, getters) => {
-      const natural = getters.monster.naturalAC + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
-      const armored = getters.monster.armorAC + monster.shield.ac;
-      return Math.max(natural, armored);
+      return monster.armor.acWithDex(getters.monster) + monster.shield.ac;
     },
-    naturalAC: (monster, getters) => monster.naturalArmor + getters.monster.abilityScores.DEX.mod,
-    armorAC: (monster, getters) => monster.armor.getAC(getters.monster),
-    acText: (monster, getters) => {
+    naturalAC: monster => monster.naturalAC, // XXX this is a bit ugly to have
+    acText: monster => {
       const acSources = [];
 
-      if (monster.naturalArmor > 10 || monster.armor !== ARMOR.NONE) {
-        const base =
-          getters.monster.naturalAC > monster.armor.getAC(getters.monster)
-            ? "natural armor"
-            : monster.armor.text;
-
-        acSources.push(base);
+      if (monster.armor !== ARMOR.NONE) {
+        acSources.push(monster.armor.text);
+      } else if (monster.naturalAC > 10) {
+        acSources.push("natural armor"); // XXX or put this on natural armor proper?
       }
 
       if (monster.shield !== SHIELDS.NONE) {
