@@ -102,7 +102,7 @@
       <legend>Armor Class</legend>
       <!--TODO highlight the one of the two that's currently the best-->
       <builder-numeric
-        v-model="monster.naturalAC"
+        v-model="monster.naturalArmor"
         :min="10"
         :default="10"
         name="naturalAC"

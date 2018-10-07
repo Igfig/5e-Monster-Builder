@@ -29,7 +29,7 @@ export class Monster {
   hasMaxHp = false;
   isInjured = false;
 
-  naturalAC = 10;
+  naturalArmor = 10;
   armor = ARMOR.NONE;
   shield = SHIELDS.NONE;
 
@@ -57,17 +57,18 @@ export class Monster {
 
   static getters = {
     ac: (monster, getters) => {
-      const natural = getters.monster.totalNaturalAC + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
-      const armored = monster.armor.getAC(getters.monster) + monster.shield.ac; // TODO ugh I hate having to pass in getters.monster, surely there must be a better way to do this
+      const natural = getters.monster.naturalAC + monster.shield.ac; // TODO perhaps define natural armour as an Armor, so we can use the same hooks... add a new naturalArmor prop though maybe
+      const armored = getters.monster.armorAC + monster.shield.ac;
       return Math.max(natural, armored);
     },
-    totalNaturalAC: (monster, getters) => monster.naturalAC + getters.monster.abilityScores.DEX.mod,
+    naturalAC: (monster, getters) => monster.naturalArmor + getters.monster.abilityScores.DEX.mod,
+    armorAC: (monster, getters) => monster.armor.getAC(getters.monster),
     acText: (monster, getters) => {
       const acSources = [];
 
-      if (monster.naturalAC > 10 || monster.armor !== ARMOR.NONE) {
+      if (monster.naturalArmor > 10 || monster.armor !== ARMOR.NONE) {
         const base =
-          getters.monster.totalNaturalAC > monster.armor.getAC(getters.monster)
+          getters.monster.naturalAC > monster.armor.getAC(getters.monster)
             ? "natural armor"
             : monster.armor.text;
 
