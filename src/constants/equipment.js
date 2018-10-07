@@ -12,7 +12,7 @@ export const ARMOR = new OrderedDict(
   {
     // XXX maybe this should actually be an OrderedDict of OrderedDicts so we don't have to construct the tree of weights each time we use it?
     // XXX or maybe we should just build the tree once below, and keep it in this file here
-    NONE: new NaturalArmor(""), // TODO "text is natural armour", but only when it's > 0
+    NONE: new NaturalArmor("natural armor"),
 
     PADDED: new LightArmor(11, "Padded armor"),
     LEATHER: new LightArmor(11, "Leather armor"),
