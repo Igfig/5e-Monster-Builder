@@ -14,63 +14,6 @@ export function callIfFunction(func, value, fallback = func) {
   return fallback;
 }
 
-export class Ordered {
-  constructor(obj, sortFunc) {
-    for (const [key, val] of Object.entries(obj)) {
-      // always store entries as objects
-      const record = typeof val === "object" ? val : { label: val };
-      // TODO maybe only store val in the label if it was a string? Integers, say, should be stored as such
-
-      // every entry must have an id
-      record.id = record.id || key;
-
-      // these records are effectively constants, shouldn't be edited later
-
-      // add entry to this
-      this[key] = Object.freeze(record);
-    }
-
-    Object.defineProperty(this, "length", {
-      get: () => Object.keys(this).length,
-      enumerable: false
-    });
-    Object.defineProperty(this, "sortFunc", {
-      value: sortFunc,
-      enumerable: false
-    });
-  }
-
-  *[Symbol.iterator]() {
-    const sorted = Object.values(this).sort(this.sortFunc);
-    for (const s of sorted) {
-      yield s;
-    }
-  }
-}
-
-const sortDescendingIndicators = ["desc", "d", "descending", -1];
-
-// FIXME not very efficient
-// FIXME it actually doesn't seem to work right, I think
-// TODO accept strings instead of sublists
-export function compare(...keyDirections) {
-  return (aVal, bVal) => {
-    //debugger;
-    for (const kd of keyDirections) {
-      const [key, direction] = Array.isArray(kd) ? kd : [kd, 1];
-      const mult = _.includes(sortDescendingIndicators, direction) ? -1 : 1;
-      if (!aVal.hasOwnProperty(key) || !bVal.hasOwnProperty(key)) {
-        throw Error("aaaa" + aVal + key);
-      }
-      if (aVal[key] === bVal[key]) {
-        continue;
-      }
-      //console.log(aVal, bVal, aVal[key] < bVal[key] * mult);
-      return aVal[key] - bVal[key] * mult;
-    }
-  };
-}
-
 //TODO move to tests
 /*const x = ordered({ a: 1, b: 2 });
 console.log(x.a);

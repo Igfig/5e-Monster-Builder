@@ -1,6 +1,7 @@
-import { compare, objectFromKeys, Ordered } from "../util/misc";
+import { objectFromKeys } from "../util/misc";
 import { ABILITIES } from "./stats";
 import { HeavyArmor, LightArmor, MedArmor, UnarmoredDefense } from "../util/armor";
+import { Ordered, compare } from "../util/ordered_dict";
 
 const unarmoredKey = id => `UNARMORED_${id}`;
 
@@ -14,6 +15,8 @@ delete unarmoredDefenses[unarmoredKey(ABILITIES.DEX.id)]; // you can't have Dex-
 export const ARMOR = new Ordered(
   {
     // FIXME order is quasi-coincidental, not properly sorted
+    // XXX actually I wonder if this even wants to be a regular Ordered? Since we want to split it... maybe it should actually be a dict of Ordereds (or an Ordered of Ordereds?) so we don't have to construct the tree each time?
+    // XXX or maybe we should just build the tree once and keep it in this file here
     NONE: new LightArmor(10, ""),
     PADDED: new LightArmor(11, "Padded armor"),
     LEATHER: new LightArmor(11, "Leather armor"),
@@ -30,6 +33,9 @@ export const ARMOR = new Ordered(
     CHAIN: new HeavyArmor(16, "Chain mail"),
     BANDED: new HeavyArmor(17, "Banded mail"),
     PLATE: new HeavyArmor(18, "Full plate"),
+
+    0: new LightArmor(11, "Padded armor"), // XXX temp
+    1: new LightArmor(11, "Padded armor"),
 
     ...unarmoredDefenses
   },

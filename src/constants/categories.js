@@ -1,5 +1,6 @@
 //import { Ordered, compare } from "../util"; // TODO get this to work
-import { compare, max, min, Ordered } from "../util/misc";
+import { max, min } from "../util/misc";
+import { Ordered, compare } from "../util/ordered_dict";
 
 // FIXME currently if you want to import from util/index, you have to do it this way which is dumb.
 /*import d from "../util";
@@ -137,17 +138,31 @@ export const ALIGNMENTS = new Ordered(
 );
 
 class ArmorWeight {
-  constructor(order) {
+  constructor(order, label = "") {
     this.order = order;
+    this.label = label;
   }
   valueOf() {
     return this.order;
   }
+  toString() {
+    return this.label;
+  }
 }
 
-export const ARMOR_WEIGHTS = {
-  LIGHT: new ArmorWeight(0),
-  MEDIUM: new ArmorWeight(1),
-  HEAVY: new ArmorWeight(2),
-  UNARMORED_DEFENSE: new ArmorWeight(3) // not calling it UNARMORED because that might confuse with the NONE armor
-};
+export const ARMOR_WEIGHTS = new Ordered(
+  {
+    LIGHT: new ArmorWeight(0, "Light Armor"),
+    MEDIUM: new ArmorWeight(1, "Medium Armor"),
+    HEAVY: new ArmorWeight(2, "Heavy Armor"),
+    UNARMORED_DEFENSE: new ArmorWeight(3, "Unarmored Defense") // not calling it UNARMORED because that might confuse with the NONE armor
+  },
+  compare("order")
+);
+
+/*const a = ["L", "M", "H", "U"];
+a.LIGHT = "L";
+a.MEDIUM = "M";
+a.HEAVY = "H";
+a.UNARMORED_DEFENSE = "U";
+export const ARMOR_WEIGHTS = a;*/
