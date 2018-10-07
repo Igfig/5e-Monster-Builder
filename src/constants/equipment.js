@@ -1,7 +1,7 @@
 import { objectFromKeys } from "../util/misc";
 import { ABILITIES } from "./stats";
 import { HeavyArmor, LightArmor, MedArmor, UnarmoredDefense } from "../util/armor";
-import { Ordered, compare } from "../util/ordered_dict";
+import { OrderedDict, compare } from "../util/ordered_dict";
 
 const unarmoredKey = ability => `UNARMORED_${ability.id}`;
 
@@ -10,10 +10,10 @@ const unarmoredDefenses = objectFromKeys(ABILITIES, unarmoredKey, ability => {
 });
 delete unarmoredDefenses[unarmoredKey(ABILITIES.DEX)]; // you can't have Dex-based unarmored defense. That'd be double Dex!
 
-export const ARMOR = new Ordered(
+export const ARMOR = new OrderedDict(
   {
     // FIXME order is quasi-coincidental, not properly sorted
-    // XXX actually I wonder if this even wants to be a regular Ordered? Since we want to split it... maybe it should actually be a dict of Ordereds (or an Ordered of Ordereds?) so we don't have to construct the tree each time?
+    // XXX actually I wonder if this even wants to be a regular OrderedDict? Since we want to split it... maybe it should actually be a dict of Ordereds (or an OrderedDict of Ordereds?) so we don't have to construct the tree each time?
     // XXX or maybe we should just build the tree once and keep it in this file here
     NONE: new LightArmor(10, ""),
     PADDED: new LightArmor(11, "Padded armor"),
@@ -50,7 +50,7 @@ for (const a in ARMOR) {
   console.log(a);
 }*/
 
-export const SHIELDS = new Ordered({
+export const SHIELDS = new OrderedDict({
   NONE: { label: "", ac: 0 },
   SHIELD: { label: "Shield", ac: 2 }
 });

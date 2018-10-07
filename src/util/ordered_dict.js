@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-export class Ordered extends Array {
+export class OrderedDict extends Array {
   constructor(obj, sortFunc) {
     super();
 

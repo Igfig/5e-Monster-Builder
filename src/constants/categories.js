@@ -1,6 +1,6 @@
-//import { Ordered, compare } from "../util"; // TODO get this to work
+//import { OrderedDict, compare } from "../util"; // TODO get this to work
 import { max, min } from "../util/misc";
-import { Ordered, compare } from "../util/ordered_dict";
+import { OrderedDict, compare } from "../util/ordered_dict";
 
 // FIXME currently if you want to import from util/index, you have to do it this way which is dumb.
 /*import d from "../util";
@@ -8,7 +8,7 @@ const dictify = d.dictify;
 // const { dictify } = d; // Even this doesn't work!*/
 
 // XXX might move to stats.js? Doesn't matter all that much, just yknow
-export const SIZES = new Ordered(
+export const SIZES = new OrderedDict(
   {
     TINY: {
       label: "tiny",
@@ -56,7 +56,7 @@ export const SIZES = new Ordered(
   compare("hd")
 );
 
-export const TYPES = new Ordered({
+export const TYPES = new OrderedDict({
   ABERRATION: "aberration",
   BEAST: "beast",
   CELESTIAL: "celestial",
@@ -74,7 +74,7 @@ export const TYPES = new Ordered({
 });
 
 // XXX this probably wants to be more complex actually, since some of these come with specific stat effects. e.g. all devils are immune to fire and poison
-export const SUBTYPES = new Ordered({
+export const SUBTYPES = new OrderedDict({
   ANY_RACE: "any race",
   AARAKOCRA: "aarakocra",
   AIR: "air",
@@ -120,7 +120,7 @@ export const SUBTYPES = new Ordered({
   YUGOLOTH: "yugoloth"
 });
 
-export const ALIGNMENTS = new Ordered(
+export const ALIGNMENTS = new OrderedDict(
   {
     LG: { label: "LG", text: "lawful good", order: 1 },
     NG: { label: "NG", text: "neutral good", order: 2 },
@@ -150,7 +150,7 @@ class ArmorWeight {
   }
 }
 
-export const ARMOR_WEIGHTS = new Ordered(
+export const ARMOR_WEIGHTS = new OrderedDict(
   {
     LIGHT: new ArmorWeight(0, "Light Armor"),
     MEDIUM: new ArmorWeight(1, "Medium Armor"),
