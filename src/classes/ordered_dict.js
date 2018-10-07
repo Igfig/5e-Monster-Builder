@@ -1,10 +1,15 @@
 import _ from "lodash";
 
+/**
+ * only need sortFunc if collection is an object and not an array
+ */
 export class OrderedDict extends Array {
-  constructor(obj, sortFunc) {
+  constructor(collection, sortFunc) {
     super();
 
-    const sorted = Object.entries(obj).sort(sortFunc);
+    const sorted = Array.isArray(collection)
+      ? collection
+      : Object.entries(collection).sort(sortFunc);
 
     for (const [key, val] of sorted) {
       // always store entries as objects
