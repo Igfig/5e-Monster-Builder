@@ -51,15 +51,15 @@ export function max(val, of = null) {
 // TODO maybe move these into their own file?
 
 export function propertiesToGetters(obj) {
-  return objectFromKeys(obj, undefined, key => state => state[key]);
+  return mapObject(obj, undefined, key => state => state[key]);
 }
 export function propertiesToMutations(obj) {
-  return objectFromKeys(obj, undefined, key => (state, newValue) => {
+  return mapObject(obj, undefined, key => (state, newValue) => {
     state[key] = newValue;
   });
 }
 
-export function objectFromKeys(obj, keyFunc = (v, k) => k, valFunc = v => v) {
+export function mapObject(obj, keyFunc = (v, k) => k, valFunc = v => v) {
   const pairs = Object.entries(obj);
   return pairs.reduce((collected, [key, value]) => {
     collected[keyFunc(value, key)] = valFunc(value, key);

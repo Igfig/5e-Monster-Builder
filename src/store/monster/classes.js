@@ -8,7 +8,7 @@ import {
   TYPES
 } from "../../constants";
 import _ from "lodash";
-import { diceAverage, formatBonus, objectFromKeys } from "../../util";
+import { diceAverage, formatBonus, mapObject } from "../../util";
 
 class AbilityScore {
   constructor(ability, score = 10) {
@@ -88,11 +88,7 @@ export class Monster {
   armor = ARMOR.NONE;
   shield = SHIELDS.NONE;
 
-  abilityScores = objectFromKeys(
-    ABILITIES,
-    ability => ability.id,
-    ability => new AbilityScore(ability)
-  );
+  abilityScores = mapObject(ABILITIES, ability => ability.id, ability => new AbilityScore(ability));
   saves = [];
 
   // accessed via getters

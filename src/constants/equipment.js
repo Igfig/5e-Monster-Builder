@@ -1,11 +1,11 @@
-import { objectFromKeys } from "../util/misc";
+import { mapObject } from "../util/misc";
 import { ABILITIES } from "./stats";
 import { HeavyArmor, LightArmor, MedArmor, UnarmoredDefense } from "../util/armor";
 import { OrderedDict, compare } from "../util/ordered_dict";
 
 const unarmoredKey = ability => `UNARMORED_${ability.id}`;
 
-const unarmoredDefenses = objectFromKeys(ABILITIES, unarmoredKey, ability => {
+const unarmoredDefenses = mapObject(ABILITIES, unarmoredKey, ability => {
   return new UnarmoredDefense(ability);
 });
 delete unarmoredDefenses[unarmoredKey(ABILITIES.DEX)]; // you can't have Dex-based unarmored defense. That'd be double Dex!
