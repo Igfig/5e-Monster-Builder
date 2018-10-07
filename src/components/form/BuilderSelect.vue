@@ -1,4 +1,3 @@
-<!--TODO implement optgroups somehow-->
 <template>
   <builder-label
     :label="label"

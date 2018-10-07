@@ -3,8 +3,8 @@ import { ARMOR_WEIGHTS } from "../constants/categories";
 class Armor {
   constructor(ac, text, weight = undefined) {
     this.baseAC = ac;
-    this.text = text.toLowerCase();
-    this.label = text || "No armor";
+    this.text = text.toLowerCase(); // this is what shows up in the statblock
+    this.label = text || "No armor"; // this is what appears on the input
     this.weight = weight;
   }
 
