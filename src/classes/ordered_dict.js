@@ -1,15 +1,11 @@
 import _ from "lodash";
 
-/**
- * only need sortFunc if collection is an object and not an array
- */
 export class OrderedDict extends Array {
-  constructor(collection, sortFunc) {
+  constructor(obj, sortFunc) {
     super();
 
-    const sorted = Array.isArray(collection)
-      ? collection
-      : Object.entries(collection).sort(sortFunc);
+    // At one point I tried letting OrderedDict take an array as a parameter. Problem with that, is that you can't reference any of its properties by key (e.g. ABILITIES.STR) in IntelliJ if you start with an array. So nvm on that, I guess
+    const sorted = Object.entries(obj).sort(sortFunc);
 
     for (const [key, val] of sorted) {
       // always store entries as objects
