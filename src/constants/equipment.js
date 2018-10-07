@@ -1,7 +1,7 @@
 import { mapObject } from "../util/misc";
 import { ABILITIES } from "./stats";
-import { HeavyArmor, LightArmor, MedArmor, UnarmoredDefense } from "../util/armor";
-import { OrderedDict, compare } from "../util/ordered_dict";
+import { HeavyArmor, LightArmor, MedArmor, UnarmoredDefense } from "../classes/armor";
+import { OrderedDict, compare } from "../classes/ordered_dict";
 
 const unarmoredKey = ability => `UNARMORED_${ability.id}`;
 

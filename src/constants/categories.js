@@ -1,6 +1,6 @@
 //import { OrderedDict, compare } from "../util"; // TODO get this to work
 import { max, min } from "../util/misc";
-import { OrderedDict, compare } from "../util/ordered_dict";
+import { OrderedDict, compare } from "../classes/ordered_dict";
 
 // FIXME currently if you want to import from util/index, you have to do it this way which is dumb.
 /*import d from "../util";

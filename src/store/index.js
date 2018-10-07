@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { SET_CURRENT_INFO } from "./mutations";
-import monster from "./monster/index"; // FIXME why the heck can't it read index.js automatically?
-import { CURRENT_INFO } from "./keys";
 import { DEFAULT_INFO_DISPLAY } from "../constants";
+import { SET_CURRENT_INFO } from "./mutations";
+import { CURRENT_INFO } from "./keys";
+import monster from "./monster";
 
 Vue.use(Vuex);
 

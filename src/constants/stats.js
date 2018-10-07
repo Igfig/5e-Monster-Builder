@@ -1,4 +1,4 @@
-import { OrderedDict, compare } from "../util/ordered_dict";
+import { OrderedDict, compare } from "../classes/ordered_dict";
 
 export const ABILITIES = new OrderedDict(
   {

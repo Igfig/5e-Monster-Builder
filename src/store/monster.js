@@ -1,5 +1,5 @@
-import { Monster } from "./classes";
-import { moduleGetters, moduleMutations } from "../../util";
+import { Monster } from "../classes/monster";
+import { moduleGetters, moduleMutations } from "../util/index";
 
 const monster = {
   namespaced: false, // this is key
