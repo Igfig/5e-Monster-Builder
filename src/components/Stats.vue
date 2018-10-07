@@ -110,11 +110,13 @@
         label="Natural Base AC"/>
       <br>
 
-      <builder-select
+      <builder-optgroup-select
         v-model="monster.armor"
         :options="ARMOR"
+        :optgroups="ARMOR_WEIGHTS"
+        optgroup-matcher="weight"
         name="armor"
-        label="Armor"/> <!--TODO something with optgroups--> <!--TODO some way to handle those cases where unarmored defense actually permits some degree of armour. Like the swashbuckler's Suave Defense.-->
+        label="Armor"/> <!--TODO some way to handle those cases where unarmored defense actually permits some degree of armour. Like the swashbuckler's Suave Defense.-->
       <builder-select
         v-model="monster.shield"
         :options="SHIELDS"
@@ -173,16 +175,26 @@
 </template>
 
 <script>
-import { ABILITIES, ALIGNMENTS, ARMOR, SHIELDS, SIZES, SUBTYPES, TYPES } from "../constants";
+import {
+  ABILITIES,
+  ALIGNMENTS,
+  ARMOR,
+  ARMOR_WEIGHTS,
+  SHIELDS,
+  SIZES,
+  SUBTYPES,
+  TYPES
+} from "../constants";
 import { formatBonus, mapStore } from "../util";
 import BuilderInput from "./form/BuilderInput";
-import BuilderDatalist from "./form/BuilderDatalist";
-import BuilderSelect from "./form/BuilderSelect";
 import BuilderRadio from "./form/BuilderRadio";
 import BuilderLabel from "./form/BuilderLabel";
+import BuilderSelect from "./form/BuilderSelect";
 import BuilderNumeric from "./form/BuilderNumeric";
+import BuilderDatalist from "./form/BuilderDatalist";
 import BuilderCheckbox from "./form/BuilderCheckbox";
 import BuilderCheckboxes from "./form/BuilderCheckboxes";
+import BuilderOptgroupSelect from "./form/BuilderOptgroupSelect";
 import { MONSTER } from "../store/keys";
 
 export default {
@@ -195,6 +207,7 @@ export default {
     BuilderInput,
     BuilderDatalist,
     BuilderSelect,
+    BuilderOptgroupSelect,
     BuilderLabel
   },
   data() {
@@ -205,12 +218,17 @@ export default {
       ALIGNMENTS,
       ABILITIES,
       ARMOR,
+      ARMOR_WEIGHTS,
       SHIELDS
     };
   },
   computed: mapStore(MONSTER),
   methods: {
-    formatBonus
+    formatBonus,
+    weight(value) {
+      console.log("props", value);
+      return value.weight;
+    }
   }
 };
 </script>

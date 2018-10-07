@@ -12,9 +12,8 @@ delete unarmoredDefenses[unarmoredKey(ABILITIES.DEX)]; // you can't have Dex-bas
 
 export const ARMOR = new OrderedDict(
   {
-    // FIXME order is quasi-coincidental, not properly sorted
-    // XXX actually I wonder if this even wants to be a regular OrderedDict? Since we want to split it... maybe it should actually be a dict of Ordereds (or an OrderedDict of Ordereds?) so we don't have to construct the tree each time?
-    // XXX or maybe we should just build the tree once and keep it in this file here
+    // XXX maybe this should actually be an OrderedDict of OrderedDicts so we don't have to construct the tree of weights each time we use it?
+    // XXX or maybe we should just build the tree once below, and keep it in this file here
     NONE: new LightArmor(10, ""),
     PADDED: new LightArmor(11, "Padded armor"),
     LEATHER: new LightArmor(11, "Leather armor"),
@@ -32,23 +31,10 @@ export const ARMOR = new OrderedDict(
     BANDED: new HeavyArmor(17, "Banded mail"),
     PLATE: new HeavyArmor(18, "Full plate"),
 
-    0: new LightArmor(11, "Padded armor"), // XXX temp
-    1: new LightArmor(11, "Padded armor"),
-
     ...unarmoredDefenses
   },
   compare("weight", "baseAC")
 );
-
-// FIXME aw heck defining the iterator only works when we do for...of, not for...in or Object.keys()
-/*console.log(Object.keys(ARMOR));
-
-for (const a in ARMOR) {
-  console.log(a, ARMOR[a]);
-}*/
-/*for (const a of ARMOR) {
-  console.log(a);
-}*/
 
 export const SHIELDS = new OrderedDict({
   NONE: { label: "", ac: 0 },
