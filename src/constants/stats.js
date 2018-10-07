@@ -1,4 +1,4 @@
-import { OrderedDict, compare } from "../classes/ordered_dict";
+import { OrderedDict } from "../classes/ordered_dict";
 
 export const ABILITIES = new OrderedDict(
   {
@@ -9,5 +9,5 @@ export const ABILITIES = new OrderedDict(
     WIS: { order: 4, label: "Wis", text: "wisdom" },
     CHA: { order: 5, label: "Cha", text: "charisma" }
   },
-  compare("order")
+  OrderedDict.compare("order")
 );

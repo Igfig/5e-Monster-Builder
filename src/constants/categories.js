@@ -1,12 +1,6 @@
-//import { OrderedDict, compare } from "../util"; // TODO get this to work
 import { max, min } from "../util/misc";
-import { compare, OrderedDict } from "../classes/ordered_dict";
+import { OrderedDict } from "../classes/ordered_dict";
 import { ArmorWeight } from "../classes/armor";
-
-// FIXME currently if you want to import from util/index, you have to do it this way which is dumb.
-/*import d from "../util";
-const dictify = d.dictify;
-// const { dictify } = d; // Even this doesn't work!*/
 
 // XXX might move to stats.js? Doesn't matter all that much, just yknow
 export const SIZES = new OrderedDict(
@@ -54,7 +48,7 @@ export const SIZES = new OrderedDict(
       speed: 60
     }
   },
-  compare("hd")
+  OrderedDict.compare("hd")
 );
 
 export const TYPES = new OrderedDict({
@@ -135,7 +129,7 @@ export const ALIGNMENTS = new OrderedDict(
     UNALIGNED: { label: "Unaligned", text: "unaligned", order: 10 },
     ANY: { label: "Any", text: "any alignment", order: 11 }
   },
-  compare("order")
+  OrderedDict.compare("order")
 );
 
 export const ARMOR_WEIGHTS = new OrderedDict(
@@ -146,5 +140,5 @@ export const ARMOR_WEIGHTS = new OrderedDict(
     HEAVY: new ArmorWeight(3, "Heavy Armor")
     //UNARMORED_DEFENSE: new ArmorWeight(3, "Unarmored Defense") // not calling it UNARMORED because that might confuse with the NONE armor
   },
-  compare("order")
+  OrderedDict.compare("order")
 );

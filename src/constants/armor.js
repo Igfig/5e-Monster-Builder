@@ -1,5 +1,5 @@
 import { HeavyArmor, LightArmor, MedArmor, NaturalArmor } from "../classes/armor";
-import { OrderedDict, compare } from "../classes/ordered_dict";
+import { OrderedDict } from "../classes/ordered_dict";
 
 /*const unarmoredKey = ability => `UNARMORED_${ability.id}`;
 
@@ -32,7 +32,7 @@ export const ARMOR = new OrderedDict(
 
     //...unarmoredDefenses
   },
-  compare("weight", "ac")
+  OrderedDict.compare("weight", "ac")
 );
 
 export const SHIELDS = new OrderedDict({

@@ -26,24 +26,23 @@ export class OrderedDict extends Array {
       this.push(val);
     }
   }
-}
 
-const sortDescendingIndicators = ["desc", "d", "descending", -1];
+  static SORT_DESCENDING_INDICATORS = ["desc", "d", "descending", -1];
 
-// FIXME not very efficient
-// FIXME it actually doesn't seem to work right, I think
-export function compare(...keyDirections) {
-  return ([, aVal], [, bVal]) => {
-    for (const kd of keyDirections) {
-      const [key, direction] = Array.isArray(kd) ? kd : [kd, 1];
-      const mult = _.includes(sortDescendingIndicators, direction) ? -1 : 1;
-      if (!aVal.hasOwnProperty(key) || !bVal.hasOwnProperty(key)) {
-        throw Error("key not found " + aVal + key); // TODO better error message
+  // FIXME not very efficient
+  static compare(...keyDirections) {
+    return ([, aVal], [, bVal]) => {
+      for (const kd of keyDirections) {
+        const [key, direction] = Array.isArray(kd) ? kd : [kd, 1];
+        const mult = _.includes(OrderedDict.SORT_DESCENDING_INDICATORS, direction) ? -1 : 1;
+        if (!aVal.hasOwnProperty(key) || !bVal.hasOwnProperty(key)) {
+          throw Error("key not found " + aVal + key); // TODO better error message
+        }
+        if (aVal[key] === bVal[key]) {
+          continue;
+        }
+        return aVal[key] - bVal[key] * mult;
       }
-      if (aVal[key] === bVal[key]) {
-        continue;
-      }
-      return aVal[key] - bVal[key] * mult;
-    }
-  };
+    };
+  }
 }
