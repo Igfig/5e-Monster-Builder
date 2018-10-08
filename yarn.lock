@@ -3185,6 +3185,10 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "^3.1.0"
 
+font-awesome@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
+
 for-each@^0.3.2:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/for-each/-/for-each-0.3.3.tgz#69b447e88a0a5d32c3e7084f3f1710034b21376e"
@@ -8015,9 +8019,16 @@ vue-eslint-parser@^3.2.2:
     esquery "^1.0.1"
     lodash "^4.17.10"
 
-vue-fragments@^1.4.0:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/vue-fragments/-/vue-fragments-1.4.1.tgz#6443107735b7deec5bcc118c2a851824664fd2ed"
+vue-fontawesome@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/vue-fontawesome/-/vue-fontawesome-0.0.2.tgz#b1b9c922652b9fb2d74fe66a28411628502bb3eb"
+  dependencies:
+    font-awesome "^4.7.0"
+    vue "^2.1.8"
+
+vue-fragments@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/vue-fragments/-/vue-fragments-2.1.0.tgz#b7f3ab480169eb70b00fef82e63063a0080e035b"
 
 vue-hot-reload-api@^2.2.0:
   version "2.3.0"
@@ -8071,7 +8082,7 @@ vue2-filters@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/vue2-filters/-/vue2-filters-0.3.0.tgz#3d6b71169fb14b32a2ddbfa45f94d9a0fdee1094"
 
-vue@^2.5.2:
+vue@^2.1.8, vue@^2.5.2:
   version "2.5.17"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
 
