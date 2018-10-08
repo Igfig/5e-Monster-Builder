@@ -116,6 +116,7 @@
         name="shield"
         label="Shield"/>
       
+      <br />
       <builder-numeric
         v-if="monster.armor === ARMOR.NONE"
         v-model="monster.naturalAC"
@@ -123,6 +124,22 @@
         :default="10"
         name="naturalAC"
         label="Natural AC" />
+      
+      <details>
+        <summary>Advanced AC</summary>
+  
+        <builder-numeric
+          v-model="monster.customAC"
+          :min="0"
+          :default="0"
+          name="customAC"
+          label="Custom AC bonus" />
+        <!--TODO: if one of these isn't 0/empty, the other has to be too or we'll show a validation error.-->
+        <builder-input
+          v-model="monster.customAcText"
+          name="customAcText"
+          label="Custom AC text" />
+      </details>
       
     </fieldset>
 

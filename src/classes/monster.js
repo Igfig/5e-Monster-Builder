@@ -37,6 +37,8 @@ export class Monster {
   isInjured = false;
 
   naturalAC = 10;
+  customAC = 0;
+  customAcText = "";
   armor = ARMOR.NONE;
   hasShield = false; //SHIELDS.NONE;
 
@@ -64,7 +66,7 @@ export class Monster {
 
   static getters = {
     ac: (monster, getters) => {
-      return monster.armor.acWithDex(monster) + getters.monster.shieldAC;
+      return monster.armor.acWithDex(monster) + getters.monster.shieldAC + monster.customAC;
     },
     shieldAC: monster => (monster.hasShield ? SHIELDS.SHIELD.ac : SHIELDS.NONE.ac),
     acText: monster => {
@@ -77,6 +79,10 @@ export class Monster {
 
       if (monster.hasShield) {
         acSources.push(SHIELDS.SHIELD.label.toLowerCase());
+      }
+
+      if (monster.customAcText) {
+        acSources.push(monster.customAcText);
       }
 
       return acSources.join(", ");
