@@ -1,5 +1,5 @@
-import { mapState, mapMutations } from "vuex";
-import { get } from "../../util";
+import { mapMutations, mapState } from "vuex";
+import { findByProperty, get } from "../../util";
 import { CURRENT_INFO } from "../../store/keys";
 import { SET_CURRENT_INFO } from "../../store/mutations";
 import { DEFAULT_INFO_DISPLAY } from "../../constants";
@@ -59,9 +59,9 @@ export const selectControl = value => ({
   data() {
     return {
       selected: event => {
-        // XXX this is pretty similar to the onInput method, should we just use that instead?
         const val = event.target.value;
-        this.$emit("input", get(this.options, val, val));
+        const trueValue = get(this.options, val, findByProperty(this.options, val));
+        this.$emit("input", trueValue);
       }
     };
   },

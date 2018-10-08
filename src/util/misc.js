@@ -29,6 +29,10 @@ export function getLabel(option, defaultValue = option) {
   return _.get(option, "label", defaultValue);
 }
 
+export function findByProperty(array, value, property = "id") {
+  return array.find(item => get(item, property) === value);
+}
+
 export function min(val, of = null) {
   if (Array.isArray(of) && of.includes(val)) {
     return other => of.includes(val) && of.indexOf(val) <= of.indexOf(other); //XXX maybe we don't need the includes() and fresh index check, but I worry about the list changing later
