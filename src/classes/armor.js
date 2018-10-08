@@ -21,7 +21,7 @@ export class Armor {
   }
 }
 
-export class CustomArmor extends Armor {
+export class NaturalArmor extends Armor {
   constructor(...props) {
     super(undefined, ...props); // i.e. we're ignoring the 'ac' prop
   }
