@@ -40,7 +40,8 @@ export class Monster {
   customAC = 0;
   customAcText = "";
   armor = ARMOR.NONE;
-  hasShield = false; //SHIELDS.NONE;
+  hasShield = false;
+  extraAcAbility = null;
 
   abilityScores = mapObject(ABILITIES, ability => ability.id, ability => new AbilityScore(ability));
   saves = [];
@@ -66,7 +67,12 @@ export class Monster {
 
   static getters = {
     ac: (monster, getters) => {
-      return monster.armor.acWithDex(monster) + getters.monster.shieldAC + monster.customAC;
+      return (
+        monster.armor.acWithDex(monster) +
+        getters.monster.shieldAC +
+        (monster.extraAcAbility ? monster.abilityScores[monster.extraAcAbility.id].mod : 0) +
+        monster.customAC
+      );
     },
     shieldAC: monster => (monster.hasShield ? SHIELDS.SHIELD.ac : SHIELDS.NONE.ac),
     acText: monster => {
@@ -79,6 +85,10 @@ export class Monster {
 
       if (monster.hasShield) {
         acSources.push(SHIELDS.SHIELD.label.toLowerCase());
+      }
+
+      if (monster.extraAcAbility) {
+        acSources.push("unarmored defense");
       }
 
       if (monster.customAcText) {

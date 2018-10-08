@@ -127,7 +127,18 @@
       
       <details>
         <summary>Advanced AC</summary>
-  
+      
+        <builder-select
+          v-model="monster.extraAcAbility"
+          :options="acAbilities"
+          name="extraAcAbility"
+          label="Add ability score to AC:"/>
+        <!--TODO choosing this adds an Unarmored Defense trait-->
+        <!--TODO allow custom name for the trait that grants this-->
+        <!--TODO dynamically select what types of armour the trait is compatible with, based on what the character is wearing-->
+        <!--TODO custom armor weight overide, e.g. for barbarians who could wear a shield but currently aren't-->
+        <!--TODO selection of an Unarmored Defense trait on Traits page should update all this-->
+        
         <builder-numeric
           v-model="monster.customAC"
           :min="0"
@@ -203,6 +214,7 @@ import {
   SUBTYPES,
   TYPES
 } from "../constants";
+import _ from "lodash";
 import { formatBonus, mapStore, scoreFor } from "../util";
 import BuilderInput from "./form/BuilderInput";
 import BuilderRadio from "./form/BuilderRadio";
@@ -240,12 +252,17 @@ export default {
       SHIELDS
     };
   },
-  computed: mapStore(MONSTER),
+  computed: {
+    ...mapStore(MONSTER),
+    acAbilities() {
+      const filtered = _.without(ABILITIES, ABILITIES.DEX); // removing DEX because that already gets added to AC! We don't want to add it twice
+      return [null, ...filtered]; // null for when we don't want to add any abilities to AC
+    }
+  },
   methods: {
     formatBonus,
     scoreFor,
     weight(value) {
-      console.log("props", value);
       return value.weight;
     }
   }
