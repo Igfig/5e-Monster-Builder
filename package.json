@@ -16,10 +16,8 @@
     "format": "eslint --fix --ext .js,.vue,.json,.scss src test test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "font-awesome": "^4.7.0",
     "lodash": "^4.17.10",
     "vue": "^2.5.2",
-    "vue-fontawesome": "^0.0.2",
     "vue-fragments": "^2.1.0",
     "vue-router": "^3.0.1",
     "vue-tabs-component": "^1.4.0",
