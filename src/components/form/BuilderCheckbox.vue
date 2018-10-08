@@ -2,7 +2,7 @@
   <builder-hidden-input-label
     :label="label"
     :checked="checked">
-    <!--TODO pressing enter or space while the label is selected should toggle the input.-->
+    <!--TODO pressing enter or space while the label is selected should toggle the input. Space works, Enter doesn't.-->
 
     <!--suppress HtmlFormInputWithoutLabel -->
     <input

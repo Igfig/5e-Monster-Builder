@@ -5,15 +5,11 @@
     {{ label }}
     <slot/>
   </label>
-
 </template>
 
 <script>
-import { component as Fragment } from "vue-fragments";
-
 export default {
   name: "BuilderHiddenInputLabel",
-  components: { Fragment },
   props: {
     className: { type: String, default: null },
     label: { type: String, required: true },

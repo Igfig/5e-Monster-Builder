@@ -12,12 +12,10 @@
 
 <script>
 import { mapMutations } from "vuex";
-import { component as Fragment } from "vue-fragments";
 import { SET_CURRENT_INFO } from "../../store/mutations";
 
 export default {
   name: "ControlInfo",
-  components: { Fragment },
   props: { info: { type: Array, required: false, default: () => [] } }, //TODO should be made required at some point probably
   methods: {
     ...mapMutations({ setCurrentInfo: SET_CURRENT_INFO })

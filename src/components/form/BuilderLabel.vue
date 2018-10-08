@@ -6,11 +6,8 @@
 </template>
 
 <script>
-import { component as Fragment } from "vue-fragments";
-
 export default {
   name: "BuilderLabel",
-  components: { Fragment },
   props: {
     className: { type: String, default: null },
     label: { type: String, required: true },
