@@ -134,10 +134,9 @@ export const ALIGNMENTS = new OrderedDict(
 
 export const ARMOR_WEIGHTS = new OrderedDict(
   {
-    NATURAL: new ArmorWeight(0, "None"),
-    LIGHT: new ArmorWeight(1, "Light Armor"),
-    MEDIUM: new ArmorWeight(2, "Medium Armor"),
-    HEAVY: new ArmorWeight(3, "Heavy Armor")
+    LIGHT: new ArmorWeight(0, "Light Armor"),
+    MEDIUM: new ArmorWeight(1, "Medium Armor"),
+    HEAVY: new ArmorWeight(2, "Heavy Armor")
     //UNARMORED_DEFENSE: new ArmorWeight(3, "Unarmored Defense") // not calling it UNARMORED because that might confuse with the NONE armor
   },
   OrderedDict.compare("order")

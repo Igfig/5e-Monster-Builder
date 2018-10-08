@@ -6,6 +6,13 @@
             :value="getId(value)"
             @input="selected"
             @focus="onFocus">
+        <option
+          v-for="option of optionsGrouped[undefined]"
+          :key="getId(option)"
+          :value="getId(option)"
+          :selected="isSelected(option)">{{ getLabel(option) }}</option>
+      <!--TODO extract this option thing to a template so we can reuse it-->
+      
       <optgroup v-for="optgroup of optgroups"
                 :key="getId(optgroup)"
                 :label="getLabel(optgroup)">
@@ -22,8 +29,9 @@
 
 <script>
 import _ from "lodash";
-import { get, OrderedDict } from "../../util";
+import { get } from "../../util";
 import { optionsControl } from "./mixins";
+import { OrderedDict } from "../../classes/ordered_dict";
 import BuilderLabel from "./BuilderLabel";
 
 export default {
@@ -45,7 +53,9 @@ export default {
   },
   computed: {
     optionsGrouped() {
-      return _.groupBy(this.options, this.optgroupMatcher);
+      const groupBy = _.groupBy(this.options, this.optgroupMatcher);
+      console.log(groupBy);
+      return groupBy;
     }
   },
   methods: {

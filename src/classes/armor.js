@@ -1,13 +1,13 @@
 import { ARMOR_WEIGHTS } from "../constants/categories";
 
-class Armor {
-  constructor(ac, label, weight = undefined) {
+export class Armor {
+  constructor(ac, label, text = undefined) {
     this.ac = ac;
     this.label = label; // this is what appears on the input
-    this.text = label.toLowerCase(); // this is what shows up in the statblock
-    this.weight = weight;
+    this.text = text || label.toLowerCase(); // this is what shows up in the statblock
   }
   maxDex = 10;
+  weight = undefined;
 
   acWithDex(monster) {
     return this.ac + this.dexBonus(monster);
@@ -21,11 +21,9 @@ class Armor {
   }
 }
 
-export class NaturalArmor extends Armor {
+export class CustomArmor extends Armor {
   constructor(...props) {
-    super(undefined, ...props, ARMOR_WEIGHTS.NATURAL); // i.e. we're ignoring the 'ac' prop
-    this.text = "natural armor";
-    this.label = "None/natural armor";
+    super(undefined, ...props); // i.e. we're ignoring the 'ac' prop
   }
 
   acWithDex(monster) {
@@ -34,25 +32,19 @@ export class NaturalArmor extends Armor {
 }
 
 export class LightArmor extends Armor {
-  constructor(...props) {
-    super(...props, ARMOR_WEIGHTS.LIGHT);
-  }
+  weight = ARMOR_WEIGHTS.LIGHT;
 }
 
 export class MedArmor extends Armor {
-  constructor(...props) {
-    super(...props, ARMOR_WEIGHTS.MEDIUM);
-  }
   // noinspection JSUnusedGlobalSymbols
   maxDex = 2; // for use with dexBonus
+  weight = ARMOR_WEIGHTS.MEDIUM;
 }
 
 export class HeavyArmor extends Armor {
-  constructor(...props) {
-    super(...props, ARMOR_WEIGHTS.HEAVY);
-  }
   // noinspection JSUnusedGlobalSymbols
   maxDex = 0; // not that this actually gets used, but it's nice to have
+  weight = ARMOR_WEIGHTS.HEAVY;
 
   dexBonus() {
     return 0;

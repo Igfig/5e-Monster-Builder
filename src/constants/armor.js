@@ -1,4 +1,4 @@
-import { HeavyArmor, LightArmor, MedArmor, NaturalArmor } from "../classes/armor";
+import { HeavyArmor, LightArmor, MedArmor, CustomArmor } from "../classes/armor";
 import { OrderedDict } from "../classes/ordered_dict";
 
 /*const unarmoredKey = ability => `UNARMORED_${ability.id}`;
@@ -12,7 +12,8 @@ export const ARMOR = new OrderedDict(
   {
     // XXX maybe this should actually be an OrderedDict of OrderedDicts so we don't have to construct the tree of weights each time we use it?
     // XXX or maybe we should just build the tree once below, and keep it in this file here
-    NONE: new NaturalArmor("natural armor"),
+    NONE: new CustomArmor("None/natural armor", "natural armor"),
+    //XXX not sure if I want an entry for custom armour, or if I want that to be all handled by the ad-hoc bonus in the Advanced section.
 
     PADDED: new LightArmor(11, "Padded armor"),
     LEATHER: new LightArmor(11, "Leather armor"),
