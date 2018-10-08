@@ -8,38 +8,20 @@
       :value="getId(value)"
       @input="selected"
       @focus="onFocus">
-      <option
-        v-for="option of options"
-        :key="getId(option)"
-        :value="getId(option)"
-        :selected="isSelected(option)">{{ getLabel(option) }}</option>
+      <BuilderOptions :options="options" :is-selected="isSelected"/>
     </select>
   </builder-label>
 </template>
 
 <script>
-import { get } from "../../util";
-import { optionsControl } from "./mixins";
+import { selectControl } from "./mixins";
 import BuilderLabel from "./BuilderLabel";
+import BuilderOptions from "./BuilderOptions";
 
 export default {
   name: "BuilderSelect",
-  components: { BuilderLabel },
-  mixins: [optionsControl([Object, String, Boolean])],
-  data() {
-    return {
-      selected: event => {
-        // XXX this is pretty similar to the onInput method, should we just use that instead?
-        const val = event.target.value;
-        this.$emit("input", get(this.options, val, val));
-      }
-    };
-  },
-  methods: {
-    isSelected(option) {
-      return this.value === option || this.value === this.getId(option);
-    }
-  }
+  components: { BuilderOptions, BuilderLabel },
+  mixins: [selectControl([Object, String, Boolean])]
 };
 </script>
 

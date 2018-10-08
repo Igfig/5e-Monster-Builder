@@ -6,21 +6,12 @@
             :value="getId(value)"
             @input="selected"
             @focus="onFocus">
-        <option
-          v-for="option of optionsGrouped[undefined]"
-          :key="getId(option)"
-          :value="getId(option)"
-          :selected="isSelected(option)">{{ getLabel(option) }}</option>
-      <!--TODO extract this option thing to a template so we can reuse it-->
+      <builder-options :options="optionsGrouped[undefined]" :is-selected="isSelected"/>
       
       <optgroup v-for="optgroup of optgroups"
                 :key="getId(optgroup)"
                 :label="getLabel(optgroup)">
-        <option
-          v-for="option of optionsGrouped[optgroup]"
-          :key="getId(option)"
-          :value="getId(option)"
-          :selected="isSelected(option)">{{ getLabel(option) }}</option>
+        <builder-options :options="optionsGrouped[optgroup]" :is-selected="isSelected"/>
       </optgroup>
     </select>
     
@@ -29,38 +20,22 @@
 
 <script>
 import _ from "lodash";
-import { get } from "../../util";
-import { optionsControl } from "./mixins";
+import { selectControl } from "./mixins";
 import { OrderedDict } from "../../classes/ordered_dict";
 import BuilderLabel from "./BuilderLabel";
+import BuilderOptions from "./BuilderOptions";
 
 export default {
   name: "BuilderOptgroupSelect",
-  components: { BuilderLabel },
-  mixins: [optionsControl([Object, String, Boolean])],
-  data() {
-    return {
-      selected: event => {
-        // XXX this is pretty similar to the onInput method, should we just use that instead?
-        const val = event.target.value;
-        this.$emit("input", get(this.options, val, val));
-      }
-    };
-  },
+  components: { BuilderLabel, BuilderOptions },
+  mixins: [selectControl([Object, String])],
   props: {
     optgroups: { type: [Array, OrderedDict], required: true },
-    optgroupMatcher: { type: [String, Function], required: true } // TODO I bet we can find a decent fallback actually
+    optgroupMatcher: { type: [String, Function], required: true } // TODO I bet we can find a decent fallback actually, rather than having it be required
   },
   computed: {
     optionsGrouped() {
-      const groupBy = _.groupBy(this.options, this.optgroupMatcher);
-      console.log(groupBy);
-      return groupBy;
-    }
-  },
-  methods: {
-    isSelected(option) {
-      return this.value === option || this.value === this.getId(option);
+      return _.groupBy(this.options, this.optgroupMatcher);
     }
   }
 };

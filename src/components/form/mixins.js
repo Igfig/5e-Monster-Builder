@@ -34,32 +34,43 @@ export const control = value => ({
 });
 
 // a control that can take a list of options, like select, checkboxes, or a datalist. Extends 'control'.
-// TODO is there a better way to extend an object/function like this?
-export const optionsControl = (value, required = true) => {
-  const base = control(value);
-
-  return {
-    ...base,
-    props: {
-      ...base.props,
-      optionLabeler: Function,
-      options: {
-        type: [Array, Object],
-        required
-      }
-    },
-    methods: {
-      ...base.methods,
-      // XXX feel like these methods might be better in computed or data... but I get errors when I put them there. So maybe not
-      getId(option) {
-        return get(option, "id");
-      },
-      getLabel(option) {
-        return this.optionLabeler ? this.optionLabeler(option) : get(option, "label");
-      }
+export const optionsControl = (value, required = true) => ({
+  mixins: [control(value)],
+  props: {
+    optionLabeler: Function,
+    options: {
+      type: [Array, Object],
+      required
     }
-  };
-};
+  },
+  methods: {
+    // XXX feel like these methods might be better in computed or data... but I get errors when I put them there. So maybe not
+    getId(option) {
+      return get(option, "id");
+    },
+    getLabel(option) {
+      return this.optionLabeler ? this.optionLabeler(option) : get(option, "label");
+    }
+  }
+});
+
+export const selectControl = value => ({
+  mixins: [optionsControl(value)],
+  data() {
+    return {
+      selected: event => {
+        // XXX this is pretty similar to the onInput method, should we just use that instead?
+        const val = event.target.value;
+        this.$emit("input", get(this.options, val, val));
+      }
+    };
+  },
+  methods: {
+    isSelected(option) {
+      return this.value === option || this.value === this.getId(option);
+    }
+  }
+});
 
 export const boxes = {
   props: {
