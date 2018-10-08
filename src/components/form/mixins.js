@@ -7,7 +7,12 @@ import { DEFAULT_INFO_DISPLAY } from "../../constants";
 export const control = value => ({
   // "value" is an array of the types of values you can model from this kind of control
   props: {
-    name: { type: String, required: true },
+    name: {
+      type: String,
+      default() {
+        return `${this.$options.name}_${this._uid}`;
+      }
+    },
     label: { type: String, required: true },
     labelRight: Boolean,
     placeholder: value, // i.e. the placeholder has to be of the same types as the valid values. FIXME this could get a bit weird with controls that take objects and arrays...

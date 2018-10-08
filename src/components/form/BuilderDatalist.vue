@@ -1,6 +1,5 @@
 <template>
   <builder-label
-    :class-name="name"
     :label="label"
     :right="labelRight">
     <!--suppress HtmlFormInputWithoutLabel -->

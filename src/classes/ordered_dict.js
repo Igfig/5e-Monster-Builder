@@ -14,6 +14,7 @@ export class OrderedDict extends Array {
 
       // every entry must have an id
       record.id = record.id || key;
+      // TODO also add a default toString to record if there isn't already one defined. Should return the id.
 
       // add entry to this
       Object.defineProperty(this, key, {

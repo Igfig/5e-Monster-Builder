@@ -4,14 +4,12 @@
     <fieldset>
       <builder-input
         v-model="monster.name"
-        name="name"
         label="Name">
         Check "Proper Name" if this is a specific, named creature; otherwise leave it alone.
       </builder-input>
 
       <builder-checkbox
         v-model="monster.isProperName"
-        name="isProperName"
         label="Proper name"><!--XXX add label-right if we decide to not use the toggle-button format-->
         <p>All this does is add a "the" in front of the monster's name in certain situations, if this is unchecked.</p>
         <p>e.g. <q>...when a creature misses <em>the</em> goblin with an attack...</q> vs <q>...when a creature misses Gorsnak Hogtooth with an attack...</q></p>
@@ -25,24 +23,22 @@
         <builder-select
           v-model="monster.size"
           :options="SIZES"
-          name="size"
           label="Size"/>
         <builder-select
           v-model="monster.type"
           :options="TYPES"
-          name="type"
           label="Type"/>
         <builder-datalist
           v-model="monster.subtypes"
           :options="SUBTYPES"
-          name="subtypes"
+          class="subtypes"
           label="Subtypes"/> <!--TODO replace with a multiselect sort of thing-->
       </fieldset>
 
       <builder-radio
         v-model="monster.alignment"
         :options="ALIGNMENTS"
-        name="alignment"
+        class="alignment"
         label="Alignment" />
     </div>
 
@@ -54,7 +50,6 @@
           <li v-for="ability in ABILITIES"
               :key="ability.id">
             <builder-numeric
-              :name="ability.label | lowercase"
               :label="ability.label"
               v-model="monster.abilityScores[ability.id].score"
               :min="1"
@@ -71,7 +66,6 @@
         v-model="monster.saves"
         :options="ABILITIES"
         :width="ABILITIES.length"
-        name="saves"
         label="Saving Throw Proficiencies"/>
     </div>
 
@@ -82,16 +76,13 @@
         v-model="monster.hd"
         :min="1"
         :default="1"
-        name="hd"
         label="Hit Dice"/>
 
       <builder-checkbox
         v-model="monster.hasMaxHp"
-        name="hasMaxHp"
         label="Maximize hp"/>
       <builder-checkbox
         v-model="monster.isInjured"
-        name="isInjured"
         label="Injured"
         label-right/>
 
@@ -108,12 +99,10 @@
         :options="ARMOR"
         :optgroups="ARMOR_WEIGHTS"
         optgroup-matcher="weight"
-        name="armor"
         label="Armor"/> <!--TODO some way to handle those cases where unarmored defense actually permits some degree of armour. Like the swashbuckler's Suave Defense.-->
   
       <builder-checkbox
         v-model="monster.hasShield"
-        name="shield"
         label="Shield"/>
       
       <br />
@@ -122,7 +111,6 @@
         v-model="monster.naturalAC"
         :min="10"
         :default="10"
-        name="naturalAC"
         label="Natural AC" />
       
       <details>
@@ -131,7 +119,6 @@
         <builder-select
           v-model="monster.extraAcAbility"
           :options="acAbilities"
-          name="extraAcAbility"
           label="Add ability score to AC:"/>
         <!--TODO choosing this adds an Unarmored Defense trait-->
         <!--TODO allow custom name for the trait that grants this-->
@@ -143,12 +130,10 @@
           v-model="monster.customAC"
           :min="0"
           :default="0"
-          name="customAC"
           label="Custom AC bonus" />
         <!--TODO: if one of these isn't 0/empty, the other has to be too or we'll show a validation error.-->
         <builder-input
           v-model="monster.customAcText"
-          name="customAcText"
           label="Custom AC text" />
       </details>
       
@@ -162,18 +147,15 @@
           :placeholder="monster.size.speed"
           :min="0"
           :step="5"
-          name="speed"
           label="Land speed"/>
 
         <builder-numeric
           v-model="monster.speed.fly"
           :min="0"
           :step="5"
-          name="speed-fly"
           label="Fly"/>
         <builder-checkbox
           v-model="monster.canHover"
-          name="canHover"
           label="Hover"
           class="left"/> <!--"left" as in "left-aligned" TODO generalize -->
 
@@ -181,21 +163,18 @@
           v-model="monster.speed.swim"
           :min="0"
           :step="5"
-          name="speed-swim"
           label="Swim"/>
 
         <builder-numeric
           v-model="monster.speed.climb"
           :min="0"
           :step="5"
-          name="speed-climb"
           label="Climb"/>
 
         <builder-numeric
           v-model="monster.speed.burrow"
           :min="0"
           :step="5"
-          name="speed-burrow"
           label="Burrow"/>
       </div>
     </fieldset>

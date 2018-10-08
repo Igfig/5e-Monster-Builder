@@ -1,5 +1,5 @@
 <template>
-  <fieldset :class="name">
+  <fieldset>
     <legend v-if="!!label">{{ label }}</legend>
     <ul
       :style="styles"
