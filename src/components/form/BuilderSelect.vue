@@ -8,11 +8,7 @@
       :value="getId(value)"
       @input="selected"
       @focus="onFocus">
-      <option
-        v-for="option of options"
-        :key="getId(option)"
-        :value="getId(option)"
-        :selected="isSelected(option)">{{ getLabel(option) }}</option>
+      <builder-options :options="options" :is-selected="isSelected"/>
     </select>
   </builder-label>
 </template>
@@ -21,10 +17,11 @@
 import { get } from "../../util";
 import { optionsControl } from "./mixins";
 import BuilderLabel from "./BuilderLabel";
+import BuilderOptions from "./BuilderOptions";
 
 export default {
   name: "BuilderSelect",
-  components: { BuilderLabel },
+  components: { BuilderOptions, BuilderLabel },
   mixins: [optionsControl([Object, String, Boolean])],
   data() {
     return {

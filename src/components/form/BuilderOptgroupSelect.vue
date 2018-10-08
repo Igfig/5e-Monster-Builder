@@ -6,21 +6,14 @@
             :value="getId(value)"
             @input="selected"
             @focus="onFocus">
-        <option
-          v-for="option of optionsGrouped[undefined]"
-          :key="getId(option)"
-          :value="getId(option)"
-          :selected="isSelected(option)">{{ getLabel(option) }}</option>
-      <!--TODO extract this option thing to a template so we can reuse it-->
+      <builder-options :options="optionsGrouped[undefined]"
+                       :is-selected="isSelected"/>
       
       <optgroup v-for="optgroup of optgroups"
                 :key="getId(optgroup)"
                 :label="getLabel(optgroup)">
-        <option
-          v-for="option of optionsGrouped[optgroup]"
-          :key="getId(option)"
-          :value="getId(option)"
-          :selected="isSelected(option)">{{ getLabel(option) }}</option>
+        <builder-options :options="optionsGrouped[optgroup]"
+                         :is-selected="isSelected"/>
       </optgroup>
     </select>
     
@@ -33,10 +26,11 @@ import { get } from "../../util";
 import { optionsControl } from "./mixins";
 import { OrderedDict } from "../../classes/ordered_dict";
 import BuilderLabel from "./BuilderLabel";
+import BuilderOptions from "./BuilderOptions";
 
 export default {
   name: "BuilderOptgroupSelect",
-  components: { BuilderLabel },
+  components: { BuilderOptions, BuilderLabel },
   mixins: [optionsControl([Object, String, Boolean])],
   data() {
     return {
