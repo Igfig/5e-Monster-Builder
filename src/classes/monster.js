@@ -38,7 +38,7 @@ export class Monster {
 
   naturalAC = 10;
   armor = ARMOR.NONE;
-  shield = SHIELDS.NONE;
+  hasShield = false; //SHIELDS.NONE;
 
   abilityScores = mapObject(ABILITIES, ability => ability.id, ability => new AbilityScore(ability));
   saves = [];
@@ -63,9 +63,10 @@ export class Monster {
   // note that these must be static
 
   static getters = {
-    ac: monster => {
-      return monster.armor.acWithDex(monster) + monster.shield.ac;
+    ac: (monster, getters) => {
+      return monster.armor.acWithDex(monster) + getters.monster.shieldAC;
     },
+    shieldAC: monster => (monster.hasShield ? SHIELDS.SHIELD.ac : SHIELDS.NONE.ac),
     acText: monster => {
       const acSources = [];
 
@@ -74,8 +75,8 @@ export class Monster {
         acSources.push(monster.armor.text);
       }
 
-      if (monster.shield !== SHIELDS.NONE) {
-        acSources.push(monster.shield.label.toLowerCase());
+      if (monster.hasShield) {
+        acSources.push(SHIELDS.SHIELD.label.toLowerCase());
       }
 
       return acSources.join(", ");

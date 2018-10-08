@@ -111,21 +111,19 @@
         name="armor"
         label="Armor"/> <!--TODO some way to handle those cases where unarmored defense actually permits some degree of armour. Like the swashbuckler's Suave Defense.-->
   
+      <builder-checkbox
+        v-model="monster.hasShield"
+        name="shield"
+        label="Shield"/>
+      
       <builder-numeric
         v-if="monster.armor === ARMOR.NONE"
         v-model="monster.naturalAC"
         :min="10"
         :default="10"
         name="naturalAC"
-        label="Natural AC"/>
-      <br>
+        label="Natural AC" />
       
-      <builder-select
-        v-model="monster.shield"
-        :options="SHIELDS"
-        name="shield"
-        label="Shield"
-        label-right/> <!--XXX wondering if this should actually be a checkbox? Or some kind of custom input... I'm just wondering about how I'd build the Fire Giant Juggernaut with its double shields.-->
     </fieldset>
 
     <fieldset>
