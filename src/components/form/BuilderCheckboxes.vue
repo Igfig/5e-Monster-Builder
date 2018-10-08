@@ -12,6 +12,7 @@
           :label="option.label"
           :value="getId(option)"
           :checked="isChecked(option)"
+          :icons="false"
           @focus="onFocus"/>
       </li>
     </ul>

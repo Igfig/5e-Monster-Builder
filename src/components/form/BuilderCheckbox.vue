@@ -1,5 +1,6 @@
 <template>
   <builder-hidden-input-label
+    :class="{'boolean-icons': icons}"
     :label="label"
     :checked="checked">
     <!--TODO pressing enter or space while the label is selected should toggle the input. Space works, Enter doesn't.-->
@@ -29,7 +30,8 @@ export default {
     event: "input"
   },
   props: {
-    checked: { type: Boolean, default: false }
+    checked: { type: Boolean, default: false },
+    icons: { type: Boolean, default: true }
   },
   methods: {
     onInput(event) {

@@ -39,6 +39,23 @@ export default {
     @extend %control-focus;
   }
 
+  &.boolean-icons {
+    &:before {
+      display: inline-flex;
+      justify-content: center;
+      width: 10px;
+      margin-right: 2px;
+    }
+    &:not([checked]):before {
+      content: "×";
+    }
+
+    &[checked]:before {
+      content: "✓";
+      font-size: 0.8em;
+    }
+  }
+
   ul & {
     //TODO maybe this should go elsewhere?
     padding: 5px;
