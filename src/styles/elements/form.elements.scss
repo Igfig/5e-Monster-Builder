@@ -31,3 +31,23 @@ legend {
   font-weight: bold;
   margin-bottom: 5px;
 }
+
+// TODO these should probably go in another file
+details {
+  $transition: 0.25s;
+  margin-left: -5px; // XXX this might be unsafe in sections with less padding
+  padding: 5px 5px 0;
+  font-size: 0.9em;
+  border: 1px solid transparent;
+  transition: $transition;
+
+  &[open] {
+    border: 1px solid black;
+  }
+
+  summary {
+    margin: -5px -5px 0;
+    padding: 5px 5px 2px;
+    font-weight: bold;
+  }
+}
