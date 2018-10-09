@@ -12,3 +12,4 @@ export default {
   }
 };
 </script>
+<!--TODO we should be able to attach info to specific entries in a dropdown or w/e-->

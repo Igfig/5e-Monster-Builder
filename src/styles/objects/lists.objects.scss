@@ -1,0 +1,16 @@
+%itemized-list {
+  margin-left: 1.1em; // XXX arbtitrary
+}
+
+ul.list-bullet {
+  @extend %itemized-list;
+  list-style-type: bullet;
+}
+ol.list-number {
+  @extend %itemized-list;
+  list-style-type: decimal;
+}
+ol.list-letter {
+  @extend %itemized-list;
+  list-style-type: upper-alpha;
+}

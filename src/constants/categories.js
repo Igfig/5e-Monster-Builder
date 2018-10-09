@@ -55,12 +55,12 @@ export const TYPES = new OrderedDict({
   ABERRATION: "aberration",
   BEAST: "beast",
   CELESTIAL: "celestial",
-  CONSTRUCT: "construct",
+  CONSTRUCT: "construct", // typically immune to several conditions, and sometimes more
   DRAGON: "dragon",
   ELEMENTAL: "elemental",
-  FEY: "fey",
+  FEY: "fey", // typically immune to charm?
   FIEND: "fiend",
-  GIANT: "giant",
+  GIANT: { label: "giant", require: { size: min(SIZES.LARGE, SIZES) } }, // TODO give this metadata an actual effect
   HUMANOID: { label: "humanoid", require: { size: max(SIZES.LARGE, SIZES) } }, // XXX even then that's a bit big... the only large humanoids in the books are sahuagin barons. Maybe we can have one threshold for warnings?
   MONSTROSITY: "monstrosity",
   OOZE: "ooze",

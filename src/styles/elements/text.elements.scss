@@ -1,10 +1,10 @@
 @import "../tools";
 p,
-dl {
+dl, ul, ol {
   margin: 0.5em 0;
 }
 
-li {
+ul, ol {
   list-style-type: none;
 }
 
