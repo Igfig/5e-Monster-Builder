@@ -70,9 +70,16 @@ export class Monster {
       return (
         monster.armor.acWithDex(monster) +
         getters.monster.shieldAC +
-        (monster.extraAcAbility ? monster.abilityScores[monster.extraAcAbility.id].mod : 0) +
+        getters.monster.extraAbilityAC +
         monster.customAC
       );
+    },
+    extraAbilityAC: monster => {
+      if (!monster.extraAcAbility) {
+        return 0;
+      }
+      const mod = monster.abilityScores[monster.extraAcAbility.id].mod;
+      return Math.max(mod, 0);
     },
     shieldAC: monster => (monster.hasShield ? SHIELDS.SHIELD.ac : SHIELDS.NONE.ac),
     acText: monster => {
@@ -87,8 +94,8 @@ export class Monster {
         acSources.push(SHIELDS.SHIELD.label.toLowerCase());
       }
 
-      if (monster.extraAcAbility) {
-        acSources.push("unarmored defense");
+      if (monster.extraAbilityAC > 0) {
+        acSources.push("unarmored defense"); // TODO extract to constant
       }
 
       if (monster.customAcText) {
