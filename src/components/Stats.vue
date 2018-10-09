@@ -77,7 +77,12 @@
         :min="1"
         :default="1"
         label="Hit Dice"/>
-
+      
+      <br />
+      <div class="form-control">Calculated hit points:&nbsp;<output>{{ monster.hp }}</output></div>
+      
+      <details>
+        <summary>Advanced</summary>
       <builder-checkbox
         v-model="monster.hasMaxHp"
         label="Maximize hp"/>
@@ -85,8 +90,7 @@
         v-model="monster.isInjured"
         label="Injured"
         label-right/>
-
-      <div>Calculated hit points: <output>{{ monster.hp }}</output></div>
+      </details>
     </fieldset>
 
     <fieldset class="ac">
@@ -114,12 +118,14 @@
         label="Natural AC" />
       
       <details>
-        <summary>Advanced AC</summary>
+        <!--FIXME opening this bumps the previous fieldset into a different column, which looks bad. -->
+        <summary>Advanced</summary>
       
         <builder-select
           v-model="monster.extraAcAbility"
           :options="acAbilities"
           label="Add ability score to AC:"/>
+        <!--TODO invalidate if the selectd ability score is +0 or less-->
         <!--TODO choosing this adds an Unarmored Defense trait-->
         <!--TODO allow custom name for the trait that grants this-->
         <!--TODO dynamically select what types of armour the trait is compatible with, based on what the character is wearing-->
