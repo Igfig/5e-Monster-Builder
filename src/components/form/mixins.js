@@ -25,10 +25,11 @@ export const control = value => ({
       this.$emit("input", event.target.value);
     },
     onFocus(event) {
-      this.$emit("focus", event); // just in case we need it for something else
-      return this.info
-        ? this.setCurrentInfo({ title: this.label, body: this.info })
-        : this.setCurrentInfo(DEFAULT_INFO_DISPLAY);
+      this.setCurrentInfo(
+        this.info ? { title: this.label, body: this.info } : DEFAULT_INFO_DISPLAY
+      );
+      this.$emit("focus", event); // just in case we need it for something else, e.g. a parent component that wants to know when you focus on anything within it
+      // note that if the container has any info of its own, it will override the containee (unless we put the $emit before the setCurrentInfo). This may be something we want to change later.
     }
   },
   data() {
