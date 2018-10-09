@@ -23,16 +23,22 @@
         <builder-select
           v-model="monster.size"
           :options="SIZES"
-          label="Size"/>
+          label="Size">
+          A monster's size affects its base speed, which die it uses for hit dice, and the number of dice of damage it deals with manufactured weapons.
+        </builder-select>
         <builder-select
           v-model="monster.type"
           :options="TYPES"
-          label="Type"/>
+          label="Type">
+          A monster's type usually doesn't have a mechanical effect. However, do note that humanoids are rarely larger than Medium, and giants are rarely smaller than Large.
+          <!--TODO info on each individual option-->
+        </builder-select>
         <builder-datalist
           v-model="monster.subtypes"
           :options="SUBTYPES"
           class="subtypes"
-          label="Subtypes"/> <!--TODO replace with a multiselect sort of thing-->
+          label="Subtypes"> <!--TODO replace with a multiselect sort of thing-->
+        </builder-datalist>
       </fieldset>
 
       <builder-radio
@@ -66,7 +72,14 @@
         v-model="monster.saves"
         :options="ABILITIES"
         :width="ABILITIES.length"
-        label="Saving Throw Proficiencies"/>
+        label="Saving Throw Proficiencies">
+        Most monsters don't need any saving throw proficiencies, unless
+        <ol class="list-letter">
+          <li>it needs to be tough in a specific way that its ability scores don't already reflect. e.g. a weak creature that lives on windy cliffs might be proficient in Strength saves to represent its skill at latching onto surfaces.</li>
+          <li>it's an NPC emulating a character class; give it the save proficiencies of the appropriate class.</li>
+          <li>it's a boss monster, in which case give it proficiency in any saves it isn't already good at.</li>
+        </ol>
+      </builder-checkboxes>
     </div>
 
     <fieldset class="hp">
