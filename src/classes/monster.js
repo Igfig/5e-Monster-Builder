@@ -3,8 +3,9 @@ import _ from "lodash";
 import { mapObject } from "../util";
 import { Attack } from "./attack";
 
-class AbilityScore {
+export class AbilityScore {
   constructor(ability, score = 10) {
+    Object.assign(this, ability);
     this.ability = ability;
     this.score = score;
 

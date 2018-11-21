@@ -1,5 +1,7 @@
 <template>
   <main class="builder">
+    <monster-new />
+    
     <tabs
       :options="{ useUrlFragment: false }"
       class="builder-tabs">
@@ -32,10 +34,11 @@ import Monster from "./Monster";
 import Stats from "./Stats";
 import InfoDisplay from "./InfoDisplay";
 import Attacks from "./Attacks";
+import MonsterNew from "../classes/MonsterNew";
 
 export default {
   name: "Builder",
-  components: { Attacks, InfoDisplay, Stats, Monster, Tabs, Tab },
+  components: { Attacks, InfoDisplay, Stats, Monster, Tabs, Tab, MonsterNew },
   data() {
     return {
       msg: "Welcome to Your Vue.js PWA"
